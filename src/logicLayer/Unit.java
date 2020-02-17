@@ -6,15 +6,18 @@ public class Unit
 	String name;
 	Stats stats;
 	Owner owner;
-	Position position;
+	Tile tile;
 	
-	public Unit(String name, Stats stats, Owner owner, Position position) {
-		
+	public Unit(String name, Stats stats, Owner owner, Tile tile) {
+		this.name = name;
+		this.stats = stats;
+		this.owner = owner;
+		this.tile = tile;
 	}
 	
-	public void moveTo(Position pos)
+	public void moveTo(Tile tile)
 	{
-		position = pos;
+		this.tile = tile;
 	}
 	public boolean isDead()
 	{
@@ -29,9 +32,9 @@ public class Unit
 			stats.setHp(0);
 		}
 	}
-	public Position TileGotPos()
+	public Tile getTile()
 	{
-		return position;
+		return tile;
 	}
 }
 
