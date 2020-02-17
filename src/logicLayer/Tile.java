@@ -7,7 +7,7 @@ public class Tile
 	
 	public boolean hasUnit()
 	{
-		if (unit==null) return false;
+		if (unit==null) {return false;}
 		return true;
 	}
 	public Unit getUnit()
