@@ -1,28 +1,35 @@
 package logicLayer;
 
 
-public class unit
+public class Unit
 {
 	String name;
-	Stats stuts;
+	Stats stats;
 	Owner owner;
-	Pos position;
-	public void moveTo(Pos pos)
+	Position position;
+	
+	public Unit(String name, Stats stats, Owner owner, Position position) {
+		
+	}
+	
+	public void moveTo(Position pos)
 	{
-		position.x=pos.x;
-		position.y=pos.y;
+		position = pos;
 	}
 	public boolean isDead()
 	{
-		if (stuts.hp==0) return true;
+		if (stats.getHp()==0) return true;
 		return false;
 	}
 	public void takeDamage(int damageAmount)
 	{
-		stuts.hp-=takeDamae;
-		if (stuts.hp<0) stuts.hp=0;
+		int newHp = stats.getHp() - damageAmount;
+		stats.setHp(newHp);
+		if (stats.getHp() < 0) {
+			stats.setHp(0);
+		}
 	}
-	public Pos TileGotPos()
+	public Position TileGotPos()
 	{
 		return position;
 	}

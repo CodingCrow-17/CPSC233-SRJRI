@@ -3,13 +3,13 @@ package logicLayer;
 public class Tile 
 {
 	private Unit unit;
-	private Pos position;
+	private Position position;
 	
 	public Unit getUnit()
 	{
 		return unit;
 	}
-	public Pos getPos()
+	public Position getPos()
 	{
 		return position;
 	}
@@ -17,8 +17,8 @@ public class Tile
 	{
 		unit=newUnit;
 	}
-	public void setPos(Unit newPos)
+	public void setPosition(Position newPos)
 	{
-		position=newPos;
+		position = newPos;
 	}
 }

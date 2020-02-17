@@ -1,6 +1,6 @@
 package logicLayer;
 
-public class Map
+public class GameMap
 {
 	private Tile[][] tile;
 	private int turnCount;
