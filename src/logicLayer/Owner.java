@@ -1,5 +1,6 @@
 package logicLayer;
 
-public enum Owner {
-
+public enum Owner
+{
+	ENEMY,PLAYER
 }
