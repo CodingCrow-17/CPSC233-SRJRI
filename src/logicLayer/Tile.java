@@ -5,6 +5,11 @@ public class Tile
 	private Unit unit;
 	private Position position;
 	
+	public boolean hasUnit()
+	{
+		if (unit==null) return false;
+		return true;
+	}
 	public Unit getUnit()
 	{
 		return unit;
