@@ -36,5 +36,18 @@ public class Unit
 	{
 		return tile;
 	}
+	private boolean checkIfUnitCanMoveToPosition(Position position) {
+		Position unitPosition = tile.getPos();
+		int xDirectionDifference = Math.abs(unitPosition.getX() - position.getX());
+		int yDirectionDifference = Math.abs(unitPosition.getY() - position.getY());
+		int sumOfDifference = xDirectionDifference + yDirectionDifference;
+		if (sumOfDifference <= stats.getMov()) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	
 }
 

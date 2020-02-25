@@ -28,13 +28,7 @@ public class LogicLayer{
 	}
 	
 	private boolean checkIfUnitIsAtPosition(Position position) {
-//		return gameMap.getTileAtPosition(position).hasUnit();
-		return true;
-	}
-	
-	private boolean checkIfUnitCanMoveToPosition(Unit unit,Position position) {
-		Position unitPosition = unit.g
-		return true;
+		return gameMap.getTileAt(position).hasUnit();
 	}
 	
 }
