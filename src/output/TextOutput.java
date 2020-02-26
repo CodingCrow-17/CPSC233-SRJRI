@@ -12,6 +12,8 @@ public class TextOutput {
 		printMap(map);
 	}
 	
+	
+	//tes tes tes tes tse te
 	public static void printMap(GameMap gameMap){
 		Tile[][] tiles = gameMap.getTiles();
 		for (int a = 0; a<tiles.length; a++) { 
