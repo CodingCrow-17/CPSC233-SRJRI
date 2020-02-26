@@ -1,22 +1,14 @@
 import java.util.Scanner;
 public class GetPos {
 	String HelpMenu;
-	String[] Positions;
+	int[] Positions;
 	private static Scanner in;
-	public void GetPose(String[] args) {
+	public int[] SetPos(int[] Pos) {
 		String name;
 		String line;
+		String player;
         in = new Scanner(System.in);
-
-        System.out.println("Welcome to our adventure game.  If you want help, press H");
-        System.out.print("Type something: ");
-        line = in.nextLine();
-        //if(boolean notEqual =!line.equals("A") )
-        /*if(line != "A") {
-        	System.out.println("#Error Message: Invalid input, please enter either A or H");
-        }*/
         
-        if (line.equals("A")) {
         	String stringCheck1;
         	String stringCheck2;
         	String userPosition1;
@@ -42,7 +34,7 @@ public class GetPos {
         	stringCheck1 = in.nextLine();
         	
         	if(stringCheck1.equals("0")) {		
-        		System.out.println("#Error message 1, movement points can not be 0");
+        		newUserPositionX2 = newUserPositionX1;
         	}
         		else {
         	        movement1 = stringCheck1;
@@ -61,7 +53,7 @@ public class GetPos {
         	System.out.println("Enter Y coordinate units you want to move:");
         	stringCheck2 = in.nextLine();
         	if(stringCheck2.equals("0")) {
-        		System.out.println("#Error message 1, movement points can not be 0");
+        		newUserPositionY2 = newUserPositionY1;
         	}
     		else {
     	        movement2 = stringCheck2;
@@ -79,33 +71,20 @@ public class GetPos {
         		}
         	
         	System.out.println(newUserPositionX2+ "," + newUserPositionY2);
-        	newUserPositionX1String = Integer.toString(newUserPositionX1);
-        	newUserPositionX2String = Integer.toString(newUserPositionX2);
-        	newUserPositionY1String = Integer.toString(newUserPositionY1);
-        	newUserPositionY2String = Integer.toString(newUserPositionY2);
+
         	
-        	final String [] ValidMenu = {newUserPositionX1String, newUserPositionX2String, newUserPositionY1String, newUserPositionY2String};
-        	//System.out.println(ValidMenu[1]);
+        	final int [] ValidMenu = {newUserPositionX1, newUserPositionY1,newUserPositionX2 ,newUserPositionY2};
         	this.Positions = ValidMenu;
+        	return this.Positions;
         }
-
-
-       
-      /*  if(line.equals("H")){
-        	String yes;
-        	yes = "If you want to start deploying your units, press A. After pressing A, you would get the chance to start your starting position. The positions you enter are going to be the X and Y coordinates, where after you entre them you get the chance to move your position as well";
-        	this.HelpMenu = yes;
-        	
-        }
-        
-        if(line.equals("N")) {
-        	
-        	System.out.println("Enter Player name here:");
-            line = in.nextLine();
-            name = line;
-            
-        	
-        }*/
+	public void printStartingMessage() {
+        System.out.println("Welcome to our adventure game.");
+        System.out.print("You can to start deploying your units.");
+        System.out.print("You would get the chance to start your starting position.");
+        System.out.print("The positions you enter are going to be the X and Y coordinates,");
+        System.out.print(" where after you entre them you get the chance to move your position as well");
+	}
 
 	}
-}
+
+
