@@ -12,6 +12,12 @@ public class Unit
 		
 	}
 	
+	public String getName()
+	{
+		return name;
+	}
+	
+	
 	public void moveTo(Position pos)
 	{
 		position = pos;
