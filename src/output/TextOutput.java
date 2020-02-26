@@ -1,26 +1,36 @@
 package output;
 import logicLayer.GameMap; // import GameMap
-import logicLayer.Unit; // import Unit
-import logicLayer.Stats; // import Stats
 
 import logicLayer.Tile; //import Tile
 public class TextOutput {
 	
-	public static void main(String[] args) {
-		Tile[][] tiles = new Tile[7][7];
+	public static void main(String[] args) 
+	{
+		Tile[][] tiles = new Tile[7][7]; // Create 7x7 game board
 		GameMap map = new GameMap(tiles);
+		
 		printMap(map);
-	
-	//tes tes tes tes tse te
-	public static void printMap(GameMap gameMap){
+	}
+	public static void printMap(GameMap gameMap)
+	{
 		Tile[][] tiles = gameMap.getTiles();
-		for (int a = 0; a<tiles.length; a++) { 
-			for (int c = 0; c<3; c++) {
-				for (int b = 0; b<tiles[a].length; b++) {
-					if (c==0) {
+		// Loop through each row
+		for (int a = 0; a<tiles.length; a++) 
+		{ 
+			// Loop through the height of a tile; each tile is 3 spaces tall
+			for (int c = 0; c<3; c++) 
+			{
+				// Loop through each column
+				for (int b = 0; b<tiles[a].length; b++) 
+				{
+					if (c==0) 
+					{
 						System.out.print("+-----");
 					}
-					else if(c==1 && tiles[a][b].hasUnit()) {
+					
+					// On the second line of the tile, print unit name if tile is occupied
+					else if(c==1 && tiles[a][b].hasUnit()) 
+					{
 						String unitName = tiles[a][b].getUnit().getName();
 						System.out.print("|" + unitName);
 						
@@ -33,7 +43,10 @@ public class TextOutput {
 							System.out.print(" ");
 						}
 					}
-					else if (c==2 && tiles[a][b].hasUnit()) {
+					
+					// On the third line of the tile, print unit attack stat if tile is occupied
+					else if (c==2 && tiles[a][b].hasUnit()) 
+					{
 						int unitAtt = tiles[a][b].getUnit().getStats().getAtt();
 						System.out.print("|" + unitAtt); 
 						
@@ -56,65 +69,13 @@ public class TextOutput {
 							System.out.print(" ");
 						}
 					}
-					else {
+					else 
+					{
 						System.out.print("|     ");
 					}
 				}
 				System.out.println();
 			}
 		}
-
-		
-
-//		System.out.println(" --- --- --- --- --- --- ---");
-//		System.out.println("|   |   |   |   |   |   |   |");
-//		System.out.println("|   |   |   |   |   |   |   |");
-//		System.out.println("|   |   |   |   |   |   |   |");
-//		System.out.println("|   |   |   |   |   |   |   |");
-//		System.out.println("|   |   |   |   |   |   |   |");
-//		System.out.println("|   |   |   |   |   |   |   |");
-//		System.out.println(" --- --- --- --- --- --- ---");
-//		System.out.println("|   |   |   |   |   |   |   |");
-//		System.out.println("|   |   |   |   |   |   |   |");
-//		System.out.println("|   |   |   |   |   |   |   |");
-//		System.out.println("|   |   |   |   |   |   |   |");
-//		System.out.println("|   |   |   |   |   |   |   |");
-//		System.out.println("|   |   |   |   |   |   |   |");
-//		System.out.println(" --- --- --- --- --- --- ---");
-//		System.out.println("|   |   |   |   |   |   |   |");
-//		System.out.println("|   |   |   |   |   |   |   |");
-//		System.out.println("|   |   |   |   |   |   |   |");
-//		System.out.println("|   |   |   |   |   |   |   |");
-//		System.out.println("|   |   |   |   |   |   |   |");
-//		System.out.println("|   |   |   |   |   |   |   |");
-//		System.out.println(" --- --- --- --- --- --- ---");
-//		System.out.println("|   |   |   |   |   |   |   |");
-//		System.out.println("|   |   |   |   |   |   |   |");
-//		System.out.println("|   |   |   |   |   |   |   |");
-//		System.out.println("|   |   |   |   |   |   |   |");
-//		System.out.println("|   |   |   |   |   |   |   |");
-//		System.out.println("|   |   |   |   |   |   |   |");
-//		System.out.println(" --- --- --- --- --- --- ---");
-//		System.out.println("|   |   |   |   |   |   |   |");
-//		System.out.println("|   |   |   |   |   |   |   |");
-//		System.out.println("|   |   |   |   |   |   |   |");
-//		System.out.println("|   |   |   |   |   |   |   |");
-//		System.out.println("|   |   |   |   |   |   |   |");
-//		System.out.println("|   |   |   |   |   |   |   |");
-//		System.out.println(" --- --- --- --- --- --- ---");
-//		System.out.println("|   |   |   |   |   |   |   |");
-//		System.out.println("|   |   |   |   |   |   |   |");
-//		System.out.println("|   |   |   |   |   |   |   |");
-//		System.out.println("|   |   |   |   |   |   |   |");
-//		System.out.println("|   |   |   |   |   |   |   |");
-//		System.out.println("|   |   |   |   |   |   |   |");
-//		System.out.println(" --- --- --- --- --- --- ---");
-//		System.out.println("|   |   |   |   |   |   |   |");
-//		System.out.println("|   |   |   |   |   |   |   |");
-//		System.out.println("|   |   |   |   |   |   |   |");
-//		System.out.println("|   |   |   |   |   |   |   |");
-//		System.out.println("|   |   |   |   |   |   |   |");
-//		System.out.println("|   |   |   |   |   |   |   |");
-//		System.out.println(" --- --- --- --- --- --- ---");
 	}
 }
