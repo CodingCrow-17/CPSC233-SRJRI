@@ -24,7 +24,7 @@ public class TextOutput {
 						System.out.print("|" + tiles[a][b].getUnit().getName());
 					}
 					else if (c==2 && tiles[a][b].hasUnit()) {
-						System.out.print("|" + tiles[a][b].getUnit().getStats().getAtt()); // Stats and unit need some new constructors for this to work
+						System.out.print("|" + tiles[a][b].getUnit().getStats().getAtt()); 
 					}
 					else {
 						System.out.print("|   ");

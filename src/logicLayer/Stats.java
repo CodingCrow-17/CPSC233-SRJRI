@@ -6,6 +6,23 @@ public class Stats
 	private int def;
 	private int mov;
 	private int att;
+	
+	public Stats(int aHp, int aDef, int aMov, int anAtt) // Regular constructor
+	{
+		hp = aHp;
+		def = aDef;
+		mov = aMov;
+		att = anAtt;
+	}
+	
+	public Stats(Stats aStats) // Copy constructor
+	{
+		hp = aStats.hp;
+		def = aStats.def;
+		mov = aStats.mov;
+		att = aStats.att;
+	}
+	
 	public int getHp()
 	{
 		return hp;
