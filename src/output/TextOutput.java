@@ -18,16 +18,46 @@ public class TextOutput {
 			for (int c = 0; c<3; c++) {
 				for (int b = 0; b<tiles[a].length; b++) {
 					if (c==0) {
-						System.out.print("+---");
+						System.out.print("+-----");
 					}
 					else if(c==1 && tiles[a][b].hasUnit()) {
-						System.out.print("|" + tiles[a][b].getUnit().getName());
+						String unitName = tiles[a][b].getUnit().getName();
+						System.out.print("|" + unitName);
+						
+						int nameLength = unitName.length();
+						
+						/* If the unit's name is less than 5 letters long, print out
+						   the proper amount of spaces to fill out the tile         */ 
+						for (int i = 0; i < (5 - nameLength); i++)
+						{
+							System.out.print(" ");
+						}
 					}
 					else if (c==2 && tiles[a][b].hasUnit()) {
-						System.out.print("|" + tiles[a][b].getUnit().getStats().getAtt()); 
+						int unitAtt = tiles[a][b].getUnit().getStats().getAtt();
+						System.out.print("|" + unitAtt); 
+						
+						/*The following statements print the appropriate amount of spaces
+						  after the attack number to fill out the tile                   */
+						if (unitAtt < 10)
+						{
+							System.out.print("    ");
+						}
+						else if (unitAtt < 100)
+						{
+							System.out.print("   ");
+						}
+						else if (unitAtt < 1000)
+						{
+							System.out.print("  ");
+						}
+						else if (unitAtt < 10000)
+						{
+							System.out.print(" ");
+						}
 					}
 					else {
-						System.out.print("|   ");
+						System.out.print("|     ");
 					}
 				}
 				System.out.println();
