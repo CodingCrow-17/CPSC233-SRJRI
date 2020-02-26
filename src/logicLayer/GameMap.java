@@ -5,9 +5,9 @@ public class GameMap
 	private Tile[][] tiles;
 	private int turnCount;
 	
-	public GameMap(Tile[][] tile)
+	public GameMap(Tile[][] tiles)
 	{
-		tiles = tiles;
+		this.tiles = tiles;
 		turnCount=1;
 	}
 	
