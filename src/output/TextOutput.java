@@ -1,6 +1,7 @@
 package output;
 import logicLayer.GameMap; // import GameMap
-
+import logicLayer.Unit; // import Unit
+import logicLayer.Stats; // import Stats
 
 import logicLayer.Tile; //import Tile
 public class TextOutput {
@@ -19,11 +20,11 @@ public class TextOutput {
 					if (c==0) {
 						System.out.print("+---");
 					}
-					else if(c==1 && a == 2 && b == 5) {
-						System.out.print("|nam");
+					else if(c==1 && tiles[a][b].hasUnit()) {
+						System.out.print("|" + tiles[a][b].getUnit().getName());
 					}
-					else if (c==2 && a == 2 && b == 5) {
-						System.out.print("|atk");
+					else if (c==2 && tiles[a][b].hasUnit()) {
+						System.out.print("|" + tiles[a][b].getUnit().getStats().getAtt()); // Stats and unit need some new constructors for this to work
 					}
 					else {
 						System.out.print("|   ");
