@@ -5,6 +5,23 @@ public class Tile
 	private Unit unit;
 	private Position position;
 	
+	public Tile(int xCor, int yCor) {
+		Position position = new Position(xCor, yCor);
+		this.position = position;
+		this.unit = null;
+	}
+	
+	public Tile(Unit unit, Position position) {
+		this.unit = new Unit(unit);
+		this.position = position;
+	}
+	
+	public Tile(Unit unit, int xCor, int yCor) {
+		Position position = new Position(xCor, yCor);
+		this.unit = new Unit(unit);
+		this.position = position;
+	}
+	
 	public boolean hasUnit()
 	{
 		if (unit==null){
@@ -25,9 +42,5 @@ public class Tile
 	public void setUnit(Unit newUnit)
 	{
 		unit=newUnit;
-	}
-	public void setPosition(Position newPos)
-	{
-		position = newPos;
 	}
 }

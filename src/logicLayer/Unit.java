@@ -3,26 +3,56 @@ package logicLayer;
 
 public class Unit
 {
-	String name;
-	Stats stats;
-	Owner owner;
-	Tile tile;
+	private String name;
+	private Stats stats;
+	private boolean hasMoved;
+	private Owner owner;
+	private Tile tile;
 	
 	public Unit(String name, Stats stats, Owner owner, Tile tile) {
 		this.name = name;
-		this.stats = stats;
+		this.stats = new Stats(stats);
 		this.owner = owner;
 		this.tile = tile;
+		this.hasMoved = false;
+	}
+	
+	public Unit(Unit unit) {
+		this.name = unit.getName();
+		this.stats = new Stats(unit.getStats());
+		this.hasMoved = false;
+		this.owner = unit.getOwner();  //should share reference
+		this.tile = tile; //should share referece?
+	}
+	
+	public String getName() {
+		return name;
+	}
+	
+	public Stats getStats() {
+		return stats;
+	}
+	
+	public Owner getOwner() {
+		return owner;
+	}
+	
+	public boolean getHasMoved() {
+		return hasMoved;
+	}
+	
+	public void resetMove() {
+		hasMoved = false;
 	}
 	
 	public void moveTo(Tile tile)
 	{
 		this.tile = tile;
+		hasMoved = true;
 	}
 	public boolean isDead()
 	{
-		if (stats.getHp()==0) return true;
-		return false;
+		return (stats.getHp()==0);
 	}
 	public void takeDamage(int damageAmount)
 	{
@@ -38,8 +68,8 @@ public class Unit
 	}
 	private boolean checkIfUnitCanMoveToPosition(Position position) {
 		Position unitPosition = tile.getPos();
-		int xDirectionDifference = Math.abs(unitPosition.getX() - position.getX());
-		int yDirectionDifference = Math.abs(unitPosition.getY() - position.getY());
+		int xDirectionDifference = Math.abs(unitPosition.getXPosition() - position.getXPosition());
+		int yDirectionDifference = Math.abs(unitPosition.getYPosition() - position.getYPosition());
 		int sumOfDifference = xDirectionDifference + yDirectionDifference;
 		if (sumOfDifference <= stats.getMov()) {
 			return true;
