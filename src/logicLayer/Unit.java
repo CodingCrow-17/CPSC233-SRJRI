@@ -12,6 +12,18 @@ public class Unit
 		
 	}
 	
+	public String getName()
+	{
+		return name;
+	}
+	
+	public Stats getStats()
+	{
+		Stats newStats = new Stats(stats);
+		return newStats;
+	}
+	
+	
 	public void moveTo(Position pos)
 	{
 		position = pos;
