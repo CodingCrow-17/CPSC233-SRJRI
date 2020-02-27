@@ -2,19 +2,22 @@ package logicLayer;
 
 public class Position
 {
-	private int x,y;
-	public void setPos(int newx, int newy)
+	private int xPosition;
+	private int yPosition;
+	
+	public Position (int xPosition, int yPosition)
 	{
-		x=newx;
-		y=newy;
+		this.xPosition = xPosition;
+		this.yPosition = yPosition;
 	}
 	
-	public int getX()
+	public int getXPosition()
 	{
-		return x;
+		return xPosition;
 	}
-	public int getY()
+	
+	public int getYPosition()
 	{
-		return y;
+		return yPosition;
 	}
 }

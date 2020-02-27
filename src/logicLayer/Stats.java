@@ -6,6 +6,21 @@ public class Stats
 	private int def;
 	private int mov;
 	private int att;
+	
+	public Stats(int hp, int att, int def, int mov) {
+		this.hp = hp;
+		this.def = def;
+		this.mov = mov;
+		this.att = att;
+	}
+	
+	public Stats(Stats preExistingStats) {
+		setHp(preExistingStats.getHp());
+		setDef(preExistingStats.getDef());
+		setAtt(preExistingStats.getAtt());
+		setMov(preExistingStats.getMov());
+	}
+	
 	public int getHp()
 	{
 		return hp;
