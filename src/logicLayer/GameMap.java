@@ -9,19 +9,22 @@ public class GameMap
 	private List<Owner> owners;
 
 	
-<<<<<<< HEAD
-	public GameMap(Tile[][] tiles)
-=======
+
+	public GameMap(Tile[][] tiles) {
+		this.tiles = tiles;
+		turnCount = 0;
+	}
+
 	public GameMap(Tile[][] tiles, List<Owner> players)
->>>>>>> refs/heads/master
+
 	{
 		this.tiles = tiles;
-<<<<<<< HEAD
+
 		turnCount=1;
-=======
+
 		this.owners = players;
 		turnCount=0;
->>>>>>> refs/heads/master
+
 	}
 	
 	public List<Owner> getOwners(){

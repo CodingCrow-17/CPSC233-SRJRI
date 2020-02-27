@@ -25,15 +25,17 @@ public class Unit
 		this.tile = tile; //should share reference?
 	}
 	
-<<<<<<< HEAD
+
 	public String getName()
 	{
 		return name;
 	}
 	
 	
-	public void moveTo(Position pos)
-=======
+	public void moveTo(Position pos) {
+		
+	}
+
 	public Stats getStats() {
 		return stats;
 	}
@@ -50,11 +52,6 @@ public class Unit
 		hasMoved = false;
 	}
 	
-	public String getName()
->>>>>>> refs/heads/master
-	{
-		return name;
-	}
 	
 	public void moveTo(Tile finalTile)
 	{
