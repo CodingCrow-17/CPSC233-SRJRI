@@ -8,9 +8,8 @@ import logicLayer.*;
 public class Main {
 	public static void main(String[] args) {
 		GameMap gameMap = initializeGameMap();
-		LogicLayer logic = new LogicLayer(gameMap);
-		Coordinator coordinator = new Coordinator(logic);
-		
+		Coordinator coordinator = new Coordinator(gameMap);
+		coordinator.startGameLoop();
 	}
 	
 	private static GameMap initializeGameMap() {
@@ -38,7 +37,7 @@ public class Main {
 		unitBTile.setUnit(unitB);
 		
 		Stats unitCStats = new Stats(16, 9,6,2); //hp, att, def, mov
-		Tile unitCTile = gameMap.getTileAtCoordinates(3, 0);
+		Tile unitCTile = gameMap.getTileAtCoordinates(4, 0);
 		Unit unitC = new Unit("Henry", unitCStats, player, unitCTile);
 		unitCTile.setUnit(unitC);
 		

@@ -4,10 +4,11 @@ public class LogicLayer{
 
 	private GameMap gameMap;
 	private Owner currentPlayer;
-	private int currentIndex = 0;
+	private int currentIndex = -1;
 	
 	public LogicLayer(GameMap gameMap) {
 		this.gameMap = gameMap;
+		switchPlayer();
 	}
 	
 	public void moveTo(Position startPosition, Position endPosition) {
@@ -19,7 +20,7 @@ public class LogicLayer{
 					Unit unit = startTile.getUnit();
 					if (unit.getHasMoved() == false) {
 						if (unit.getOwner().equals(currentPlayer)){
-							if (unit.getStats().getMov() < calculateMovCostBetweenTile(startTile, finalTile)) {
+							if (unit.getStats().getMov() >= calculateMovCostBetweenTile(startTile, finalTile)) {
 								finalTile.setUnit(unit);
 								startTile.setUnit(null);
 								unit.moveTo(finalTile);
@@ -66,8 +67,8 @@ public class LogicLayer{
 	}
 	
 	private int calculateMovCostBetweenTile(Tile startTile, Tile finalTile) {
-		int xDiff = Math.abs(startTile.getPos().getXPosition() - startTile.getPos().getXPosition());
-		int yDiff = Math.abs(finalTile.getPos().getYPosition() - finalTile.getPos().getYPosition());
+		int xDiff = Math.abs(startTile.getPos().getXPosition() - finalTile.getPos().getXPosition());
+		int yDiff = Math.abs(startTile.getPos().getYPosition() - finalTile.getPos().getYPosition());
 		int moveCost = xDiff+yDiff;
 		return moveCost;
 	}

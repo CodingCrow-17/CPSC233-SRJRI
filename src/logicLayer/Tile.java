@@ -24,12 +24,7 @@ public class Tile
 	
 	public boolean hasUnit()
 	{
-		if (unit==null){
-			return false;
-		}
-		else {
-			return true;	
-		}
+		return (unit != null);
 	}
 	public Unit getUnit()
 	{

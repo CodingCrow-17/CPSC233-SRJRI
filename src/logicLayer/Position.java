@@ -8,7 +8,7 @@ public class Position
 	public Position (int xPosition, int yPosition)
 	{
 		this.xPosition = xPosition;
-		this.xPosition = yPosition;
+		this.yPosition = yPosition;
 	}
 	
 	public int getXPosition()

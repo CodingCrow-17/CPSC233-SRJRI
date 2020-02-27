@@ -1,19 +1,28 @@
 package main;
 import logicLayer.LogicLayer;
+import logicLayer.GameMap;
 import logicLayer.Position;
+import inputLayer.TextInputReciever;
 
 public class Coordinator {
 	
-	LogicLayer logic;
+	private GameMap gameMap;
+	private TextInputReciever textInput = new TextInputReciever();
+	private LogicLayer logic;
 	
-	public Coordinator(LogicLayer logic) {
-		this.logic = logic;
+	public Coordinator(GameMap gameMap) {
+		this.gameMap = gameMap;
+		this.logic = new LogicLayer(gameMap);
 	}
 	
 	public void startGameLoop() {
-		while (true) {
-			
+		textInput.printStartingMessage();
+		for (int i = 0; i<99; i++) {
+			//output prints the thing
+			int[] instructions = textInput.getInstruction();
+			performMoveToCommand(instructions);
 		}
+		textInput.close();
 	}
 	
 	public void parseInput(String userInput) {
