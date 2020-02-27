@@ -23,9 +23,7 @@ public class Coordinator {
 			//player turn
 			textOutput.printCurrentTurnOwner(String.valueOf(logic.getCurrentOwner().getType()));
 			while(true) {
-				System.out.println("loop one");
 				textOutput.printMap(gameMap);
-				System.out.println("loop two");
 				int[] instructions = textInput.getInstruction();
 				performMoveToCommand(instructions);
 				if (checkIfPlayerTurnIsOver() == true){
