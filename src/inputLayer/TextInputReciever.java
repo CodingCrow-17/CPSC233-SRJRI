@@ -7,31 +7,67 @@ public class TextInputReciever {
 	
 	public int[] getInstruction() {
 		in = new Scanner(System.in);        
-        String stringCheck1;
-       	String stringCheck2;
-       	String userPosition1;
-       	String userPosition2;
+        String stringCheck1 = "";
+       	String stringCheck2 = "";
+       	String userPosition1 = "";
+       	String userPosition2 = "";
        	String movement1;
        	String movement2;
        	//Deployment starts
        	System.out.println("Enter Starting X Position:");
-       	userPosition1 = in.nextLine();
+       	while (isParsable(userPosition1) == false)
+       	{   	
+       		userPosition1 = in.nextLine();
+       		if (isParsable(userPosition1) == false)
+       		{
+       			System.out.println("That's not an integer!");
+       			System.out.println("");
+       			System.out.println("Enter Starting X Position:");
+       		}
+       	}
        	System.out.println("Enter Starting Y Position:");
-       	userPosition2 = in.nextLine();
+       	while (isParsable(userPosition2) == false)
+       	{
+       		userPosition2 = in.nextLine();
+       		if (isParsable(userPosition2) == false)
+       		{
+       			System.out.println("That's not an integer!");
+       			System.out.println("");
+       			System.out.println("Enter Starting Y Position:");
+       		}
+       	}
        	int newUserPositionX1 = Integer.parseInt(userPosition1);
        	int newUserPositionY1 = Integer.parseInt(userPosition2);
-       	int newUserPositionX2 = 0 ;
+       	int newUserPositionX2 = 0;
        	int newUserPositionY2 = 0;
        	
-       	System.out.println("Enter X coordinate units you want to move:");
-       	stringCheck1 = in.nextLine();
+       	System.out.println("Enter X movement:");
+       	while (isParsable(stringCheck1) == false)
+       	{
+       		stringCheck1 = in.nextLine();
+       		if (isParsable(stringCheck1) == false)
+       		{
+       			System.out.println("That's not an integer!");
+       			System.out.println("");
+       			System.out.println("Enter X movement:");
+       		}
+       	}
        		
        	movement1 = stringCheck1;
         int newMovement1 = Integer.parseInt(movement1);
         newUserPositionX2 = newUserPositionX1 + newMovement1;
         
-        System.out.println("Enter Y coordinate units you want to move:");
-       	stringCheck2 = in.nextLine();
+        System.out.println("Enter Y movement:");
+        while (isParsable(stringCheck2) == false)
+       	{
+       		stringCheck2 = in.nextLine();
+       		if (isParsable(stringCheck2) == false)
+       		{
+       			System.out.println("That's not an integer!");
+       			System.out.println("");
+       			System.out.println("Enter Y movement");
+       		}
+       	}
 
        	movement2 = stringCheck2;
         int newMovement2 = Integer.parseInt(movement2);
@@ -53,12 +89,24 @@ public class TextInputReciever {
 		}
 	}
 	
+	public boolean isParsable(String input)
+	{
+		try
+		{
+	        Integer.parseInt(input);
+	        return true;
+	    }catch(Exception e)
+		{
+	        return false;
+	    }
+	}
+	
 	public void printStartingMessage() {
         System.out.println("Welcome to our adventure game.");
-        System.out.println("You can to start deploying your units.");
-        System.out.println("You would get the chance to start your starting position.");
-        System.out.println("The positions you enter are going to be the X and Y coordinates,");
-        System.out.println(" where after you entre them you get the chance to move your position as well");
+        System.out.println("You can now start deploying your units.");
+        System.out.println("First, choose a tile occupied with one of your units.");
+        System.out.println("Then, enter the number of spaces you would like to move in the X direction,");
+        System.out.println("followed by the number of spaces you would like to move in the Y direction");
 	}
 }
 
