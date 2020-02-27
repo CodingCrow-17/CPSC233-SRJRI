@@ -17,6 +17,7 @@ public class Unit
 		this.hasMoved = false;
 	}
 	
+<<<<<<< HEAD
 	public Unit(Unit unit) {
 		this.name = unit.getName();
 		this.stats = new Stats(unit.getStats());
@@ -46,6 +47,21 @@ public class Unit
 	}
 	
 	public void moveTo(Tile tile)
+=======
+	public String getName()
+	{
+		return name;
+	}
+	
+	public Stats getStats()
+	{
+		Stats newStats = new Stats(stats);
+		return newStats;
+	}
+	
+	
+	public void moveTo(Position pos)
+>>>>>>> refs/heads/master
 	{
 		this.tile = tile;
 		hasMoved = true;
