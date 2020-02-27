@@ -1,5 +1,5 @@
 package main;
-import logicLayer.LogicLayer;
+import logicLayer.GameLogic;
 import logicLayer.GameMap;
 import logicLayer.Position;
 import inputLayer.TextInputReciever;
@@ -10,11 +10,11 @@ public class Coordinator {
 	private GameMap gameMap;
 	private TextInputReciever textInput = new TextInputReciever();
 	private TextOutputPrinter textOutput = new TextOutputPrinter();
-	private LogicLayer logic;
+	private GameLogic logic;
 	
 	public Coordinator(GameMap gameMap) {
 		this.gameMap = gameMap;
-		this.logic = new LogicLayer(gameMap);
+		this.logic = new GameLogic(gameMap);
 	}
 	
 	public void startGameLoop() {

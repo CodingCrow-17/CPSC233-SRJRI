@@ -1,12 +1,12 @@
 package logicLayer;
 
-public class LogicLayer{
+public class GameLogic{
 
 	private GameMap gameMap;
 	private Owner currentOwner;
 	private int currentIndex = -1;
 	
-	public LogicLayer(GameMap gameMap) {
+	public GameLogic(GameMap gameMap) {
 		this.gameMap = gameMap;
 		switchOwner();
 	}
