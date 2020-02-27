@@ -68,10 +68,12 @@ public class TextOutputPrinter {
 						if (tiles[a][b].getUnit().getHasMoved())
 						{
 							content = "|" + "READY";
+							content = padTextWithChar(content, ' ')
 						}
 						else
 						{
 							content = "|" + "MOVED";
+							content = padTextWithChar(content, ' ')
 						}
 					}
 					else 
