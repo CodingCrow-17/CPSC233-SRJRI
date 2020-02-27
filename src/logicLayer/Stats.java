@@ -7,20 +7,18 @@ public class Stats
 	private int mov;
 	private int att;
 	
-	public Stats(int aHp, int aDef, int aMov, int anAtt) // Regular constructor
-	{
-		hp = aHp;
-		def = aDef;
-		mov = aMov;
-		att = anAtt;
+	public Stats(int hp, int att, int def, int mov) {
+		this.hp = hp;
+		this.def = def;
+		this.mov = mov;
+		this.att = att;
 	}
 	
-	public Stats(Stats aStats) // Copy constructor
-	{
-		hp = aStats.hp;
-		def = aStats.def;
-		mov = aStats.mov;
-		att = aStats.att;
+	public Stats(Stats preExistingStats) {
+		setHp(preExistingStats.getHp());
+		setDef(preExistingStats.getDef());
+		setAtt(preExistingStats.getAtt());
+		setMov(preExistingStats.getMov());
 	}
 	
 	public int getHp()

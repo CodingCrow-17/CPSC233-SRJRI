@@ -3,13 +3,42 @@ package logicLayer;
 
 public class Unit
 {
-	String name;
-	Stats stats;
-	Owner owner;
-	Position position;
+	private String name;
+	private Stats stats;
+	private boolean hasMoved;
+	private Owner owner;
+	private Tile tile;
 	
-	public Unit(String name, Stats stats, Owner owner, Position position) {
-		
+	public Unit(String name, Stats stats, Owner owner, Tile tile) {
+		this.name = name;
+		this.stats = new Stats(stats);
+		this.owner = owner;
+		this.tile = tile;
+		this.hasMoved = false;
+	}
+	
+	public Unit(Unit unit) {
+		this.name = unit.getName();
+		this.stats = new Stats(unit.getStats());
+		this.hasMoved = false;
+		this.owner = unit.getOwner();  //should share reference
+		this.tile = tile; //should share referece?
+	}
+	
+	public Stats getStats() {
+		return stats;
+	}
+	
+	public Owner getOwner() {
+		return owner;
+	}
+	
+	public boolean getHasMoved() {
+		return hasMoved;
+	}
+	
+	public void resetMove() {
+		hasMoved = false;
 	}
 	
 	public String getName()
@@ -17,22 +46,17 @@ public class Unit
 		return name;
 	}
 	
-	public Stats getStats()
+	public void moveTo(Tile finalTile)
 	{
-		Stats newStats = new Stats(stats);
-		return newStats;
+		this.tile = tile;
+		hasMoved = true;
 	}
 	
-	
-	public void moveTo(Position pos)
-	{
-		position = pos;
-	}
 	public boolean isDead()
 	{
-		if (stats.getHp()==0) return true;
-		return false;
+		return (stats.getHp()==0);
 	}
+
 	public void takeDamage(int damageAmount)
 	{
 		int newHp = stats.getHp() - damageAmount;
@@ -41,9 +65,24 @@ public class Unit
 			stats.setHp(0);
 		}
 	}
-	public Position TileGotPos()
+	
+	public Tile getTile()
 	{
-		return position;
+		return tile;
 	}
+	
+	private boolean checkIfUnitCanMoveToPosition(Position position) {
+		Position unitPosition = tile.getPos();
+		int xDirectionDifference = Math.abs(unitPosition.getXPosition() - position.getXPosition());
+		int yDirectionDifference = Math.abs(unitPosition.getYPosition() - position.getYPosition());
+		int sumOfDifference = xDirectionDifference + yDirectionDifference;
+		if (sumOfDifference <= stats.getMov()) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	
 }
 

@@ -1,3 +1,4 @@
+package inputLayer;
 import java.util.Scanner;
 
 public class MovementOptions {
