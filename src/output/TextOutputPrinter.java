@@ -9,12 +9,21 @@ public class TextOutputPrinter {
 	public void printMap(GameMap gameMap)
 	{
 		Tile[][] tiles = gameMap.getTiles();
+		printColumnIndicators(tiles[0]);
 		// Loop through each row
 		for (int a = 0; a<tiles.length; a++) 
 		{ 
 			// Loop through the height of a tile; each tile is CELL_HEIGHT spaces tall
 			for (int c = 0; c<CELL_HEIGHT; c++) 
 			{
+				// Halfway through each row, print the row number
+				if (c == CELL_HEIGHT / 2) {
+					System.out.print(a);
+				}
+				else {
+					System.out.print(" ");
+				}
+				
 				// Loop through each column
 				for (int b = 0; b<tiles[a].length; b++) 
 				{
@@ -96,6 +105,20 @@ public class TextOutputPrinter {
 			text = text + character;
 		}
 		return text;
+	}
+	
+	private void printColumnIndicators(Tile[] columnList) {
+		String content = " ";
+		for (int column = 0; column < columnList.length; column++) {
+			String indicator = "";
+			for (int spaces = 0; spaces < CELL_WIDTH/2; spaces++) {
+				indicator = indicator + " ";
+			}
+			indicator = indicator + column;
+			indicator = padTextWithChar(indicator, ' ');
+			content = content + indicator;
+		}
+		System.out.println(content);
 	}
 	
 }
