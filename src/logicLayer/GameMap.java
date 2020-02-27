@@ -20,6 +20,10 @@ public class GameMap
 		return owners;
 	}
 	
+	public int getTurnCount() {
+		return turnCount;
+	}
+	
 	public Tile getTileAtCoordinates(int xCoordinate, int yCoordinate) {
 		Position position = new Position(xCoordinate, yCoordinate);
 		return getTileAtPosition(position);

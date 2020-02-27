@@ -2,29 +2,30 @@ package main;
 import logicLayer.GameLogic;
 import logicLayer.GameMap;
 import logicLayer.Position;
-import inputLayer.TextInputReciever;
+import inputLayer.InputReciever;
 import output.TextOutputPrinter;
 
 public class Coordinator {
 	
 	private GameMap gameMap;
-	private TextInputReciever textInput = new TextInputReciever();
+	private InputReciever input;
 	private TextOutputPrinter textOutput = new TextOutputPrinter();
 	private GameLogic logic;
 	
-	public Coordinator(GameMap gameMap) {
+	public Coordinator(GameMap gameMap, InputReciever inputReceiver) {
 		this.gameMap = gameMap;
+		this.input = inputReceiver;
 		this.logic = new GameLogic(gameMap);
 	}
 	
 	public void startGameLoop() {
-		textInput.printStartingMessage();
+		input.printStartingMessage();
 		for (int i = 0; i<99; i++) {
 			//player turn
 			textOutput.printCurrentTurnOwner(String.valueOf(logic.getCurrentOwner().getType()));
 			while(true) {
 				textOutput.printMap(gameMap);
-				int[] instructions = textInput.getInstruction();
+				int[] instructions = input.getInstruction();
 				performMoveToCommand(instructions);
 				if (checkIfPlayerTurnIsOver() == true){
 					break;
@@ -40,7 +41,7 @@ public class Coordinator {
 			}
 			logic.switchOwner();
 		}
-		textInput.close();
+		input.close();
 	}
 	
 	private void performMoveToCommand(int[] positionArray){
