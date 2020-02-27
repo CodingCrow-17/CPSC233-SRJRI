@@ -4,35 +4,38 @@ public class GetPos {
 	int[] Positions;
 	private static Scanner in;
 	public int[] SetPos(int[] Pos) {
-		String name;
-		String line;
-		String player;
         in = new Scanner(System.in);
         
+        //Setting up local variables 
+        //stringCheck1 and stringCheck2 are to determine the input numbers
+        //userPosition1 and userPosition2 are player's starting x and y positions
+        //movement1 and movement2 are player's movements in the x and y coordinates
         	String stringCheck1;
         	String stringCheck2;
         	String userPosition1;
         	String userPosition2;
         	String movement1;
         	String movement2;
-        	//Deployment starts
+        	
+        	//User entering starting X and Y positions
         	System.out.println("Enter Starting X Position:");
         	userPosition1 = in.nextLine();
         	System.out.println("Enter Starting Y Position:");
         	System.out.println();
         	userPosition2 = in.nextLine();
+        	
+        	//Converting starting positions from string to integers
         	int newUserPositionX1 = Integer.parseInt(userPosition1);
         	int newUserPositionY1 = Integer.parseInt(userPosition2);
         	int newUserPositionX2 = 0 ;
         	int newUserPositionY2 = 0;
-        	String newUserPositionX1String;
-        	String  newUserPositionX2String;
-        	String  newUserPositionY1String;
-        	String newUserPositionY2String;
-        	
+
+        	//User enters x coordinates unit he wants to move
         	System.out.println("Enter X coordinate units you want to move:");
         	stringCheck1 = in.nextLine();
-        	
+     
+        	//User adds, subtracts or no change to the new user position after moving.
+        	//Adds or subtracts units of movements to the original equation
         	if(stringCheck1.equals("0")) {		
         		newUserPositionX2 = newUserPositionX1;
         	}
@@ -50,8 +53,13 @@ public class GetPos {
 	        	newUserPositionX1 += newMovement1;
 	        	newUserPositionX2 = newUserPositionX1;
 	        }}
+        	
+        	//User enters y coordinates unit he wants to move 
         	System.out.println("Enter Y coordinate units you want to move:");
         	stringCheck2 = in.nextLine();
+        	
+        	//User adds, subtracts or no change to the new user position after moving.
+        	//Adds or subtracts units of movements to the original equation
         	if(stringCheck2.equals("0")) {
         		newUserPositionY2 = newUserPositionY1;
         	}
@@ -72,11 +80,15 @@ public class GetPos {
         	
         	System.out.println(newUserPositionX2+ "," + newUserPositionY2);
 
-        	
+    //Making a ValidMenu array to append all four values of x-initial position, y-intial position, x-final position and y-final position    	
+   //Returns ValidMenu to the instance variable
         	final int [] ValidMenu = {newUserPositionX1, newUserPositionY1,newUserPositionX2 ,newUserPositionY2};
         	this.Positions = ValidMenu;
+        	
         	return this.Positions;
         }
+	
+	
 	public void printStartingMessage() {
         System.out.println("Welcome to our adventure game.");
         System.out.print("You can to start deploying your units.");
@@ -86,5 +98,3 @@ public class GetPos {
 	}
 
 	}
-
-
