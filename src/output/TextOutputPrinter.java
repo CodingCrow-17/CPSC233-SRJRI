@@ -65,16 +65,15 @@ public class TextOutputPrinter {
 						content = padTextWithChar(content, ' ');
 					}
 					else if (c==7 && tiles[a][b].hasUnit()) {
-						if (tiles[a][b].getUnit().getHasMoved())
+						if (tiles[a][b].getUnit().getHasMoved() == false)
 						{
 							content = "|" + "READY";
-							content = padTextWithChar(content, ' ')
 						}
 						else
 						{
 							content = "|" + "MOVED";
-							content = padTextWithChar(content, ' ')
 						}
+						content = padTextWithChar(content, ' ');
 					}
 					else 
 					{

@@ -22,7 +22,7 @@ public class Main {
 		owners.add(enemy);
 		
 		//creates tiles and puts them in gameMap
-		Tile[][] tiles = new Tile[5][5];
+		Tile[][] tiles = new Tile[3][5];
 		for(int i = 0; i < tiles.length; i++) {
 			for (int j = 0; j<tiles[i].length; j++) {
 				tiles[i][j] = new Tile(i,j);
@@ -42,7 +42,7 @@ public class Main {
 		unitBTile.setUnit(unitB);
 		
 		Stats unitCStats = new Stats(16, 9,6,2); //hp, att, def, mov
-		Tile unitCTile = gameMap.getTileAtCoordinates(4, 3);
+		Tile unitCTile = gameMap.getTileAtCoordinates(4, 2);
 		Unit unitC = new Unit("Lewis", unitCStats, enemy, unitCTile);
 		unitCTile.setUnit(unitC);
 		
