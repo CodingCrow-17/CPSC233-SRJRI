@@ -2,17 +2,19 @@ package main;
 
 import java.util.ArrayList;
 import java.util.List;
+import inputLayer.*;
 
 import logicLayer.*;
 
 public class Main {
 	public static void main(String[] args) {
-		GameMapImpl gameMap = initializeGameMap();
-		Coordinator coordinator = new Coordinator(gameMap);
+		GameMap gameMap = initializeGameMap();
+		InputReciever input = new TextInputReciever();
+		Coordinator coordinator = new Coordinator(gameMap,input);
 		coordinator.startGameLoop();
 	}
 	
-	private static GameMapImpl initializeGameMap() {
+	private static GameMap initializeGameMap() {
 		
 		//sets up the players for this map
 		Owner player = new Owner(OwnerType.PLAYER);
@@ -28,7 +30,7 @@ public class Main {
 				tiles[i][j] = new Tile(i,j);
 			}
 		}
-		GameMapImpl gameMap = new GameMapImpl(tiles, owners);
+		GameMap gameMap = new GameMap(tiles, owners);
 		
 		//creates units and populates gameMap
 		Stats unitAStats = new Stats(20, 10,5,2); //hp, att, def, mov

@@ -1,7 +1,7 @@
 package inputLayer;
 import java.util.Scanner;
 
-public class TextInputReciever {
+public class TextInputReciever implements InputReciever{
 	int[] Positions;
 	private static Scanner in;
 	
@@ -89,7 +89,7 @@ public class TextInputReciever {
 		}
 	}
 	
-	public boolean isParsable(String input)
+	private boolean isParsable(String input)
 	{
 		try
 		{
