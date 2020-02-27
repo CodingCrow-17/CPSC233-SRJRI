@@ -2,13 +2,15 @@ package main;
 
 import java.util.ArrayList;
 import java.util.List;
+import inputLayer.*;
 
 import logicLayer.*;
 
 public class Main {
 	public static void main(String[] args) {
 		GameMap gameMap = initializeGameMap();
-		Coordinator coordinator = new Coordinator(gameMap);
+		InputReciever input = new TextInputReciever();
+		Coordinator coordinator = new Coordinator(gameMap,input);
 		coordinator.startGameLoop();
 	}
 	
