@@ -1,12 +1,12 @@
 package output;
-import logicLayer.GameMap; // import GameMap
+import logicLayer.GameMapImpl; // import GameMap
 
 import logicLayer.Tile; //import Tile
 public class TextOutputPrinter {
 	
 	final int CELL_WIDTH = 15;	
 	final int CELL_HEIGHT = 8;
-	public void printMap(GameMap gameMap)
+	public void printMap(GameMapImpl gameMap)
 	{
 		Tile[][] tiles = gameMap.getTiles();
 		// Loop through each row

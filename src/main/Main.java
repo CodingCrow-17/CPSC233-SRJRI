@@ -7,12 +7,12 @@ import logicLayer.*;
 
 public class Main {
 	public static void main(String[] args) {
-		GameMap gameMap = initializeGameMap();
+		GameMapImpl gameMap = initializeGameMap();
 		Coordinator coordinator = new Coordinator(gameMap);
 		coordinator.startGameLoop();
 	}
 	
-	private static GameMap initializeGameMap() {
+	private static GameMapImpl initializeGameMap() {
 		
 		//sets up the players for this map
 		Owner player = new Owner(OwnerType.PLAYER);
@@ -28,7 +28,7 @@ public class Main {
 				tiles[i][j] = new Tile(i,j);
 			}
 		}
-		GameMap gameMap = new GameMap(tiles, owners);
+		GameMapImpl gameMap = new GameMapImpl(tiles, owners);
 		
 		//creates units and populates gameMap
 		Stats unitAStats = new Stats(20, 10,5,2); //hp, att, def, mov
