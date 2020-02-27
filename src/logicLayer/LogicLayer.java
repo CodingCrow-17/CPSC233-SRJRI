@@ -3,12 +3,16 @@ package logicLayer;
 public class LogicLayer{
 
 	private GameMap gameMap;
-	private Owner currentPlayer;
+	private Owner currentOwner;
 	private int currentIndex = -1;
 	
 	public LogicLayer(GameMap gameMap) {
 		this.gameMap = gameMap;
-		switchPlayer();
+		switchOwner();
+	}
+	
+	public Owner getCurrentOwner() {
+		return currentOwner;
 	}
 	
 	public void moveTo(Position startPosition, Position endPosition) {
@@ -19,7 +23,7 @@ public class LogicLayer{
 				if(checkIfUnitIsOnTile(finalTile) == false) {
 					Unit unit = startTile.getUnit();
 					if (unit.getHasMoved() == false) {
-						if (unit.getOwner().equals(currentPlayer)){
+						if (unit.getOwner().equals(currentOwner)){
 							if (unit.getStats().getMov() >= calculateMovCostBetweenTile(startTile, finalTile)) {
 								finalTile.setUnit(unit);
 								startTile.setUnit(null);
@@ -73,11 +77,12 @@ public class LogicLayer{
 		return moveCost;
 	}
 	
-	private void switchPlayer() {
+	public void switchOwner() {
 		currentIndex++;
 		if (currentIndex >= gameMap.getOwners().size()) {
 			currentIndex = 0;
 		}
-		currentPlayer = gameMap.getOwners().get(currentIndex);
+		currentOwner = gameMap.getOwners().get(currentIndex);
+		currentOwner.refreshAllUnits();
 	}
 }

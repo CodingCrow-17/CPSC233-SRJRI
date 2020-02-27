@@ -28,4 +28,21 @@ public class Owner {
 	public void addUnit(Unit unit) {
 		units.add(unit); // We want this unit reference the original unit
 	}
+	
+	public boolean checkIfAllUnitsMoved() {
+		boolean allUnitsHaveMoved = true;
+		for (Unit unit : units) {
+			if (unit.getHasMoved() == false) {
+				allUnitsHaveMoved = false;
+				break;
+			}
+		}
+		return allUnitsHaveMoved;
+	}
+	
+	public void refreshAllUnits() {
+		for (Unit unit : units) {
+			unit.resetMove();
+		}
+	}
 }

@@ -17,17 +17,12 @@ public class Unit
 		this.hasMoved = false;
 	}
 	
-<<<<<<< HEAD
 	public Unit(Unit unit) {
 		this.name = unit.getName();
 		this.stats = new Stats(unit.getStats());
 		this.hasMoved = false;
 		this.owner = unit.getOwner();  //should share reference
 		this.tile = tile; //should share referece?
-	}
-	
-	public String getName() {
-		return name;
 	}
 	
 	public Stats getStats() {
@@ -46,30 +41,22 @@ public class Unit
 		hasMoved = false;
 	}
 	
-	public void moveTo(Tile tile)
-=======
 	public String getName()
 	{
 		return name;
 	}
 	
-	public Stats getStats()
-	{
-		Stats newStats = new Stats(stats);
-		return newStats;
-	}
-	
-	
-	public void moveTo(Position pos)
->>>>>>> refs/heads/master
+	public void moveTo(Tile finalTile)
 	{
 		this.tile = tile;
 		hasMoved = true;
 	}
+	
 	public boolean isDead()
 	{
 		return (stats.getHp()==0);
 	}
+
 	public void takeDamage(int damageAmount)
 	{
 		int newHp = stats.getHp() - damageAmount;
@@ -78,10 +65,12 @@ public class Unit
 			stats.setHp(0);
 		}
 	}
+	
 	public Tile getTile()
 	{
 		return tile;
 	}
+	
 	private boolean checkIfUnitCanMoveToPosition(Position position) {
 		Position unitPosition = tile.getPos();
 		int xDirectionDifference = Math.abs(unitPosition.getXPosition() - position.getXPosition());

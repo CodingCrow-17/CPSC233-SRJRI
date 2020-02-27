@@ -25,36 +25,18 @@ public class TextInputReciever {
        	
        	System.out.println("Enter X coordinate units you want to move:");
        	stringCheck1 = in.nextLine();
-       	
-       	if(stringCheck1.equals("0")) {		
-       		newUserPositionX2 = newUserPositionX1;
-       	}
-      	else {
-      		movement1 = stringCheck1;
-	        int newMovement1 = Integer.parseInt(movement1);
-	        if (newMovement1 < 0) {
-	        	newUserPositionX2 -= Math.abs(newMovement1);
-	        	
-	        }
-	        else {
-	        	newUserPositionX2 += newMovement1;
-	        }
-      	}
+       		
+       	movement1 = stringCheck1;
+        int newMovement1 = Integer.parseInt(movement1);
+        newUserPositionX2 = newUserPositionX1 + newMovement1;
+        
         System.out.println("Enter Y coordinate units you want to move:");
        	stringCheck2 = in.nextLine();
-       	if(stringCheck2.equals("0")) {
-       		newUserPositionY2 = newUserPositionY1;
-       	}
-    	else {
-    		movement2 = stringCheck2;
-    		int newMovement2 = Integer.parseInt(movement2);
-    		if (newMovement2 < 0) {    	
-    			newUserPositionY2 -= Math.abs(newMovement2);
-    	    }
-    	    else {
-    	    	newUserPositionY2 += newMovement2;
-    	    }        
-        }	
+
+       	movement2 = stringCheck2;
+        int newMovement2 = Integer.parseInt(movement2);
+        newUserPositionY2 = newUserPositionY1 + newMovement2;  
+       	
        	System.out.println("Trying to move from ");
        	System.out.println(newUserPositionX1+ "," + newUserPositionY1 +" to ");
         System.out.println(newUserPositionX2+ "," + newUserPositionY2);

@@ -31,7 +31,7 @@ public class GameMap
 		int yCoordinate = position.getYPosition();
 		if (xCoordinate >= 0 || xCoordinate < tiles.length
 				&& yCoordinate >= 0 || yCoordinate < tiles.length) {
-			return tiles[position.getXPosition()][position.getYPosition()];
+			return tiles[position.getYPosition()][position.getXPosition()];
 		}
 		else {
 			return null;
