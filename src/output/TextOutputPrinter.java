@@ -5,7 +5,7 @@ import logicLayer.Tile; //import Tile
 public class TextOutputPrinter {
 	
 	final int CELL_WIDTH = 15;	
-	final int CELL_HEIGHT = 7;
+	final int CELL_HEIGHT = 8;
 	public void printMap(GameMap gameMap)
 	{
 		Tile[][] tiles = gameMap.getTiles();
@@ -63,6 +63,16 @@ public class TextOutputPrinter {
 						String unitOwner = tiles[a][b].getUnit().getOwner().getType().toString();
 						content = "|" + "own: " + unitOwner;
 						content = padTextWithChar(content, ' ');
+					}
+					else if (c==7 && tiles[a][b].hasUnit()) {
+						if (tiles[a][b].getUnit().getHasMoved())
+						{
+							content = "|" + "READY";
+						}
+						else
+						{
+							content = "|" + "MOVED";
+						}
 					}
 					else 
 					{
