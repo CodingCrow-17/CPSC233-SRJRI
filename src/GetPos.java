@@ -90,6 +90,7 @@ public class GetPos {
 	
 	
 	public void printStartingMessage() {
+		//Print start game message
         System.out.println("Welcome to our adventure game.");
         System.out.print("You can to start deploying your units.");
         System.out.print("You would get the chance to start your starting position.");
