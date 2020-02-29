@@ -27,7 +27,7 @@ public class Main {
 		Tile[][] tiles = new Tile[3][5];
 		for(int i = 0; i < tiles.length; i++) {
 			for (int j = 0; j<tiles[i].length; j++) {
-				tiles[i][j] = new Tile(i,j);
+				tiles[i][j] = new Tile(i,j, TileType.PLAIN);
 			}
 		}
 		GameMap gameMap = new GameMap(tiles, owners);

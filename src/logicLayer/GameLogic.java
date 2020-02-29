@@ -1,5 +1,8 @@
 package logicLayer;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class GameLogic{
 
 	private GameMap gameMap;
@@ -24,7 +27,7 @@ public class GameLogic{
 					Unit unit = startTile.getUnit();
 					if (unit.getHasMoved() == false) {
 						if (unit.getOwner().equals(currentOwner)){
-							if (unit.getStats().getMov() >= calculateMovCostBetweenTile(startTile, finalTile)) {
+							if (unit.getStats().getMov() >= calculateMovCostBetweenTiles(startTile, finalTile)) {
 								finalTile.setUnit(unit);
 								startTile.setUnit(null);
 								unit.moveTo(finalTile);
@@ -70,11 +73,37 @@ public class GameLogic{
 		return tile.hasUnit();
 	}
 	
-	private int calculateMovCostBetweenTile(Tile startTile, Tile finalTile) {
+	private int calculateMovCostBetweenTiles(Tile startTile, Tile finalTile) {
+		
+		
+		
 		int xDiff = Math.abs(startTile.getPos().getXPosition() - finalTile.getPos().getXPosition());
 		int yDiff = Math.abs(startTile.getPos().getYPosition() - finalTile.getPos().getYPosition());
 		int moveCost = xDiff+yDiff;
 		return moveCost;
+	}
+	
+	private int calculateRecursiveMoveCostBetweenTilesSetup(Unit unit, Tile finalTile) {
+		int moveCost = 0;
+		int primaryXDirection = finalTile.getPos().getXPosition() - unit.getTile().getPos().getXPosition();
+		primaryXDirection = primaryXDirection/Math.abs(primaryXDirection);
+		int primaryYDirection = finalTile.getPos().getYPosition() - unit.getTile().getPos().getYPosition();
+		primaryYDirection = primaryYDirection/Math.abs(primaryYDirection);
+		List<Tile> tilesMovedTo = new ArrayList<Tile>(); 
+		
+		return moveCost;
+	}
+	
+	private int calculateRecursiveMoveCost(Unit unit,Tile endTile,int primaryXDirection, int primaryYDirection, int currentMoveCost) {
+		
+		Tile unitTile = unit.getTile();
+		
+		if(currentMoveCost < unit.getStats().getMov()) {
+			if (primaryXDirection == 1) {
+			}
+		}
+		
+		return currentMoveCost;
 	}
 	
 	public void switchOwner() {
