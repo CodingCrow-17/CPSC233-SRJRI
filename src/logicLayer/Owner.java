@@ -29,6 +29,11 @@ public class Owner {
 		units.add(unit); // We want this unit reference the original unit
 	}
 	
+	public String toString() {
+		String StringVal = "own :" + type;
+		return StringVal;
+	}
+	
 	public boolean checkIfAllUnitsMoved() {
 		boolean allUnitsHaveMoved = true;
 		for (Unit unit : units) {

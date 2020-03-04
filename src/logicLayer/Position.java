@@ -11,6 +11,11 @@ public class Position
 		this.yPosition = yPosition;
 	}
 	
+	public Position(Position pos) {
+		this.xPosition = pos.getXPosition();
+		this.yPosition = pos.getYPosition();// TODO Auto-generated constructor stub
+	}
+
 	public int getXPosition()
 	{
 		return xPosition;
@@ -19,5 +24,10 @@ public class Position
 	public int getYPosition()
 	{
 		return yPosition;
+	}
+	
+	public String toString() {
+		String stringVal = "(" + yPosition + "," + xPosition + ")";
+		return stringVal;
 	}
 }

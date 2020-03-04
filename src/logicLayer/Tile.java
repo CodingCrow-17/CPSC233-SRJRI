@@ -4,16 +4,19 @@ public class Tile
 {
 	private Unit unit;
 	private Position position;
+	private TileType type;
 	
-	public Tile(int xCor, int yCor) {
+	public Tile(int xCor, int yCor, TileType type) {
 		Position position = new Position(xCor, yCor);
 		this.position = position;
 		this.unit = null;
+		this.type = type;
 	}
 	
-	public Tile(Unit unit, Position position) {
+	public Tile(Unit unit, Position position, TileType type) {
 		this.unit = new Unit(unit);
 		this.position = position;
+		this.type = type;
 	}
 	
 	public Tile(Unit unit, int xCor, int yCor) {

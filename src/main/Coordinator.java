@@ -23,19 +23,20 @@ public class Coordinator {
 		for (int i = 0; i<99; i++) {
 			//player turn
 			textOutput.printCurrentTurnOwner(String.valueOf(logic.getCurrentOwner().getType()));
+			textOutput.printMap(gameMap);
 			while(true) {
-				textOutput.printMap(gameMap);
 				int[] instructions = input.getInstruction();
 				performMoveToCommand(instructions);
 				if (checkIfPlayerTurnIsOver() == true){
 					break;
 				}
+				textOutput.printMap(gameMap);
 			}
 			logic.switchOwner();
 			//enemy turn
 			textOutput.printCurrentTurnOwner(String.valueOf(logic.getCurrentOwner().getType()));
+			textOutput.printMap(gameMap);
 			while (true) {
-				textOutput.printMap(gameMap);
 				//TODO create enemy logic to go here
 				break;
 			}
