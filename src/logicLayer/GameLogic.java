@@ -30,7 +30,7 @@ public class GameLogic{
 								unit.moveTo(finalTile);
 							}
 							else {
-								System.out.println("Out of mov range!");
+								System.out.println("Out of move range!");
 							}
 						}
 						else {
@@ -42,7 +42,7 @@ public class GameLogic{
 					}
 				}
 				else {
-					System.out.println("You can't move to a place that already has a unit!");
+					System.out.println("You can't move to a tile that already has a unit!");
 				}
 			}
 			else {
@@ -50,7 +50,7 @@ public class GameLogic{
 			}	
 		}
 		else {
-			System.out.println("Your position are out of bounds!");
+			System.out.println("Your position is out of bounds!");
 		}
 	}
 
