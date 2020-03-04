@@ -87,6 +87,7 @@ public class GameLogic{
 	
 	private void calculateMovRange(List<Tile> tileRange, Tile startTile, int movStamina, Direction direction) {
 		if (movStamina == 0) {
+			return;
 		}
 		else {
 			movStamina--;
