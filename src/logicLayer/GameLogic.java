@@ -27,7 +27,8 @@ public class GameLogic{
 					Unit unit = startTile.getUnit();
 					if (unit.getHasMoved() == false) {
 						if (unit.getOwner().equals(currentOwner)){
-							if (unit.getStats().getMov() >= calculateMovCostBetweenTiles(startTile, finalTile)) {
+							List<Tile> validTilesToMoveTo = calculateValidTileToMoveTo(unit);
+							if (validTilesToMoveTo.contains(finalTile)) {
 								finalTile.setUnit(unit);
 								startTile.setUnit(null);
 								unit.moveTo(finalTile);
@@ -73,37 +74,79 @@ public class GameLogic{
 		return tile.hasUnit();
 	}
 	
-	private int calculateMovCostBetweenTiles(Tile startTile, Tile finalTile) {
-		
-		
-		
-		int xDiff = Math.abs(startTile.getPos().getXPosition() - finalTile.getPos().getXPosition());
-		int yDiff = Math.abs(startTile.getPos().getYPosition() - finalTile.getPos().getYPosition());
-		int moveCost = xDiff+yDiff;
-		return moveCost;
+	private List<Tile> calculateValidTileToMoveTo(Unit unit) {
+		List<Tile> tileRange = new ArrayList<Tile>();
+		Direction direction = Direction.NONE;
+		Tile startTile = unit.getTile();	
+		int movStamina = unit.getStats().getMov().getCurrentValue()+1;
+		tileRange.add(startTile);
+		calculateMovRange(tileRange, startTile, movStamina, direction);
+		System.out.println();
+		return tileRange;
 	}
 	
-	private int calculateRecursiveMoveCostBetweenTilesSetup(Unit unit, Tile finalTile) {
-		int moveCost = 0;
-		int primaryXDirection = finalTile.getPos().getXPosition() - unit.getTile().getPos().getXPosition();
-		primaryXDirection = primaryXDirection/Math.abs(primaryXDirection);
-		int primaryYDirection = finalTile.getPos().getYPosition() - unit.getTile().getPos().getYPosition();
-		primaryYDirection = primaryYDirection/Math.abs(primaryYDirection);
-		List<Tile> tilesMovedTo = new ArrayList<Tile>(); 
-		
-		return moveCost;
-	}
-	
-	private int calculateRecursiveMoveCost(Unit unit,Tile endTile,int primaryXDirection, int primaryYDirection, int currentMoveCost) {
-		
-		Tile unitTile = unit.getTile();
-		
-		if(currentMoveCost < unit.getStats().getMov()) {
-			if (primaryXDirection == 1) {
+	private void calculateMovRange(List<Tile> tileRange, Tile startTile, int movStamina, Direction direction) {
+		System.out.println("Moving from " + startTile.getPos().toString() +" "+direction);
+		if (movStamina == 0) {
+			System.out.println("Done moving");
+		}
+		else {
+			movStamina--;
+			if (direction.equals(Direction.NONE)) {
+				calculateMovRange(tileRange, startTile, movStamina, Direction.UP);
+				System.out.println("done branch " + Direction.UP);
+				calculateMovRange(tileRange, startTile, movStamina, Direction.RIGHT);
+				System.out.println("done branch" + Direction.RIGHT);
+				calculateMovRange(tileRange, startTile, movStamina, Direction.DOWN);
+				System.out.println("done branch" + Direction.DOWN);
+				calculateMovRange(tileRange, startTile, movStamina, Direction.LEFT);
+				System.out.println("done branch" + Direction.LEFT);
+			}
+			if (direction.equals(Direction.RIGHT)) {
+				Tile newTile= gameMap.getTileAtCoordinates(startTile.getPos().getXPosition()+1,
+						startTile.getPos().getYPosition());
+				if (newTile != null) {
+					System.out.print(" to " + newTile.getPos().toString());
+					tileRange.add(newTile);
+					calculateMovRange(tileRange, newTile, movStamina, Direction.UP);
+					calculateMovRange(tileRange, newTile, movStamina, Direction.RIGHT);
+					calculateMovRange(tileRange, newTile, movStamina, Direction.DOWN);	
+				}
+			}
+			if (direction.equals(Direction.UP)) {
+				Tile newTile= gameMap.getTileAtCoordinates(startTile.getPos().getXPosition(),
+						startTile.getPos().getYPosition()-1);
+				if (newTile != null) {
+					System.out.println(" to " + newTile.getPos().toString());
+					tileRange.add(newTile);
+					calculateMovRange(tileRange, newTile, movStamina, Direction.RIGHT);
+					calculateMovRange(tileRange, newTile, movStamina, Direction.LEFT);
+					calculateMovRange(tileRange, newTile, movStamina, Direction.UP);	
+				}
+			}
+			if (direction.equals(Direction.LEFT)) {
+				Tile newTile= gameMap.getTileAtCoordinates(startTile.getPos().getXPosition()-1,
+						startTile.getPos().getYPosition());
+				if (newTile != null) {
+					System.out.println(" to " + newTile.getPos().toString());
+					tileRange.add(newTile);
+					calculateMovRange(tileRange, newTile, movStamina, Direction.UP);
+					calculateMovRange(tileRange, newTile, movStamina, Direction.LEFT);
+					calculateMovRange(tileRange, newTile, movStamina, Direction.DOWN);
+				}
+			}
+			if (direction.equals(Direction.DOWN)) {
+				Tile newTile= gameMap.getTileAtCoordinates(startTile.getPos().getXPosition(),
+						startTile.getPos().getYPosition()+1);
+				if (newTile != null) {
+					System.out.println(" to " + newTile.getPos().toString());
+					tileRange.add(newTile);
+					calculateMovRange(tileRange, newTile, movStamina, Direction.RIGHT);
+					calculateMovRange(tileRange, newTile, movStamina, Direction.DOWN);
+					calculateMovRange(tileRange, newTile, movStamina, Direction.LEFT);	
+				}
 			}
 		}
-		
-		return currentMoveCost;
 	}
 	
 	public void switchOwner() {

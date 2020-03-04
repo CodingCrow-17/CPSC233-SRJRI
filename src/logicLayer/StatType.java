@@ -2,9 +2,9 @@ package logicLayer;
 
 public enum StatType
 {
-	HP,ATTACK,DEFENSE,SPEED,MOVEMENT;
+	HP,ATTACK,DEFENSE,SPEED,DEXTERITY,MOVEMENT;
 	
-	public String toString(StatType stat)
+	public static String toString(StatType stat)
 	{
 		switch (stat)
 		{
@@ -16,6 +16,8 @@ public enum StatType
 				return "defense";
 			case SPEED:
 				return "speed";
+			case DEXTERITY:
+				return "dexterity";
 			case MOVEMENT:
 				return "movement";
 			default:
@@ -23,4 +25,24 @@ public enum StatType
 		}
 	}
 	
+	public static String toShortenedString(StatType stat)
+	{
+		switch (stat)
+		{
+			case HP:
+				return "hp";
+			case ATTACK:
+				return "att";
+			case DEFENSE:
+				return "def";
+			case SPEED:
+				return "spd";
+			case DEXTERITY:
+				return "dex";
+			case MOVEMENT:
+				return "mov";
+			default:
+				return "";
+		}
+	}
 }

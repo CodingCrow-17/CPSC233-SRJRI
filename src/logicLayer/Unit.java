@@ -5,6 +5,7 @@ public class Unit
 {
 	private String name;
 	private Stats stats;
+	private int currentHp;
 	private boolean hasMoved;
 	private Owner owner;
 	private Tile tile;
@@ -15,6 +16,7 @@ public class Unit
 		this.owner = owner;
 		this.tile = tile;
 		this.hasMoved = false;
+		this.currentHp = stats.getHp().getCurrentValue();
 	}
 	
 	public Unit(Unit unit) {
@@ -23,6 +25,10 @@ public class Unit
 		this.hasMoved = false;
 		this.owner = unit.getOwner();  //should share reference
 		this.tile = tile; //should share reference?
+	}
+	
+	public int getCurrentHp() {
+		return currentHp;
 	}
 	
 	public Stats getStats() {
@@ -46,6 +52,11 @@ public class Unit
 		return name;
 	}
 	
+	public String currentHpToString() {
+		String stringVal = stats.getHp().getStatType() + ": " + currentHp + "/" + stats.getHp().getCurrentValue();
+		return stringVal;
+	}
+	
 	public void moveTo(Tile finalTile)
 	{
 		this.tile = tile;
@@ -54,15 +65,14 @@ public class Unit
 	
 	public boolean isDead()
 	{
-		return (stats.getHp()==0);
+		return (currentHp == 0);
 	}
 
 	public void takeDamage(int damageAmount)
 	{
-		int newHp = stats.getHp() - damageAmount;
-		stats.setHp(newHp);
-		if (stats.getHp() < 0) {
-			stats.setHp(0);
+		currentHp = currentHp - damageAmount;
+		if (currentHp < 0) {
+			currentHp = 0;
 		}
 	}
 	
@@ -76,7 +86,7 @@ public class Unit
 		int xDirectionDifference = Math.abs(unitPosition.getXPosition() - position.getXPosition());
 		int yDirectionDifference = Math.abs(unitPosition.getYPosition() - position.getYPosition());
 		int sumOfDifference = xDirectionDifference + yDirectionDifference;
-		if (sumOfDifference <= stats.getMov()) {
+		if (sumOfDifference <= stats.getMov().getCurrentValue()) {
 			return true;
 		}
 		else {

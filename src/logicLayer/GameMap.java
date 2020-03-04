@@ -26,6 +26,7 @@ public class GameMap
 	
 	public Tile getTileAtCoordinates(int xCoordinate, int yCoordinate) {
 		Position position = new Position(xCoordinate, yCoordinate);
+		System.out.println("coor: " + position.toString());
 		return getTileAtPosition(position);
 	}
 	
@@ -33,9 +34,13 @@ public class GameMap
 	{
 		int xCoordinate = position.getXPosition();
 		int yCoordinate = position.getYPosition();
-		if (xCoordinate >= 0 || xCoordinate < tiles.length
-				&& yCoordinate >= 0 || yCoordinate < tiles.length) {
-			return tiles[position.getYPosition()][position.getXPosition()];
+		if (yCoordinate >= 0 && yCoordinate <= tiles.length) {
+			if (xCoordinate >= 0 && xCoordinate < tiles[yCoordinate].length) {
+				return tiles[yCoordinate][xCoordinate];
+			}
+			else {
+				return null;
+			}
 		}
 		else {
 			return null;
