@@ -21,7 +21,7 @@ public class Stats
 	
 	public Stats(Stats preExistingStats) {
 		hp = new Stat(preExistingStats.getHp());
-		att = new Stat(preExistingStats.getHp());
+		att = new Stat(preExistingStats.getAtt());
 		spd = new Stat(preExistingStats.getSpd());
 		dex = new Stat(preExistingStats.getDex());
 		def = new Stat(preExistingStats.getDef());

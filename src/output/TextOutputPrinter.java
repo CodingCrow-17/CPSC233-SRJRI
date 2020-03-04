@@ -45,32 +45,32 @@ public class TextOutputPrinter {
 					// On the third line of the tile, print unit hp stat if tile is occupied
 					else if (rowOfText==2 && tiles[rowInBoard][columnInBoard].hasUnit()) 
 					{
-						String unitHp = String.valueOf(tiles[rowInBoard][columnInBoard].getUnit().getStats().getHp());
-						content = "|" + "hp: " + unitHp; 
+						String unitHp = tiles[rowInBoard][columnInBoard].getUnit().currentHpToString();
+						content = "|" + unitHp; 
 						content = padTextWithChar(content, ' ');
 					}
 					
 					else if (rowOfText==3 && tiles[rowInBoard][columnInBoard].hasUnit()) 
 					{
-						String unitAtt = String.valueOf(tiles[rowInBoard][columnInBoard].getUnit().getStats().getAtt());
-						content = "|" + "att: " + unitAtt; 
+						String unitAtt = tiles[rowInBoard][columnInBoard].getUnit().getStats().getAtt().toString();
+						content = "|" + unitAtt; 
 						content = padTextWithChar(content, ' ');
 					}
 					else if (rowOfText==4 && tiles[rowInBoard][columnInBoard].hasUnit()) 
 					{
-						String unitDef = String.valueOf(tiles[rowInBoard][columnInBoard].getUnit().getStats().getDef());
-						content = "|" + "def: " + unitDef; 
+						String unitDef = tiles[rowInBoard][columnInBoard].getUnit().getStats().getDef().toString();
+						content = "|" + unitDef; 
 						content = padTextWithChar(content, ' ');
 					}
 					else if (rowOfText==5 && tiles[rowInBoard][columnInBoard].hasUnit()) 
 					{
-						String unitMov = String.valueOf(tiles[rowInBoard][columnInBoard].getUnit().getStats().getMov());
-						content = "|" + "mov: " + unitMov; 
+						String unitMov = tiles[rowInBoard][columnInBoard].getUnit().getStats().getMov().toString();
+						content = "|" + unitMov; 
 						content = padTextWithChar(content, ' ');
 					}
 					else if (rowOfText==6 && tiles[rowInBoard][columnInBoard].hasUnit()) {
-						String unitOwner = tiles[rowInBoard][columnInBoard].getUnit().getOwner().getType().toString();
-						content = "|" + "own: " + unitOwner;
+						String unitOwner = tiles[rowInBoard][columnInBoard].getUnit().getOwner().toString();
+						content = "|" + unitOwner;
 						content = padTextWithChar(content, ' ');
 					}
 					else if (rowOfText==7 && tiles[rowInBoard][columnInBoard].hasUnit()) {

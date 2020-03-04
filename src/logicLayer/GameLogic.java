@@ -86,27 +86,20 @@ public class GameLogic{
 	}
 	
 	private void calculateMovRange(List<Tile> tileRange, Tile startTile, int movStamina, Direction direction) {
-		System.out.println("Moving from " + startTile.getPos().toString() +" "+direction);
 		if (movStamina == 0) {
-			System.out.println("Done moving");
 		}
 		else {
 			movStamina--;
 			if (direction.equals(Direction.NONE)) {
 				calculateMovRange(tileRange, startTile, movStamina, Direction.UP);
-				System.out.println("done branch " + Direction.UP);
 				calculateMovRange(tileRange, startTile, movStamina, Direction.RIGHT);
-				System.out.println("done branch" + Direction.RIGHT);
 				calculateMovRange(tileRange, startTile, movStamina, Direction.DOWN);
-				System.out.println("done branch" + Direction.DOWN);
 				calculateMovRange(tileRange, startTile, movStamina, Direction.LEFT);
-				System.out.println("done branch" + Direction.LEFT);
 			}
 			if (direction.equals(Direction.RIGHT)) {
 				Tile newTile= gameMap.getTileAtCoordinates(startTile.getPos().getYPosition()+1,
 						startTile.getPos().getXPosition());
 				if (newTile != null) {
-					System.out.print(" to " + newTile.getPos().toString());
 					tileRange.add(newTile);
 					calculateMovRange(tileRange, newTile, movStamina, Direction.UP);
 					calculateMovRange(tileRange, newTile, movStamina, Direction.RIGHT);
@@ -117,7 +110,6 @@ public class GameLogic{
 				Tile newTile= gameMap.getTileAtCoordinates(startTile.getPos().getYPosition(),
 						startTile.getPos().getXPosition()-1);
 				if (newTile != null) {
-					System.out.println(" to " + newTile.getPos().toString());
 					tileRange.add(newTile);
 					calculateMovRange(tileRange, newTile, movStamina, Direction.RIGHT);
 					calculateMovRange(tileRange, newTile, movStamina, Direction.LEFT);
@@ -128,7 +120,6 @@ public class GameLogic{
 				Tile newTile= gameMap.getTileAtCoordinates(startTile.getPos().getYPosition()-1,
 						startTile.getPos().getXPosition());
 				if (newTile != null) {
-					System.out.println(" to " + newTile.getPos().toString());
 					tileRange.add(newTile);
 					calculateMovRange(tileRange, newTile, movStamina, Direction.UP);
 					calculateMovRange(tileRange, newTile, movStamina, Direction.LEFT);
@@ -139,7 +130,6 @@ public class GameLogic{
 				Tile newTile= gameMap.getTileAtCoordinates(startTile.getPos().getYPosition(),
 						startTile.getPos().getXPosition()+1);
 				if (newTile != null) {
-					System.out.println(" to " + newTile.getPos().toString());
 					tileRange.add(newTile);
 					calculateMovRange(tileRange, newTile, movStamina, Direction.RIGHT);
 					calculateMovRange(tileRange, newTile, movStamina, Direction.DOWN);

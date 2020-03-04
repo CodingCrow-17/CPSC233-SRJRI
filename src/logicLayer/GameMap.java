@@ -26,7 +26,6 @@ public class GameMap
 	
 	public Tile getTileAtCoordinates(int xCoordinate, int yCoordinate) {
 		Position position = new Position(xCoordinate, yCoordinate);
-		System.out.println("coor: " + position.toString());
 		return getTileAtPosition(position);
 	}
 	
