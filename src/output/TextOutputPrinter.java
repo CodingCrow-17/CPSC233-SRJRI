@@ -9,63 +9,72 @@ public class TextOutputPrinter {
 	public void printMap(GameMap gameMap)
 	{
 		Tile[][] tiles = gameMap.getTiles();
+		printColumnIndicators(tiles[0]);
 		// Loop through each row
-		for (int a = 0; a<tiles.length; a++) 
+		for (int rowInBoard = 0; rowInBoard<tiles.length; rowInBoard++) 
 		{ 
 			// Loop through the height of a tile; each tile is CELL_HEIGHT spaces tall
-			for (int c = 0; c<CELL_HEIGHT; c++) 
+			for (int rowOfText = 0; rowOfText<CELL_HEIGHT; rowOfText++) 
 			{
+				// Halfway through each row, print the row number
+				if (rowOfText == CELL_HEIGHT / 2) {
+					System.out.print(rowInBoard);
+				}
+				else {
+					System.out.print(" ");
+				}
+				
 				// Loop through each column
-				for (int b = 0; b<tiles[a].length; b++) 
+				for (int columnInBoard = 0; columnInBoard<tiles[rowInBoard].length; columnInBoard++) 
 				{
 					String content = "";
-					if (c==0) 
+					if (rowOfText==0) 
 					{
 						content = "+";
 						content = padTextWithChar(content, '-');
 					}
 					
 					// On the second line of the tile, print unit name if tile is occupied
-					else if(c==1 && tiles[a][b].hasUnit()) 
+					else if(rowOfText==1 && tiles[rowInBoard][columnInBoard].hasUnit()) 
 					{
-						String unitName = tiles[a][b].getUnit().getName();
+						String unitName = tiles[rowInBoard][columnInBoard].getUnit().getName();
 						content = "|" + "name: " + unitName;
 						content = padTextWithChar(content, ' ');
 					}
 					
 					// On the third line of the tile, print unit hp stat if tile is occupied
-					else if (c==2 && tiles[a][b].hasUnit()) 
+					else if (rowOfText==2 && tiles[rowInBoard][columnInBoard].hasUnit()) 
 					{
-						String unitHp = String.valueOf(tiles[a][b].getUnit().getStats().getHp());
-						content = "|" + "hp: " + unitHp; 
+						String unitHp = tiles[rowInBoard][columnInBoard].getUnit().currentHpToString();
+						content = "|" + unitHp; 
 						content = padTextWithChar(content, ' ');
 					}
 					
-					else if (c==3 && tiles[a][b].hasUnit()) 
+					else if (rowOfText==3 && tiles[rowInBoard][columnInBoard].hasUnit()) 
 					{
-						String unitAtt = String.valueOf(tiles[a][b].getUnit().getStats().getAtt());
-						content = "|" + "att: " + unitAtt; 
+						String unitAtt = tiles[rowInBoard][columnInBoard].getUnit().getStats().getAtt().toString();
+						content = "|" + unitAtt; 
 						content = padTextWithChar(content, ' ');
 					}
-					else if (c==4 && tiles[a][b].hasUnit()) 
+					else if (rowOfText==4 && tiles[rowInBoard][columnInBoard].hasUnit()) 
 					{
-						String unitDef = String.valueOf(tiles[a][b].getUnit().getStats().getDef());
-						content = "|" + "def: " + unitDef; 
+						String unitDef = tiles[rowInBoard][columnInBoard].getUnit().getStats().getDef().toString();
+						content = "|" + unitDef; 
 						content = padTextWithChar(content, ' ');
 					}
-					else if (c==5 && tiles[a][b].hasUnit()) 
+					else if (rowOfText==5 && tiles[rowInBoard][columnInBoard].hasUnit()) 
 					{
-						String unitMov = String.valueOf(tiles[a][b].getUnit().getStats().getMov());
-						content = "|" + "mov: " + unitMov; 
+						String unitMov = tiles[rowInBoard][columnInBoard].getUnit().getStats().getMov().toString();
+						content = "|" + unitMov; 
 						content = padTextWithChar(content, ' ');
 					}
-					else if (c==6 && tiles[a][b].hasUnit()) {
-						String unitOwner = tiles[a][b].getUnit().getOwner().getType().toString();
-						content = "|" + "own: " + unitOwner;
+					else if (rowOfText==6 && tiles[rowInBoard][columnInBoard].hasUnit()) {
+						String unitOwner = tiles[rowInBoard][columnInBoard].getUnit().getOwner().toString();
+						content = "|" + unitOwner;
 						content = padTextWithChar(content, ' ');
 					}
-					else if (c==7 && tiles[a][b].hasUnit()) {
-						if (tiles[a][b].getUnit().getHasMoved() == false)
+					else if (rowOfText==7 && tiles[rowInBoard][columnInBoard].hasUnit()) {
+						if (tiles[rowInBoard][columnInBoard].getUnit().getHasMoved() == false)
 						{
 							content = "|" + "READY";
 						}
@@ -96,6 +105,20 @@ public class TextOutputPrinter {
 			text = text + character;
 		}
 		return text;
+	}
+	
+	private void printColumnIndicators(Tile[] columnList) {
+		String content = " ";
+		for (int column = 0; column < columnList.length; column++) {
+			String indicator = "";
+			for (int spaces = 0; spaces < CELL_WIDTH/2; spaces++) {
+				indicator = indicator + " ";
+			}
+			indicator = indicator + column;
+			indicator = padTextWithChar(indicator, ' ');
+			content = content + indicator;
+		}
+		System.out.println(content);
 	}
 	
 }

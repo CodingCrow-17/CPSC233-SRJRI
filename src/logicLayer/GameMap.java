@@ -33,9 +33,15 @@ public class GameMap
 	{
 		int xCoordinate = position.getXPosition();
 		int yCoordinate = position.getYPosition();
-		if (xCoordinate >= 0 || xCoordinate < tiles.length
-				&& yCoordinate >= 0 || yCoordinate < tiles.length) {
-			return tiles[position.getYPosition()][position.getXPosition()];
+		if (yCoordinate >= 0 && yCoordinate < tiles.length) {
+			if (xCoordinate >= 0 && xCoordinate < tiles[0].length) {
+				Tile[] row = tiles[yCoordinate];
+				
+				return row[xCoordinate];
+			}
+			else {
+				return null;
+			}
 		}
 		else {
 			return null;

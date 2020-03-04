@@ -2,55 +2,54 @@ package logicLayer;
 
 public class Stats
 {
-	private int hp;
-	private int def;
-	private int mov;
-	private int att;
+	private Stat hp;
+	private Stat att;
+	private Stat spd;
+	private Stat dex;
+	private Stat def;
+	private Stat mov;
+
 	
-	public Stats(int hp, int att, int def, int mov) {
+	public Stats(Stat hp, Stat att, Stat spd, Stat dex, Stat def, Stat mov) {
 		this.hp = hp;
+		this.att  = att;
+		this.spd = spd;
+		this.dex = dex;
 		this.def = def;
 		this.mov = mov;
-		this.att = att;
 	}
 	
 	public Stats(Stats preExistingStats) {
-		setHp(preExistingStats.getHp());
-		setDef(preExistingStats.getDef());
-		setAtt(preExistingStats.getAtt());
-		setMov(preExistingStats.getMov());
+		hp = new Stat(preExistingStats.getHp());
+		att = new Stat(preExistingStats.getAtt());
+		spd = new Stat(preExistingStats.getSpd());
+		dex = new Stat(preExistingStats.getDex());
+		def = new Stat(preExistingStats.getDef());
+		mov = new Stat(preExistingStats.getMov());
 	}
 	
-	public int getHp()
-	{
-		return hp;
-	}
-	public int getDef()
+	public Stat getSpd()
 	{
 		return def;
 	}
-	public int getAtt()
+	public Stat getDex()
 	{
 		return att;
 	}
-	public int getMov()
+	public Stat getHp()
+	{
+		return hp;
+	}
+	public Stat getDef()
+	{
+		return def;
+	}
+	public Stat getAtt()
+	{
+		return att;
+	}
+	public Stat getMov()
 	{
 		return mov;
-	}
-	public void setHp(int newHp)
-	{
-		hp=newHp;
-	}
-	public void setDef(int newDef)
-	{
-		def=newDef;
-	}
-	public void setAtt(int newAtt)
-	{
-		att=newAtt;
-	}
-	public void setMov(int newMov)
-	{
-		mov=newMov;
 	}
 }
