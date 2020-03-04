@@ -34,9 +34,11 @@ public class GameMap
 	{
 		int xCoordinate = position.getXPosition();
 		int yCoordinate = position.getYPosition();
-		if (yCoordinate >= 0 && yCoordinate <= tiles.length) {
-			if (xCoordinate >= 0 && xCoordinate < tiles[yCoordinate].length) {
-				return tiles[yCoordinate][xCoordinate];
+		if (yCoordinate >= 0 && yCoordinate < tiles.length) {
+			if (xCoordinate >= 0 && xCoordinate < tiles[0].length) {
+				Tile[] row = tiles[yCoordinate];
+				
+				return row[xCoordinate];
 			}
 			else {
 				return null;

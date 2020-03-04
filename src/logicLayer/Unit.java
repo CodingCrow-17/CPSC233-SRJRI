@@ -59,7 +59,7 @@ public class Unit
 	
 	public void moveTo(Tile finalTile)
 	{
-		this.tile = tile;
+		this.tile = finalTile;
 		hasMoved = true;
 	}
 	

@@ -103,8 +103,8 @@ public class GameLogic{
 				System.out.println("done branch" + Direction.LEFT);
 			}
 			if (direction.equals(Direction.RIGHT)) {
-				Tile newTile= gameMap.getTileAtCoordinates(startTile.getPos().getXPosition()+1,
-						startTile.getPos().getYPosition());
+				Tile newTile= gameMap.getTileAtCoordinates(startTile.getPos().getYPosition()+1,
+						startTile.getPos().getXPosition());
 				if (newTile != null) {
 					System.out.print(" to " + newTile.getPos().toString());
 					tileRange.add(newTile);
@@ -114,8 +114,8 @@ public class GameLogic{
 				}
 			}
 			if (direction.equals(Direction.UP)) {
-				Tile newTile= gameMap.getTileAtCoordinates(startTile.getPos().getXPosition(),
-						startTile.getPos().getYPosition()-1);
+				Tile newTile= gameMap.getTileAtCoordinates(startTile.getPos().getYPosition(),
+						startTile.getPos().getXPosition()-1);
 				if (newTile != null) {
 					System.out.println(" to " + newTile.getPos().toString());
 					tileRange.add(newTile);
@@ -125,8 +125,8 @@ public class GameLogic{
 				}
 			}
 			if (direction.equals(Direction.LEFT)) {
-				Tile newTile= gameMap.getTileAtCoordinates(startTile.getPos().getXPosition()-1,
-						startTile.getPos().getYPosition());
+				Tile newTile= gameMap.getTileAtCoordinates(startTile.getPos().getYPosition()-1,
+						startTile.getPos().getXPosition());
 				if (newTile != null) {
 					System.out.println(" to " + newTile.getPos().toString());
 					tileRange.add(newTile);
@@ -136,8 +136,8 @@ public class GameLogic{
 				}
 			}
 			if (direction.equals(Direction.DOWN)) {
-				Tile newTile= gameMap.getTileAtCoordinates(startTile.getPos().getXPosition(),
-						startTile.getPos().getYPosition()+1);
+				Tile newTile= gameMap.getTileAtCoordinates(startTile.getPos().getYPosition(),
+						startTile.getPos().getXPosition()+1);
 				if (newTile != null) {
 					System.out.println(" to " + newTile.getPos().toString());
 					tileRange.add(newTile);
