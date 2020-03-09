@@ -4,7 +4,7 @@ public class BattleForecast {
 	private Unit userUnit;
 	private Unit enemyUnit;
 	
-	private int[] forecastData;
+	private int[] forecastData = new int[6];
 	
 	public BattleForecast(Unit aUserUnit, Unit aEnemyUnit) {
 		this.userUnit = aUserUnit;
@@ -17,15 +17,9 @@ public class BattleForecast {
 	public Unit getEnemyUnit() {
 		return new Unit(this.enemyUnit);
 	}
-	public int[] getForecastData() {
-		int[] newFD = {};
-		for (int i = 0; i < this.forecastData.length; i++) {
-			newFD[i] = this.forecastData[i];
-		}
-		return newFD;
-	}
 	
-	public int[] calculateForecast() {
+	
+	public int[] getForecastData() {
 		Tile userTile = this.userUnit.getTile();
 		Tile enemyTile = this.enemyUnit.getTile();
 		

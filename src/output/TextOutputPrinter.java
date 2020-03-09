@@ -103,14 +103,14 @@ public class TextOutputPrinter {
 	public void printBattleForecast(BattleForecast bf) {
 		int[] fd = bf.getForecastData();
 		System.out.println(bf.getUserUnit().getName() + ":");
-		System.out.print("Atk: " + fd[0]);
-		System.out.print("Hit: " + fd[2]);
+		System.out.println("Atk: " + fd[0]);
+		System.out.println("Hit: " + fd[2]);
 		System.out.println("Crit: " + fd[4]);
 		System.out.println("");
 		
 		System.out.println(bf.getEnemyUnit().getName() + ":");
-		System.out.print("Atk: " + fd[1]);
-		System.out.print("Hit: " + fd[3]);
+		System.out.println("Atk: " + fd[1]);
+		System.out.println("Hit: " + fd[3]);
 		System.out.println("Crit: " + fd[5]);
 	}
 	
