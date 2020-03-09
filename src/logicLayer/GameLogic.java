@@ -65,56 +65,6 @@ public class GameLogic{
 	public void removeUnit() {
 		//TODO
 	}
-
-	public void forecastCombat(Position unitPosition, Position enemyPosition) {
-		Tile userTile = gameMap.getTileAtPosition(unitPosition);
-		Tile enemyTile = gameMap.getTileAtPosition(enemyPosition);
-		
-		Unit userUnit = userTile.getUnit();
-		Unit enemyUnit = enemyTile.getUnit();
-		
-		int attForecastDamage = 0;
-		int defForecastDamage = 0;
-		
-		int attForecastPercent = 0;
-		int defForecastPercent = 0;
-		
-		int attCritPercent = 0;
-		int defCritPercent = 0;
-		
-		if (checkIfUnitIsOnTile(userTile) &&
-			checkIfUnitIsOnTile(enemyTile)) {
-			attForecastDamage = calculateDamage(userUnit, enemyUnit);
-			defForecastDamage = calculateDamage(enemyUnit, userUnit);
-			
-			attForecastPercent = calculateHitPercent(userUnit, enemyUnit);
-			defForecastPercent = calculateHitPercent(enemyUnit, userUnit);
-		}
-		
-		//TODO Forecast Output (Text, JavaFX)
-	}
-	
-	private int calculateDamage(Unit attUnit, Unit defUnit) {
-		int oneHit = attUnit.getStats().getAtt().getCurrentValue() - defUnit.getStats().getDef().getCurrentValue();
-		return oneHit;
-	}
-	
-	private int calculateHitPercent(Unit attUnit, Unit defUnit) {
-		double GLOBALHITMULTIPLIER = 1.2;
-		int hitRate = (int) (100 * (attUnit.getStats().getDex().getCurrentValue()) / 
-							(GLOBALHITMULTIPLIER * defUnit.getStats().getSpd().getCurrentValue()));
-		if (hitRate > 100) {
-			hitRate = 100;
-		}
-		return hitRate;
-	}
-	
-	private boolean doubleHit(Unit attUnit, Unit defUnit) {
-		if (attUnit.getStats().getSpd().getCurrentValue() >= 5 + defUnit.getStats().getSpd().getCurrentValue()) {
-			return true;
-		}
-		return false;
-	}
 	
 	
 	private boolean checkIfUnitIsOnTile(Tile tile) {
