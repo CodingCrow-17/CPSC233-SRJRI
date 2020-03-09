@@ -90,10 +90,13 @@ public class GameLogic{
 			attForecastPercent = calculateHitPercent(userUnit, enemyUnit);
 			defForecastPercent = calculateHitPercent(enemyUnit, userUnit);
 		}
+		
+		//TODO Forecast Output (Text, JavaFX)
 	}
 	
 	private int calculateDamage(Unit attUnit, Unit defUnit) {
-		return attUnit.getStats().getAtt().getCurrentValue() - defUnit.getStats().getDef().getCurrentValue();
+		int oneHit = attUnit.getStats().getAtt().getCurrentValue() - defUnit.getStats().getDef().getCurrentValue();
+		return oneHit;
 	}
 	
 	private int calculateHitPercent(Unit attUnit, Unit defUnit) {
@@ -104,6 +107,13 @@ public class GameLogic{
 			hitRate = 100;
 		}
 		return hitRate;
+	}
+	
+	private boolean doubleHit(Unit attUnit, Unit defUnit) {
+		if (attUnit.getStats().getSpd().getCurrentValue() >= 5 + defUnit.getStats().getSpd().getCurrentValue()) {
+			return true;
+		}
+		return false;
 	}
 	
 	

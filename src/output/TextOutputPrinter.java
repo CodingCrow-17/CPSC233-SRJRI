@@ -1,7 +1,7 @@
 package output;
 import logicLayer.GameMap; // import GameMap
-
 import logicLayer.Tile; //import Tile
+import logicLayer.BattleForecast; //import BattleForecast
 public class TextOutputPrinter {
 	
 	final int CELL_WIDTH = 15;	
@@ -100,6 +100,20 @@ public class TextOutputPrinter {
 		System.out.println("It is the "+ currentOwner + " turn!");
 	}
 	
+	public void printBattleForecast(BattleForecast bf) {
+		int[] fd = bf.getForecastData();
+		System.out.println(bf.getUserUnit().getName() + ":");
+		System.out.print("Atk: " + fd[0]);
+		System.out.print("Hit: " + fd[2]);
+		System.out.println("Crit: " + fd[4]);
+		System.out.println("");
+		
+		System.out.println(bf.getEnemyUnit().getName() + ":");
+		System.out.print("Atk: " + fd[1]);
+		System.out.print("Hit: " + fd[3]);
+		System.out.println("Crit: " + fd[5]);
+	}
+	
 	private String padTextWithChar(String text, char character) {
 		for (int i = text.length(); i< CELL_WIDTH; i++) {
 			text = text + character;
@@ -120,5 +134,6 @@ public class TextOutputPrinter {
 		}
 		System.out.println(content);
 	}
+
 	
 }
