@@ -3,13 +3,33 @@ package logicLayer;
 public class BattleForecast {
 	private Unit userUnit;
 	private Unit enemyUnit;
+	private int attForecastDamage;
+	private int defForecastDamage;
+	private int attForecastPercent;
+	private int defForecastPercent;
+	private int attCritPercent;
+	private int defCritPercent;
 	
-	//This will contain attack amounts, hit percentages, and crit percentages
-	private int[] forecastData = new int[6];
 	
 	public BattleForecast(Unit aUserUnit, Unit aEnemyUnit) {
-		this.userUnit = aUserUnit;
-		this.enemyUnit = aEnemyUnit;
+		setUserUnit(aUserUnit);
+		setEnemyUnit(aEnemyUnit);
+		this.attForecastDamage = calculateDamage(userUnit,enemyUnit);
+		this.defForecastDamage = calculateDamage(enemyUnit,userUnit);
+		this.attForecastPercent = calculateHitPercent(userUnit,enemyUnit);
+		this.defForecastPercent = calculateHitPercent(enemyUnit,userUnit);
+		this.attCritPercent = calculateCritPercent(userUnit,enemyUnit);
+		this.defCritPercent = calculateCritPercent(enemyUnit,userUnit);
+	}
+	public BattleForecast(BattleForecast aBattleForecast) {
+		setUserUnit(aBattleForecast.getUserUnit());
+		setEnemyUnit(aBattleForecast.getEnemyUnit());
+		this.attForecastDamage = aBattleForecast.getAttForecastDamage();
+		this.defForecastDamage = aBattleForecast.getDefForecastDamage();
+		this.attForecastPercent = aBattleForecast.getAttForecastPercent();
+		this.defForecastPercent = aBattleForecast.getDefForecastPercent();
+		this.attCritPercent = aBattleForecast.getAttCritPercent();
+		this.defCritPercent = aBattleForecast.getDefCritPercent();
 	}
 	
 	public Unit getUserUnit() {
@@ -18,34 +38,30 @@ public class BattleForecast {
 	public Unit getEnemyUnit() {
 		return new Unit(this.enemyUnit);
 	}
+	public void setUserUnit(Unit aUnit) {
+		this.userUnit = new Unit(aUnit);
+	}
+	public void setEnemyUnit(Unit aUnit) {
+		this.enemyUnit = new Unit(aUnit);
+	}
 	
-	
-	public int[] getForecastData() {
-		Tile userTile = this.userUnit.getTile();
-		Tile enemyTile = this.enemyUnit.getTile();
-		
-		Unit userUnit = userTile.getUnit();
-		Unit enemyUnit = enemyTile.getUnit();
-		
-		if (userTile.hasUnit() &&
-			enemyTile.hasUnit()) {
-			int attForecastDamage = calculateDamage(userUnit, enemyUnit);
-			int defForecastDamage = calculateDamage(enemyUnit, userUnit);
-			
-			int attForecastPercent = calculateHitPercent(userUnit, enemyUnit);
-			int defForecastPercent = calculateHitPercent(enemyUnit, userUnit);
-			
-			int attCritPercent = calculateCritPercent(userUnit, enemyUnit);
-			int defCritPercent = calculateCritPercent(userUnit, enemyUnit);
-			
-			forecastData[0] = attForecastDamage;
-			forecastData[1] = defForecastDamage;
-			forecastData[2] = attForecastPercent;
-			forecastData[3] = defForecastPercent;
-			forecastData[4] = attCritPercent;
-			forecastData[5] = defCritPercent;
-		}
-		return forecastData;
+	public int getAttForecastDamage() {
+		return this.attForecastDamage;
+	}
+	public int getDefForecastDamage() {
+		return this.defForecastDamage;
+	}
+	public int getAttForecastPercent() {
+		return this.attForecastPercent;
+	}
+	public int getDefForecastPercent() {
+		return this.defForecastPercent;
+	}
+	public int getAttCritPercent() {
+		return this.attCritPercent;
+	}
+	public int getDefCritPercent() {
+		return this.defCritPercent;
 	}
 	
 	private int calculateDamage(Unit attUnit, Unit defUnit) {
