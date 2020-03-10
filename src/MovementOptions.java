@@ -1,10 +1,12 @@
 import java.util.Scanner;
 
-public class MovementOptions {
+public class MovementOptions{
 	String options;
 	private static Scanner in;
-	public void lmao() {
-		String line;
+	public MovementOptions(String decisions) {
+		setPlayerDecisions(decisions);
+	}
+	public void setPlayerDecisions(String line) {
 	    in = new Scanner(System.in);
 
 	    System.out.print("Select a move. A for Attack, D for defense, F for flee: ");
@@ -18,6 +20,9 @@ public class MovementOptions {
 	    if(line == "F") {
 	    	this.options = "flee";
 	    }
+	}
+	public Object getPlayerDecisions() {
+		return this.options;
 	}
 
 }

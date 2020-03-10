@@ -69,19 +69,13 @@ public class TextInputReciever implements InputReciever{
        		}
        	}
 
-       	movement2 = stringCheck2;
-        int newMovement2 = Integer.parseInt(movement2);
-        newUserPositionY2 = newUserPositionY1 + newMovement2;  
-       	
-       	System.out.println("Trying to move from ");
-       	System.out.println(newUserPositionX1+ "," + newUserPositionY1 +" to ");
-        System.out.println(newUserPositionX2+ "," + newUserPositionY2);
         	
-       	final int [] ValidMenu = {newUserPositionX1, newUserPositionY1,newUserPositionX2 ,newUserPositionY2};
+       	final int [] ValidMenu = {newUserPositionX1, newUserPositionY1};
        	this.Positions = ValidMenu;
 
         return this.Positions;
 	}
+	
 	
 	public void close() {
 		if (in != null) {

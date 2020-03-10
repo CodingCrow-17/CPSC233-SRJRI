@@ -1,10 +1,10 @@
 package inputLayer;
 import java.util.Scanner;
 
-public class MovementOptions {
+public class MovementOptions{
 	String options;
 	private static Scanner in;
-	public void lmao() {
+	public String setOptions() {
 		String line;
 	    in = new Scanner(System.in);
 
@@ -19,6 +19,6 @@ public class MovementOptions {
 	    if(line == "F") {
 	    	this.options = "flee";
 	    }
+return this.options;
 	}
-
 }
