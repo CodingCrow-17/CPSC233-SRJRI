@@ -2,7 +2,8 @@ package output;
 import logicLayer.GameMap; // import GameMap
 import logicLayer.Tile; //import Tile
 import logicLayer.BattleForecast; //import BattleForecast
-public class TextOutputPrinter {
+
+public class TextOutputPrinter implements Output {
 	
 	final int CELL_WIDTH = 15;	
 	final int CELL_HEIGHT = 8;
