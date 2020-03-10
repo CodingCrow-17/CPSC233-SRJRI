@@ -30,11 +30,11 @@ public class Stats
 	
 	public Stat getSpd()
 	{
-		return def;
+		return spd;
 	}
 	public Stat getDex()
 	{
-		return att;
+		return dex;
 	}
 	public Stat getHp()
 	{
