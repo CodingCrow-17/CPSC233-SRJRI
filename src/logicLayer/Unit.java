@@ -27,10 +27,24 @@ public class Unit
 		this.tile = tile; //should share reference?
 	}
 	
+
+
+	public String getName()
+	{
+		return name;
+	}
+	
+	
+	public void moveTo(Position pos) {
+		
+	}
+
+
 	public int getCurrentHp() {
 		return currentHp;
 	}
 	
+
 	public Stats getStats() {
 		return stats;
 	}
@@ -47,10 +61,6 @@ public class Unit
 		hasMoved = false;
 	}
 	
-	public String getName()
-	{
-		return name;
-	}
 	
 	public String currentHpToString() {
 		String stringVal = stats.getHp().getStatType() + ": " + currentHp + "/" + stats.getHp().getCurrentValue();
