@@ -4,6 +4,7 @@ public class BattleForecast {
 	private Unit userUnit;
 	private Unit enemyUnit;
 	
+	//This will contain attack amounts, hit percentages, and crit percentages
 	private int[] forecastData = new int[6];
 	
 	public BattleForecast(Unit aUserUnit, Unit aEnemyUnit) {
@@ -64,5 +65,11 @@ public class BattleForecast {
 		
 	private int calculateCritPercent(Unit attUnit, Unit defUnit) {
 		return 0;
+	}
+	public boolean willHitTwice(Unit attUnit, Unit defUnit) {
+		if (attUnit.getStats().getSpd().getCurrentValue() >= 5 + defUnit.getStats().getSpd().getCurrentValue()) {
+			return true;
+		}
+		return false;
 	}
 }
