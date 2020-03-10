@@ -65,10 +65,7 @@ public class GameLogic{
 	public void removeUnit() {
 		//TODO
 	}
-
-	public void forecastCombat(Position unitPosition, Position enemyPosition) {
-		//TODO
-	}
+	
 	
 	private boolean checkIfUnitIsOnTile(Tile tile) {
 		return tile.hasUnit();
