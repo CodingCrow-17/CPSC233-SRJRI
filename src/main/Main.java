@@ -3,13 +3,25 @@ package main;
 import java.util.ArrayList;
 import java.util.List;
 import inputLayer.*;
-
+import javafx.stage.Stage;
 import logicLayer.*;
 import output.Displayable;
 import output.UnitDisplayable;
+import userInterface.GraphicalInterface;
 
 public class Main {
 	public static void main(String[] args) {
+		
+		
+//		GraphicalInterface gui = new GraphicalInterface();
+//		try {
+//			gui.begin();
+//		} catch (Exception e) {
+//			System.out.println("A strange error occured while attempting to boot up the GUI!");
+//			e.printStackTrace();
+//		}
+		
+		
 		GameMap gameMap = initializeGameMap();
 		InputReciever input = new TextInputReciever();
 		Coordinator coordinator = new Coordinator(gameMap,input);
