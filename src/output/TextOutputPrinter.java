@@ -1,8 +1,9 @@
 package output;
 import logicLayer.GameMap; // import GameMap
-
 import logicLayer.Tile; //import Tile
-public class TextOutputPrinter {
+import logicLayer.BattleForecast; //import BattleForecast
+
+public class TextOutputPrinter implements Output {
 	
 	final int CELL_WIDTH = 15;	
 	final int CELL_HEIGHT = 8;
@@ -100,6 +101,29 @@ public class TextOutputPrinter {
 		System.out.println("It is the "+ currentOwner + " turn!");
 	}
 	
+	public void printBattleForecast(BattleForecast bf) {
+		System.out.println(bf.getUserUnit().getName() + ":");
+		if (bf.willHitTwice(bf.getUserUnit(), bf.getEnemyUnit())) {
+			System.out.println("Atk: " + bf.getAttForecastDamage() + " x2");
+		}
+		else {
+			System.out.println("Atk: " + bf.getAttForecastDamage());
+		}
+		System.out.println("Hit: " + bf.getAttForecastPercent());
+		System.out.println("Crit: " + bf.getAttCritPercent());
+		System.out.println("");
+		
+		System.out.println(bf.getEnemyUnit().getName() + ":");
+		if (bf.willHitTwice(bf.getEnemyUnit(), bf.getUserUnit())) {
+			System.out.println("Atk: " + bf.getDefForecastDamage() + " x2");
+		}
+		else {
+			System.out.println("Atk: " + bf.getDefForecastDamage());
+		}
+		System.out.println("Hit: " + bf.getDefForecastPercent());
+		System.out.println("Crit: " + bf.getDefCritPercent());
+	}
+	
 	private String padTextWithChar(String text, char character) {
 		for (int i = text.length(); i< CELL_WIDTH; i++) {
 			text = text + character;
@@ -120,5 +144,6 @@ public class TextOutputPrinter {
 		}
 		System.out.println(content);
 	}
+
 	
 }
