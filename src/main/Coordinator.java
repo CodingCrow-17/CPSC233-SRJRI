@@ -4,7 +4,6 @@ import logicLayer.GameMap;
 import logicLayer.Position;
 import inputLayer.InputReciever;
 import output.Output;
-import output.TextOutputPrinter;
 
 public class Coordinator {
 	
@@ -22,10 +21,11 @@ public class Coordinator {
 	
 	public void startGameLoop() {
 		input.printStartingMessage();
-		for (int i = 0; i<99; i++) {
+		for (int i = 0; i<1; i++) {
 			//player turn
 			output.printCurrentTurnOwner(String.valueOf(logic.getCurrentOwner().getType()));
 			output.printMap(gameMap);
+			System.out.println("printed map!");
 			while(true) {
 				int[] instructions = input.getInstruction();
 				if (instructions != null) {
@@ -50,6 +50,7 @@ public class Coordinator {
 	}
 	
 	private void performMoveToCommand(int[] positionArray){
+		
 		Position initialPosition = new Position(positionArray[0], positionArray[1]);
 		Position finalPosition = new Position(positionArray[2], positionArray[3]);
 		logic.moveTo(initialPosition, finalPosition);

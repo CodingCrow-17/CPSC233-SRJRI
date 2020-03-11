@@ -1,10 +1,12 @@
 package userInterface;
 
-
 import inputLayer.InputReciever;
+import inputLayer.TextInputReciever;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -12,82 +14,45 @@ import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import logicLayer.GameMap;
+import logicLayer.OwnerType;
 import logicLayer.Tile;
+import main.Coordinator;
+import main.StartUpClass;
 import output.Output;
 
-public class GraphicalInterface extends Application implements Output, InputReciever{
+public class GraphicalInterface extends Application{
 	
 	
 	private VBox root = new VBox();
-	private Group grid = new Group();
-	
-	
+	private Grid grid;
+	private Scene scene;
 
-	
 	public void begin() {
-		System.out.println("begin gui");
-		launch();
+		this.launch();
 	}
 	
 	@Override
 	public void start(Stage primaryStage) throws Exception {
+		System.out.println("start");
+		GameMap map = StartUpClass.initializeGameMap();
+		Coordinator coordinator = new Coordinator(map, null, null);
+		
 		root = new VBox();
-		Scene scene = new Scene(root);
-		primaryStage.setScene(scene);
+		root.setPrefHeight(400);
+		root.setPrefWidth(400);
 		
+		Label label = new Label("Game: SRJRI");
 		
-		Label label = new Label("hello world");
+		grid = new Grid(map.getTiles(), 200, 200);
+		
 		root.getChildren().add(label);
 		root.getChildren().add(grid);
-		
-
+		scene = new Scene(root);
+		scene.setOnKeyTyped(new HandleKeyPresses(grid, coordinator));
+		primaryStage.setScene(scene);
 		
 		primaryStage.show();
-		
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public int[] getInstruction() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void printStartingMessage() {
-		// TODO Auto-generated method stub
+		TextInputReciever input = new TextInputReciever();
 		
 	}
-
-	@Override
-	public void close() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void printMap(GameMap gameMap) {
-		
-		Tile[][] tileMap = gameMap.getTiles();
-		for (int i = 0; i < tileMap.length; i++) {
-			for (int j = 0; j < tileMap[i].length; j++) {
-				int xCoordinate = 20*i;
-				int yCoordinate = 20*j;
-				Rectangle rectangle = new Rectangle(xCoordinate,yCoordinate, 20,20);
-				rectangle.setFill(Color.STEELBLUE);
-				rectangle.setStroke(Color.BLANCHEDALMOND);
-				grid.getChildren().add(rectangle);
-			}
-		}
-	}
-
-	@Override
-	public void printCurrentTurnOwner(String currentOwner) {
-		// TODO Auto-generated method stub
-		
-	}
-	
-	
-	
 }

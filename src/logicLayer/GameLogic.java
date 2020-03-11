@@ -32,6 +32,7 @@ public class GameLogic{
 								finalTile.setUnit(unit);
 								startTile.setUnit(null);
 								unit.moveTo(finalTile);
+								System.out.println("Succesfully moved unit!");
 							}
 							else {
 								System.out.println("Out of move range!");
