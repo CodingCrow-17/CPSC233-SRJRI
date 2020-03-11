@@ -6,26 +6,39 @@ import inputLayer.*;
 import javafx.stage.Stage;
 import logicLayer.*;
 import output.Displayable;
+import output.TextOutputPrinter;
 import output.UnitDisplayable;
 import userInterface.GraphicalInterface;
 
 public class Main {
 	public static void main(String[] args) {
+		System.out.println("begin main");
 		
+		GameMap gameMap = initializeGameMap();
 		
-//		GraphicalInterface gui = new GraphicalInterface();
+		GraphicalInterface gui = new GraphicalInterface();
+		
+		InputReciever input = new TextInputReciever();
+		TextOutputPrinter output =  new TextOutputPrinter();
+		
+		Runnable coordinate = () -> {
+			Coordinator coordinator = new Coordinator(gameMap,input,output);
+			coordinator.startGameLoop();
+		};
+		
+		Thread coordinateThread = new Thread(coordinate, "coordinator");
+		coordinateThread.start();
+		
 //		try {
 //			gui.begin();
 //		} catch (Exception e) {
 //			System.out.println("A strange error occured while attempting to boot up the GUI!");
 //			e.printStackTrace();
 //		}
-		
-		
-		GameMap gameMap = initializeGameMap();
-		InputReciever input = new TextInputReciever();
-		Coordinator coordinator = new Coordinator(gameMap,input);
-		coordinator.startGameLoop();
+
+//
+//		Coordinator coordinator = new Coordinator(gameMap,input,output);
+//		coordinator.startGameLoop();
 	}
 	
 	private static GameMap initializeGameMap() {
@@ -83,7 +96,7 @@ public class Main {
 		
 		Stats unitCStats = new Stats(unitCHp, unitCAtt,unitCSpd,unitCDex,unitCDef,unitCMov); //hp, att, spd, dex,def, mov
 		Tile unitCTile = gameMap.getTileAtCoordinates(4, 2);
-		Unit unitC = new Unit("Lewis", unitCStats, enemy, unitCTile,unitTextDisplayable);
+		Unit unitC = new Unit("Rogue", unitCStats, enemy, unitCTile,unitTextDisplayable);
 		unitCTile.setUnit(unitC);
 		
 		player.addUnit(unitA);

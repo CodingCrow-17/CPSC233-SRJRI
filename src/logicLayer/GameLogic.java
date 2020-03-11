@@ -78,7 +78,6 @@ public class GameLogic{
 		int movStamina = unit.getStats().getMov().getCurrentValue()+1;
 		tileRange.add(startTile);
 		calculateMovRange(tileRange, startTile, movStamina, direction);
-		System.out.println();
 		return tileRange;
 	}
 	

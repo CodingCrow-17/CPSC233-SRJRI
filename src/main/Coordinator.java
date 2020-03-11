@@ -3,39 +3,43 @@ import logicLayer.GameLogic;
 import logicLayer.GameMap;
 import logicLayer.Position;
 import inputLayer.InputReciever;
+import output.Output;
 import output.TextOutputPrinter;
 
 public class Coordinator {
 	
 	private GameMap gameMap;
 	private InputReciever input;
-	private TextOutputPrinter textOutput = new TextOutputPrinter();
+	private Output output;
 	private GameLogic logic;
 	
-	public Coordinator(GameMap gameMap, InputReciever inputReceiver) {
+	public Coordinator(GameMap gameMap, InputReciever inputReceiver, Output output) {
 		this.gameMap = gameMap;
 		this.input = inputReceiver;
 		this.logic = new GameLogic(gameMap);
+		this.output = output;
 	}
 	
 	public void startGameLoop() {
 		input.printStartingMessage();
 		for (int i = 0; i<99; i++) {
 			//player turn
-			textOutput.printCurrentTurnOwner(String.valueOf(logic.getCurrentOwner().getType()));
-			textOutput.printMap(gameMap);
+			output.printCurrentTurnOwner(String.valueOf(logic.getCurrentOwner().getType()));
+			output.printMap(gameMap);
 			while(true) {
 				int[] instructions = input.getInstruction();
-				performMoveToCommand(instructions);
-				if (checkIfPlayerTurnIsOver() == true){
-					break;
+				if (instructions != null) {
+					performMoveToCommand(instructions);
+					if (checkIfPlayerTurnIsOver() == true){
+						break;
+					}
+					output.printMap(gameMap);
 				}
-				textOutput.printMap(gameMap);
 			}
 			logic.switchOwner();
 			//enemy turn
-			textOutput.printCurrentTurnOwner(String.valueOf(logic.getCurrentOwner().getType()));
-			textOutput.printMap(gameMap);
+			output.printCurrentTurnOwner(String.valueOf(logic.getCurrentOwner().getType()));
+			output.printMap(gameMap);
 			while (true) {
 				//TODO create enemy logic to go here
 				break;
