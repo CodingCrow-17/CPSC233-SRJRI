@@ -12,4 +12,12 @@ public class Instructions {
 		this.type = type;
 	}
 	
+	public InstructionType getType() {
+		return this.type;
+	}
+	
+	public Position getPosition() {
+		return this.position;
+	}
+	
 }
