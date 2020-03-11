@@ -1,8 +1,9 @@
 package output;
 import logicLayer.GameMap; // import GameMap
-
 import logicLayer.Tile; //import Tile
-public class TextOutputPrinter {
+import logicLayer.BattleForecast; //import BattleForecast
+
+public class TextOutputPrinter implements Output {
 	
 	final int CELL_WIDTH = 15;	
 	final int CELL_HEIGHT = 8;
@@ -100,6 +101,30 @@ public class TextOutputPrinter {
 		System.out.println("It is the "+ currentOwner + " turn!");
 	}
 	
+	public void printBattleForecast(BattleForecast bf) {
+		int[] fd = bf.getForecastData();
+		System.out.println(bf.getUserUnit().getName() + ":");
+		if (bf.willHitTwice(bf.getUserUnit(), bf.getEnemyUnit())) {
+			System.out.println("Atk: " + fd[0] + " x2");
+		}
+		else {
+			System.out.println("Atk: " + fd[0]);
+		}
+		System.out.println("Hit: " + fd[2]);
+		System.out.println("Crit: " + fd[4]);
+		System.out.println("");
+		
+		System.out.println(bf.getEnemyUnit().getName() + ":");
+		if (bf.willHitTwice(bf.getEnemyUnit(), bf.getUserUnit())) {
+			System.out.println("Atk: " + fd[1] + " x2");
+		}
+		else {
+			System.out.println("Atk: " + fd[1]);
+		}
+		System.out.println("Hit: " + fd[3]);
+		System.out.println("Crit: " + fd[5]);
+	}
+	
 	private String padTextWithChar(String text, char character) {
 		for (int i = text.length(); i< CELL_WIDTH; i++) {
 			text = text + character;
@@ -120,5 +145,6 @@ public class TextOutputPrinter {
 		}
 		System.out.println(content);
 	}
+
 	
 }
