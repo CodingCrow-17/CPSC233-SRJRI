@@ -12,6 +12,11 @@ public class Instructions {
 		this.type = type;
 	}
 	
+	public Instructions(Instructions copyOf) {
+		this.position = copyOf.getPosition();
+		this.type = copyOf.getType();
+	}
+	
 	public InstructionType getType() {
 		return this.type;
 	}

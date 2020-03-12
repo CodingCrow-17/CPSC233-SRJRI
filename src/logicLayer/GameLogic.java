@@ -8,6 +8,7 @@ public class GameLogic{
 	private GameMap gameMap;
 	private Owner currentOwner;
 	private int currentIndex = -1;
+	private Unit selectedUnit = null;
 	
 	public GameLogic(GameMap gameMap) {
 		this.gameMap = gameMap;
@@ -16,6 +17,14 @@ public class GameLogic{
 	
 	public Owner getCurrentOwner() {
 		return currentOwner;
+	}
+	
+	public void selectUnitAtPosition(Position position) {
+		selectedUnit = gameMap.getTileAtPosition(position).getUnit();
+	}
+	
+	public void deselectUnit() {
+		selectedUnit = null;
 	}
 	
 	public void moveTo(Position startPosition, Position endPosition) {

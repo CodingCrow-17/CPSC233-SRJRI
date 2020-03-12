@@ -26,6 +26,22 @@ public class Position
 		return yPosition;
 	}
 	
+	public void movePositionUp() {
+		yPosition--;
+	}
+	
+	public void movePositionDown() {
+		yPosition++;
+	}
+	
+	public void movePositionRight() {
+		xPosition++;
+	}
+	
+	public void movePositionLeft() {
+		xPosition--;
+	}
+	
 	public String toString() {
 		String stringVal = "(" + yPosition + "," + xPosition + ")";
 		return stringVal;

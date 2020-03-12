@@ -29,19 +29,17 @@ public class Coordinator {
 			output.printCurrentTurnOwner(String.valueOf(logic.getCurrentOwner().getType()));
 			output.printMap(gameMap);
 			System.out.println("printed map!");
-			Unit selectedUnit = null;
 			while(true) {
-		
-				Instructions instructions = input.getInstruction();
+				Instructions instructions = input.getNextInstruction();
 				InstructionType type = instructions.getType();
+				Position position = instructions.getPosition();
 				if (type.equals(InstructionType.SELECT)) {
-					Position pos = instructions.getPosition();
-					selectedUnit = gameMap.getTileAtPosition(pos).getUnit();
+					logic.selectUnitAtPosition(position);
+					System.out.println("selected unit!");
 				}
 				if (type.equals(InstructionType.DESELECT)) {
-					selectedUnit = null;
+					logic.deselectUnit();
 				}
-				
 				
 				if (checkIfPlayerTurnIsOver() == true){
 					break;

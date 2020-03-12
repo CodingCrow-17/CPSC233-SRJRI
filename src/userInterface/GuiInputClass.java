@@ -6,7 +6,7 @@ import inputLayer.Instructions;
 public class GuiInputClass implements InputReciever {
 
 	@Override
-	public Instructions getInstruction() {
+	public Instructions getNextInstruction() {
 		// TODO Auto-generated method stub
 		return null;
 	}

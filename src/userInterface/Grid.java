@@ -15,9 +15,11 @@ import logicLayer.Unit;
 public class Grid extends Group{
 	
 	private Group[][] squares;
-	private Group selectionMarker;
+	private SelectionMarker selectionMarker;
 	private List<Group> unitMarkers = new ArrayList<Group>();
 	private int squareSideLength;
+	
+	private boolean enabled;
 	
 	public Grid(Tile[][] tiles, int height, int width) {
 		super();
@@ -37,48 +39,26 @@ public class Grid extends Group{
 				}
 			}
 		}
-		Rectangle selectionMarkerRepresentation = new Rectangle(0,0, squareSideLength, squareSideLength);
-		selectionMarkerRepresentation.setFill(Color.TRANSPARENT);
-		selectionMarkerRepresentation.setStrokeWidth(3);
-		selectionMarkerRepresentation.setStroke(Color.GREENYELLOW);
-		selectionMarker = new Group(selectionMarkerRepresentation);
+		selectionMarker = new SelectionMarker(0,0,squareSideLength, squareSideLength, tiles[0].length, tiles.length);
 		this.getChildren().add(selectionMarker);
+		System.out.println(this.getChildren().indexOf(selectionMarker));
+		enable();
 	}
 	
-	public void moveSelectionUp() {
-		if(selectionMarker.getTranslateY() == 0) {
-			System.out.println("can't move");
-		}
-		else {
-			selectionMarker.setTranslateY(selectionMarker.getTranslateY() - squareSideLength);
-		}
+	public boolean isEnabled() {
+		return enabled;
+	}
+	public void enable() {
+		selectionMarker.enableMarker();
+		enabled = true;
+	}
+	public void disable() {
+		selectionMarker.disableMarker();
+		enabled = false;
 	}
 	
-	public void moveSelectionDown() {
-		if(selectionMarker.getTranslateY() == (squares.length-1)*squareSideLength) {
-			System.out.println("can't move");
-		}
-		else {
-			selectionMarker.setTranslateY(selectionMarker.getTranslateY() + squareSideLength);
-		}
-	}
-	
-	public void moveSelectionRight() {
-		if(selectionMarker.getTranslateX() == (squares[0].length-1)*squareSideLength) {
-			System.out.println("can't move");
-		}
-		else {
-			selectionMarker.setTranslateX(selectionMarker.getTranslateX() + squareSideLength);
-		}
-	}
-	
-	public void moveSelectionLeft() {
-		if(selectionMarker.getTranslateX() == 0) {
-			System.out.println("can't move");
-		}
-		else {
-			selectionMarker.setTranslateX(selectionMarker.getTranslateX() - squareSideLength);
-		}
+	public SelectionMarker getSelectionMarker() {
+		return selectionMarker;
 	}
 	
 	private Group drawUnit(int i, int j, Tile tile) {
