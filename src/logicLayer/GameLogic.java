@@ -71,7 +71,7 @@ public class GameLogic{
 		return tile.hasUnit();
 	}
 	
-	private List<Tile> calculateValidTileToMoveTo(Unit unit) {
+	public List<Tile> calculateValidTileToMoveTo(Unit unit) {
 		List<Tile> tileRange = new ArrayList<Tile>();
 		Direction direction = Direction.NONE;
 		Tile startTile = unit.getTile();	
