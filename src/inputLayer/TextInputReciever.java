@@ -4,8 +4,8 @@ import java.util.Scanner;
 import logicLayer.Position;
 
 public class TextInputReciever implements InputReciever{
-	Instructions lastInstruction;
-	InstructionType conmand;
+	private Instructions lastInstruction;
+	private InstructionType conmand;
 	private static Scanner in;
 	
 	
