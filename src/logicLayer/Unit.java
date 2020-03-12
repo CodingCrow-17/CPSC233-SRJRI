@@ -24,7 +24,7 @@ public class Unit
 		this.stats = new Stats(unit.getStats());
 		this.hasMoved = false;
 		this.owner = unit.getOwner();  //should share reference
-		this.tile = tile; //should share reference?
+		this.tile = unit.tile; //should share reference?
 	}
 	
 

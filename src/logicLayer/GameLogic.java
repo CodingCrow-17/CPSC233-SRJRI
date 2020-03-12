@@ -105,7 +105,7 @@ public class GameLogic{
 				}
 			}
 			if (direction.equals(Direction.UP)) {
-				Tile newTile= gameMap.getTileAtCoordinates(startTile.getPos().getYPosition(),
+				Tile newTile = gameMap.getTileAtCoordinates(startTile.getPos().getYPosition(),
 						startTile.getPos().getXPosition()-1);
 				if (newTile != null) {
 					tileRange.add(newTile);

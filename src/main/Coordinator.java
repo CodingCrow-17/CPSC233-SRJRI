@@ -10,12 +10,14 @@ import logicLayer.Unit;
 import inputLayer.InputReciever;
 import inputLayer.InstructionType;
 import inputLayer.Instructions;
+import inputLayer.TextInputReciever;
 import output.TextOutputPrinter;
 
 public class Coordinator {
 	
 	private GameMap gameMap;
 	private InputReciever input;
+	private TextInputReciever tInput = new TextInputReciever();
 	private TextOutputPrinter textOutput = new TextOutputPrinter();
 	private GameLogic logic;
 	
@@ -33,12 +35,13 @@ public class Coordinator {
 			textOutput.printMap(gameMap);
 			Unit selectedUnit = null;
 			while(true) {
-				Instructions instructions = input.getInstruction();
+				InstructionType type = tInput.setInstruction();
 				
-				InstructionType type = instructions.getType();
 				if (type.equals(InstructionType.SELECT)) {
-					Position pos = instructions.getPosition();
+					tInput.selectPosition();
+					Position pos = tInput.getInstruction().getPosition();
 					selectedUnit = gameMap.getTileAtPosition(pos).getUnit();
+					System.out.println(selectedUnit.getName() + " selected.");
 				}
 				if (type.equals(InstructionType.DESELECT)) {
 					selectedUnit = null;
@@ -53,7 +56,7 @@ public class Coordinator {
 						  different targets, if possible. */
 						Unit atkRangeDummyUnit = new Unit(selectedUnit);
 						atkRangeDummyUnit.getStats().getMov().setCurrentValue(ATTACKRANGE);
-						List<Tile> attackableTiles = logic.calculateValidTileToMoveTo(atkRangeDummyUnit);
+						List<Tile> attackableTiles = logic.calculateValidTileToMoveTo(selectedUnit);
 						for (Tile tile : attackableTiles) {
 							if (tile.hasUnit()) {
 								if (!tile.getUnit().getOwner().equals(logic.getCurrentOwner())) {
@@ -62,18 +65,25 @@ public class Coordinator {
 							}
 						}
 						
-						
-						BattleForecast forecast = new BattleForecast(selectedUnit, enemyUnit);
-						textOutput.printBattleForecast(forecast);
-						
-						BattleInstance instance = new BattleInstance(forecast);
-						
-						enemyUnit.takeDamage(instance.getAttDamageDone());
-						if (!enemyUnit.isDead()) {
-							selectedUnit.takeDamage(instance.getDefDamageDone());
+						if (enemyUnit != null) {
+							BattleForecast forecast = new BattleForecast(selectedUnit, enemyUnit);
+							textOutput.printBattleForecast(forecast);
+							
+							BattleInstance instance = new BattleInstance(forecast);
+							
+							enemyUnit.takeDamage(instance.getAttDamageDone());
+							if (!enemyUnit.isDead()) {
+								selectedUnit.takeDamage(instance.getDefDamageDone());
+							}
+							textOutput.printBattleInstance(instance);
 						}
-						textOutput.printBattleInstance(instance);
+						else {
+							System.out.println("No enemy units nearby!");
+						}
 						
+					}
+					else {
+						System.out.println("No unit selected!");
 					}
 				}
 				
