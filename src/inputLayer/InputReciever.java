@@ -1,7 +1,9 @@
 package inputLayer;
 
+
+
 public interface InputReciever {
-	public int[] getInstruction();
+	Instructions getInstruction();
 	void printStartingMessage();
 	void close();
 }

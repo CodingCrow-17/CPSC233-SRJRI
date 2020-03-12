@@ -2,7 +2,10 @@ package main;
 import logicLayer.GameLogic;
 import logicLayer.GameMap;
 import logicLayer.Position;
+import logicLayer.Unit;
 import inputLayer.InputReciever;
+import inputLayer.InstructionType;
+import inputLayer.Instructions;
 import output.Output;
 
 public class Coordinator {
@@ -26,14 +29,22 @@ public class Coordinator {
 			output.printCurrentTurnOwner(String.valueOf(logic.getCurrentOwner().getType()));
 			output.printMap(gameMap);
 			System.out.println("printed map!");
+			Unit selectedUnit = null;
 			while(true) {
-				int[] instructions = input.getInstruction();
-				if (instructions != null) {
-					performMoveToCommand(instructions);
-					if (checkIfPlayerTurnIsOver() == true){
-						break;
-					}
-					output.printMap(gameMap);
+		
+				Instructions instructions = input.getInstruction();
+				InstructionType type = instructions.getType();
+				if (type.equals(InstructionType.SELECT)) {
+					Position pos = instructions.getPosition();
+					selectedUnit = gameMap.getTileAtPosition(pos).getUnit();
+				}
+				if (type.equals(InstructionType.DESELECT)) {
+					selectedUnit = null;
+				}
+				
+				
+				if (checkIfPlayerTurnIsOver() == true){
+					break;
 				}
 			}
 			logic.switchOwner();
@@ -55,6 +66,7 @@ public class Coordinator {
 		Position finalPosition = new Position(positionArray[2], positionArray[3]);
 		logic.moveTo(initialPosition, finalPosition);
 	}
+
 	
 	boolean checkIfPlayerTurnIsOver() {
 		return logic.getCurrentOwner().checkIfAllUnitsMoved();

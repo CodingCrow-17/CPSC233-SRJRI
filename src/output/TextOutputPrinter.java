@@ -102,27 +102,26 @@ public class TextOutputPrinter implements Output {
 	}
 	
 	public void printBattleForecast(BattleForecast bf) {
-		int[] fd = bf.getForecastData();
 		System.out.println(bf.getUserUnit().getName() + ":");
 		if (bf.willHitTwice(bf.getUserUnit(), bf.getEnemyUnit())) {
-			System.out.println("Atk: " + fd[0] + " x2");
+			System.out.println("Atk: " + bf.getAttForecastDamage() + " x2");
 		}
 		else {
-			System.out.println("Atk: " + fd[0]);
+			System.out.println("Atk: " + bf.getAttForecastDamage());
 		}
-		System.out.println("Hit: " + fd[2]);
-		System.out.println("Crit: " + fd[4]);
+		System.out.println("Hit: " + bf.getAttForecastPercent());
+		System.out.println("Crit: " + bf.getAttCritPercent());
 		System.out.println("");
 		
 		System.out.println(bf.getEnemyUnit().getName() + ":");
 		if (bf.willHitTwice(bf.getEnemyUnit(), bf.getUserUnit())) {
-			System.out.println("Atk: " + fd[1] + " x2");
+			System.out.println("Atk: " + bf.getDefForecastDamage() + " x2");
 		}
 		else {
-			System.out.println("Atk: " + fd[1]);
+			System.out.println("Atk: " + bf.getDefForecastDamage());
 		}
-		System.out.println("Hit: " + fd[3]);
-		System.out.println("Crit: " + fd[5]);
+		System.out.println("Hit: " + bf.getDefForecastPercent());
+		System.out.println("Crit: " + bf.getDefCritPercent());
 	}
 	
 	private String padTextWithChar(String text, char character) {

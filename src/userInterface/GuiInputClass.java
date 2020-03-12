@@ -1,11 +1,12 @@
 package userInterface;
 
 import inputLayer.InputReciever;
+import inputLayer.Instructions;
 
 public class GuiInputClass implements InputReciever {
 
 	@Override
-	public int[] getInstruction() {
+	public Instructions getInstruction() {
 		// TODO Auto-generated method stub
 		return null;
 	}
