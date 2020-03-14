@@ -26,6 +26,15 @@ public class Position
 		return yPosition;
 	}
 	
+	public void setXPosition(int xpos)
+	{
+		this.xPosition = xpos;
+	}
+	public void setYPosition(int ypos)
+	{
+		this.yPosition = ypos;
+	}
+	
 	public String toString() {
 		String stringVal = "(" + yPosition + "," + xPosition + ")";
 		return stringVal;
