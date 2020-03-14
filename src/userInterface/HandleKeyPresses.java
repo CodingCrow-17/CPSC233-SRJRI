@@ -68,7 +68,7 @@ public class HandleKeyPresses implements EventHandler<KeyEvent> {
 	
 	private void readInstructionFromGrid() {
 		if (grid.hasHighlightedMoveTiles()) {
-			
+			createMoveInstruction();
 		}
 		else {
 			createSelectInstruction();
@@ -85,7 +85,6 @@ public class HandleKeyPresses implements EventHandler<KeyEvent> {
 	private void createMoveInstruction() {
 		boolean wasSuccessful = application.performMoveToTileCommand(grid.getSelectionMarker().getCurrentPosition());
 		if (wasSuccessful == true) {
-			focusOnCommandSelection();	
 		}
 	}
 	

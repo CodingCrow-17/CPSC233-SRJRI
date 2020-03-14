@@ -86,7 +86,15 @@ public class GraphicalInterface extends Application{
 	}
 	
 	public boolean performMoveToTileCommand(Position position) {
-		return true;
+		UnitMarker unitMarker = grid.getUnitMarkerAtPostion(gameLogic.getSelectedUnit().getTile().getPos());
+		boolean didMove = gameLogic.moveSelectedUnitTo(position);
+		if (didMove == true) {
+			unitMarker.moveTo(position);
+			grid.resetHightlight();
+			gameLogic.deselectUnit();
+			System.out.println("now update the grid!");
+		}
+		return didMove;
 	}
 	
 }

@@ -37,10 +37,6 @@ public class CommandSelection extends Group{
 		cancelSelection = CommandOption.generateCommandOption("cancel", rectangleWidth, rectangleHeight, 3);
 		CommandOption[] options = {moveSelection, attackSelection, waitSelection, cancelSelection};
 		this.options = options;
-//		this.setUpGroup(0, 0, "move", moveSelection);
-//		this.setUpGroup(0, rectangleHeight, "attack", attackSelection);
-//		this.setUpGroup(0, 2*rectangleHeight, "wait", waitSelection);
-//		this.setUpGroup(0, 3*rectangleHeight, "cancel", cancelSelection);
 		
 		selectionMarker = new SelectionMarker(0,0, rectangleWidth, rectangleHeight,0,4);
 		

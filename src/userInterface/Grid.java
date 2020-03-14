@@ -57,6 +57,15 @@ public class Grid extends Group{
 		}
 	}
 	
+	public void resetHightlight() {
+		for(int i = 0; i < gridTiles.length; i++) {
+			for (int j = 0; j < gridTiles[i].length; j++) {
+				gridTiles[i][j].revertColour();
+			}
+		}
+		hasHighlightedMoveTiles = false;
+	}
+	
 	public boolean hasHighlightedMoveTiles() {
 		return hasHighlightedMoveTiles;
 	}
@@ -67,6 +76,17 @@ public class Grid extends Group{
 	
 	public GridTile getGridTileAtCoordinates(int x, int y) {
 		return gridTiles[x][y];
+	}
+	
+	public UnitMarker getUnitMarkerAtPostion(Position position) {
+		UnitMarker unitMarker = null;
+		for (UnitMarker marker : unitMarkers) {
+			if (marker.getUnit().getTile().getPos().equals(position)) {
+				unitMarker = marker;
+				break;
+			}
+		}
+		return unitMarker;
 	}
 	
 	public boolean isEnabled() {

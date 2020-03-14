@@ -24,7 +24,7 @@ public class SelectionMarker extends Group{
 		this.columnsToSelectFrom = columnsToSelectFrom;
 		selectionMarkerRepresentation = new Rectangle(0,0, width, height);
 		selectionMarkerRepresentation.setFill(Color.TRANSPARENT);
-		selectionMarkerRepresentation.setStrokeWidth(3);
+		selectionMarkerRepresentation.setStrokeWidth(1);
 		selectionMarkerRepresentation.setStroke(Color.GREENYELLOW);
 		this.getChildren().add(selectionMarkerRepresentation);
 	}

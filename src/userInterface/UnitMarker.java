@@ -3,6 +3,7 @@ package userInterface;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Ellipse;
 import logicLayer.OwnerType;
+import logicLayer.Position;
 import logicLayer.Unit;
 
 public class UnitMarker extends Ellipse{
@@ -25,6 +26,13 @@ public class UnitMarker extends Ellipse{
 	
 	public Unit getUnit() {
 		return this.unit;
+	}
+	
+	public void moveTo(Position position) {
+		int xCoordinate = position.getXPosition();
+		int yCoordinate = position.getYPosition();
+		this.setTranslateX(xCoordinate*(this.getRadiusX()+1)*4);
+		this.setCenterY(yCoordinate*this.getRadiusY()*4 + this.getRadiusY()*2);
 	}
 	
 }

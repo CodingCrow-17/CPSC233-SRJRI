@@ -27,7 +27,7 @@ public class CommandOption extends Group{
 		Rectangle rectangle = new Rectangle(0, 0, width, height);
 		rectangle.setFill(Color.WHITE);
 		rectangle.setStroke(Color.BLACK);
-		rectangle.setStrokeWidth(3);
+		rectangle.setStrokeWidth(1);
 		return rectangle;
 	}
 	

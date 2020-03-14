@@ -19,6 +19,10 @@ public class GameLogic{
 		return selectedUnit != null;
 	}
 	
+	public Unit getSelectedUnit() {
+		return selectedUnit;
+	}
+	
 	public Owner getCurrentOwner() {
 		return currentOwner;
 	}
@@ -37,6 +41,22 @@ public class GameLogic{
 	
 	public void deselectUnit() {
 		selectedUnit = null;
+	}
+	
+	public boolean moveSelectedUnitTo(Position position) { // TODO: replace with error code
+		System.out.print("hi");
+		Tile destinationTile = gameMap.getTileAtPosition(position);
+		if (selectedUnit.getHasMoved() == false) {
+			List<Tile> validTilesToMoveTo = calculateValidTileToMoveTo(selectedUnit);
+			if (validTilesToMoveTo.contains(destinationTile)) {
+				Tile startTile = selectedUnit.getTile();
+				destinationTile.setUnit(selectedUnit);
+				startTile.setUnit(null);
+				selectedUnit.moveTo(destinationTile);
+				return true;
+			}
+		}	
+		return false;
 	}
 	
 	public void moveTo(Position startPosition, Position endPosition) {

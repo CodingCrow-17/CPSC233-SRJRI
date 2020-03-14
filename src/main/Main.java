@@ -1,13 +1,6 @@
 package main;
 
-import java.util.ArrayList;
-import java.util.List;
-import inputLayer.*;
-import javafx.stage.Stage;
-import logicLayer.*;
-import output.Displayable;
-import output.TextOutputPrinter;
-import output.UnitDisplayable;
+import logicLayer.GameMap;
 import userInterface.GraphicalInterface;
 
 public class Main {
@@ -15,9 +8,6 @@ public class Main {
 		System.out.println("begin main");
 		
 		GameMap gameMap = StartUpClass.initializeGameMap();
-		
-		InputReciever input = new TextInputReciever();
-		TextOutputPrinter output =  new TextOutputPrinter();
 		
 		GraphicalInterface gui = new GraphicalInterface();
 		

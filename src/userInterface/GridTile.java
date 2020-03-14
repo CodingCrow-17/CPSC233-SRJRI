@@ -16,7 +16,7 @@ public class GridTile extends Rectangle{
 		this.validMoveColour = validMoveColour;
 		this.setFill(regularColour);
 		this.setStroke(Color.BLACK);
-		this.setStrokeWidth(3);
+		this.setStrokeWidth(1);
 		this.tile = tile;
 	}
 	
