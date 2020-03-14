@@ -1,5 +1,7 @@
 package userInterface;
 
+import java.util.List;
+
 import inputLayer.InputReciever;
 import inputLayer.Instructions;
 import inputLayer.TextInputReciever;
@@ -17,9 +19,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import logicLayer.GameLogic;
 import logicLayer.GameMap;
-import logicLayer.OwnerType;
 import logicLayer.Position;
-import logicLayer.Tile;
 import main.Coordinator;
 import main.StartUpClass;
 import output.Output;
@@ -74,12 +74,19 @@ public class GraphicalInterface extends Application{
 		primaryStage.show();
 	}
 	
-	public void performSelectToCommand(Position position) {
+	public boolean performSelectToCommand(Position position) { // TODO: returns a boolean until we make error codes!
 		gameLogic.selectUnitAtPosition(position);
+		return gameLogic.hasSelectedUnit();
 	}
 	
-	public void performMoveCommand() {
-		
+	public boolean retrieveValidTilesToMoveTo() {
+		List<Position> positions = gameLogic.findValidTileToMoveToPositions();
+		grid.highlightMoveTiles(positions);
+		return positions.isEmpty() == false;
+	}
+	
+	public boolean performMoveToTileCommand(Position position) {
+		return true;
 	}
 	
 }

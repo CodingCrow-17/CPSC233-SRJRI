@@ -9,39 +9,64 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Ellipse;
 import javafx.scene.shape.Rectangle;
 import logicLayer.OwnerType;
+import logicLayer.Position;
 import logicLayer.Tile;
 import logicLayer.Unit;
 
 public class Grid extends Group{
 	
-	private Group[][] squares;
+	private GridTile[][] gridTiles;
 	private SelectionMarker selectionMarker;
-	private List<Group> unitMarkers = new ArrayList<Group>();
+	private List<UnitMarker> unitMarkers = new ArrayList<UnitMarker>();
 	private int squareSideLength;
-	
 	private boolean enabled;
+	
+	private boolean hasHighlightedMoveTiles = false;
 	
 	public Grid(Tile[][] tiles, int height, int width) {
 		super();
-		squares = new Group[tiles.length][tiles[0].length];
+		gridTiles = new GridTile[tiles.length][tiles[0].length];
 		squareSideLength = width/tiles.length;
 		for(int i = 0; i < tiles.length; i++) {
 			for (int j = 0; j < tiles[i].length; j++) {
-				Rectangle square = new Rectangle(j*squareSideLength, i*squareSideLength, squareSideLength, squareSideLength);
-				square.setFill(Color.ANTIQUEWHITE);
-				square.setStrokeWidth(3);
-				square.setStroke(Color.BLACK);
-				Group group = new Group(square);
-				this.getChildren().add(group);
-				squares[i][j] = group;
+				GridTile gridTile = new GridTile(j*squareSideLength, i*squareSideLength, squareSideLength, squareSideLength, 
+						Color.WHITESMOKE, Color.SKYBLUE, tiles[i][j]);
+				this.getChildren().add(gridTile);
+				gridTiles[i][j] = gridTile;
 				if (tiles[i][j].hasUnit()) {
-					unitMarkers.add(drawUnit(i,j, tiles[i][j]));
+					int xCoordinate = j*squareSideLength + squareSideLength/2;
+					int yCoordinate = i*squareSideLength + squareSideLength/2;
+					int length = squareSideLength/4;
+					UnitMarker unitMarker = new UnitMarker(xCoordinate,yCoordinate, length, length,tiles[i][j].getUnit());
+					unitMarkers.add(unitMarker);
 				}
 			}
 		}
+		this.getChildren().addAll(unitMarkers);
 		selectionMarker = new SelectionMarker(0,0,squareSideLength, squareSideLength, tiles[0].length, tiles.length);
 		this.getChildren().add(selectionMarker);
 		enable();
+	}
+	
+	public void highlightMoveTiles(List<Position> positions){
+		if (positions.isEmpty() == false) {
+			hasHighlightedMoveTiles = true;
+		}
+		for (Position position : positions) {
+			this.getGridTileAtPosition(position).changeToValidMoveColour();
+		}
+	}
+	
+	public boolean hasHighlightedMoveTiles() {
+		return hasHighlightedMoveTiles;
+	}
+	
+	public GridTile getGridTileAtPosition(Position position) {
+		return getGridTileAtCoordinates(position.getXPosition(), position.getYPosition());
+	}
+	
+	public GridTile getGridTileAtCoordinates(int x, int y) {
+		return gridTiles[x][y];
 	}
 	
 	public boolean isEnabled() {
@@ -58,20 +83,6 @@ public class Grid extends Group{
 	
 	public SelectionMarker getSelectionMarker() {
 		return selectionMarker;
-	}
-	
-	private Group drawUnit(int i, int j, Tile tile) {
-		Ellipse unitMarker = new Ellipse(j*squareSideLength + squareSideLength/2,i*squareSideLength + squareSideLength/2,
-				squareSideLength/4, squareSideLength/4);
-		if (tile.getUnit().getOwner().getType().equals(OwnerType.PLAYER)) {
-			unitMarker.setFill(Color.BLUE);
-		}
-		else {
-			unitMarker.setFill(Color.RED);
-		}
-		Group group =new Group(unitMarker);
-		this.getChildren().add(group);
-		return group;
 	}
 	
 }

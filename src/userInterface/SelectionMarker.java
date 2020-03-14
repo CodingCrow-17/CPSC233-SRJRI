@@ -42,40 +42,28 @@ public class SelectionMarker extends Group{
 	}
 	
 	public void moveSelectionUp() {
-		if(this.getTranslateY() == 0) {
-			System.out.println("can't move");
-		}
-		else {
+		if(this.getTranslateY() != 0) {
 			this.setTranslateY(this.getTranslateY() - height);
 			currentPosition.movePositionUp();
 		}
 	}
 	
 	public void moveSelectionDown() {
-		if(this.getTranslateY() == (columnsToSelectFrom-1)*height) {
-			System.out.println("can't move");
-		}
-		else {
+		if(this.getTranslateY() != (columnsToSelectFrom-1)*height) {
 			this.setTranslateY(this.getTranslateY() + height);
 			currentPosition.movePositionDown();
 		}
 	}
 	
 	public void moveSelectionRight() {
-		if(this.getTranslateX() == (rowsToSelectFrom - 1)*width) {
-			System.out.println("can't move");
-		}
-		else {
+		if(this.getTranslateX() != (rowsToSelectFrom - 1)*width) {
 			this.setTranslateX(this.getTranslateX() + width);
 			currentPosition.movePositionRight();
 		}
 	}
 	
 	public void moveSelectionLeft() {
-		if(this.getTranslateX() == 0) {
-			System.out.println("can't move");
-		}
-		else {
+		if(this.getTranslateX() != 0) {
 			this.setTranslateX(this.getTranslateX() - width);
 			currentPosition.movePositionLeft();
 		}

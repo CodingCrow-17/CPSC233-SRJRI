@@ -46,7 +46,7 @@ public class HandleKeyPresses implements EventHandler<KeyEvent> {
 					grid.getSelectionMarker().moveSelectionLeft();
 					break;
 				case(SELECT_LETTER):
-					createSelectInstruction();
+					readInstructionFromGrid();
 					break;
 			}
 		}
@@ -66,20 +66,49 @@ public class HandleKeyPresses implements EventHandler<KeyEvent> {
 		}
 	}
 	
-	private void readInstructionFromCommandSelection() {
-		if (commandSelection.isMoveSelected()) {
+	private void readInstructionFromGrid() {
+		if (grid.hasHighlightedMoveTiles()) {
+			
+		}
+		else {
+			createSelectInstruction();
 		}
 	}
 	
 	private void createSelectInstruction() {
-		application.performSelectToCommand(grid.getSelectionMarker().getCurrentPosition());
-		grid.disable();
-		commandSelection.enable();
+		boolean wasSuccessful = application.performSelectToCommand(grid.getSelectionMarker().getCurrentPosition());
+		if (wasSuccessful == true) {
+			focusOnCommandSelection();	
+		}
 	}
 	
-	private void createMoveCommand() {
+	private void createMoveInstruction() {
+		boolean wasSuccessful = application.performMoveToTileCommand(grid.getSelectionMarker().getCurrentPosition());
+		if (wasSuccessful == true) {
+			focusOnCommandSelection();	
+		}
+	}
+	
+	private void readInstructionFromCommandSelection() {
+		if (commandSelection.isMoveSelected()) {
+			createDisplayMoveOptionsInstruciton();
+		}
+	}
+	
+	private void createDisplayMoveOptionsInstruciton() {
+		boolean wasSuccessful = application.retrieveValidTilesToMoveTo();
+		if (wasSuccessful) {
+			focusOnGrid();	
+		}
+	}
+
+	private void focusOnGrid() {
 		grid.enable();
 		commandSelection.disable();
 	}
-
+	
+	private void focusOnCommandSelection() {
+		grid.disable();
+		commandSelection.enable();
+	}
 }

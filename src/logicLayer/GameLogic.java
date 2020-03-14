@@ -15,12 +15,24 @@ public class GameLogic{
 		switchOwner();
 	}
 	
+	public boolean hasSelectedUnit() {
+		return selectedUnit != null;
+	}
+	
 	public Owner getCurrentOwner() {
 		return currentOwner;
 	}
 	
 	public void selectUnitAtPosition(Position position) {
-		selectedUnit = gameMap.getTileAtPosition(position).getUnit();
+		Unit temp = gameMap.getTileAtPosition(position).getUnit();
+		if (temp != null) {
+			if(temp.getOwner().equals(currentOwner)) {
+				this.selectedUnit = temp;
+			}
+		}
+		else {
+			selectedUnit = null;
+		}
 	}
 	
 	public void deselectUnit() {
@@ -79,6 +91,16 @@ public class GameLogic{
 	
 	private boolean checkIfUnitIsOnTile(Tile tile) {
 		return tile.hasUnit();
+	}
+	
+	public List<Position> findValidTileToMoveToPositions(){
+		List<Tile> tiles = calculateValidTileToMoveTo(selectedUnit);
+		List<Position> positions = new ArrayList<Position>();
+		for (Tile tile : tiles) {
+			positions.add(tile.getPos());
+		}
+		return positions;
+		
 	}
 	
 	private List<Tile> calculateValidTileToMoveTo(Unit unit) {
