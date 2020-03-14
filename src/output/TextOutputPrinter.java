@@ -1,7 +1,9 @@
 package output;
 import logicLayer.GameMap; // import GameMap
 import logicLayer.Tile; //import Tile
+import logicLayer.BattleInstance; //import BattleInstance
 import logicLayer.BattleForecast; //import BattleForecast
+import logicLayer.Unit;
 
 public class TextOutputPrinter implements Output {
 	
@@ -122,6 +124,53 @@ public class TextOutputPrinter implements Output {
 		}
 		System.out.println("Hit: " + bf.getDefForecastPercent());
 		System.out.println("Crit: " + bf.getDefCritPercent());
+	}
+	public void printBattleInstance(BattleInstance bi, BattleInstance bi2) {
+		if (!bi.getBattleForecast().getUserUnit().isDead()) {
+			if (bi.getAttHasHit()) {
+				if (bi.getAttCritActivated()) {
+					System.out.println("CRITICAL!");
+				}
+				if (bi.getAttHasDoneDamage()) {
+					System.out.println(bi.getBattleForecast().getUserUnit().getName() + " has done " + 
+						       bi.getAttDamageDone() + " damage to " + bi.getBattleForecast().getEnemyUnit().getName() + ".");
+				}
+				else {
+					System.out.println(bi.getBattleForecast().getUserUnit().getName() + " did no damage to " +
+							           bi.getBattleForecast().getEnemyUnit().getName());
+				}
+			}
+			else {
+				System.out.println(bi.getBattleForecast().getUserUnit().getName() + " missed!");
+			}
+		}
+		else {
+			System.out.println(bi.getBattleForecast().getUserUnit().getName() + " is dead!");
+		}
+		
+		System.out.println("");
+		
+		if (!bi.getBattleForecast().getEnemyUnit().isDead()) {
+			if (bi.getDefHasHit()) {
+				if (bi.getDefCritActivated()) {
+					System.out.println("CRITICAL!");
+				}
+				if (bi.getAttHasDoneDamage()) {
+					System.out.println(bi.getBattleForecast().getEnemyUnit().getName() + " has done " + 
+						       bi.getDefDamageDone() + " damage to " + bi.getBattleForecast().getUserUnit().getName() + ".");
+				}
+				else {
+					System.out.println(bi.getBattleForecast().getEnemyUnit().getName() + " did no damage to " +
+							           bi.getBattleForecast().getUserUnit().getName());
+				}
+			}
+			else {
+				System.out.println(bi.getBattleForecast().getEnemyUnit().getName() + " missed!");
+			}
+		}
+		else {
+			System.out.println(bi.getBattleForecast().getEnemyUnit().getName() + " is dead!");
+		}
 	}
 	
 	private String padTextWithChar(String text, char character) {

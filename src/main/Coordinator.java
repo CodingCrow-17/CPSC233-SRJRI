@@ -6,28 +6,30 @@ import logicLayer.Unit;
 import inputLayer.InputReciever;
 import inputLayer.InstructionType;
 import inputLayer.Instructions;
+import inputLayer.TextInputReciever;
 import output.Output;
+import output.TextOutputPrinter;
 
 public class Coordinator {
 	
 	private GameMap gameMap;
 	private InputReciever input;
-	private Output output;
+	private TextOutputPrinter textOutput = new TextOutputPrinter();
+	private TextInputReciever tInput = new TextInputReciever();
 	private GameLogic logic;
 	
 	 	public Coordinator(GameMap gameMap, InputReciever inputReceiver, Output output) {
 		this.gameMap = gameMap;
 		this.input = inputReceiver;
 		this.logic = new GameLogic(gameMap);
-		this.output = output;
 	}
 	
 	public void startGameLoop() {
 		input.printStartingMessage();
 		for (int i = 0; i<1; i++) {
 			//player turn
-			output.printCurrentTurnOwner(String.valueOf(logic.getCurrentOwner().getType()));
-			output.printMap(gameMap);
+			textOutput.printCurrentTurnOwner(String.valueOf(logic.getCurrentOwner().getType()));
+			textOutput.printMap(gameMap);
 			System.out.println(" hi I'm:: " + this);
 			while(true) {
 				Instructions instruction = input.getNextInstruction();
@@ -46,8 +48,8 @@ public class Coordinator {
 			}
 			logic.switchOwner();
 			//enemy turn
-			output.printCurrentTurnOwner(String.valueOf(logic.getCurrentOwner().getType()));
-			output.printMap(gameMap);
+			textOutput.printCurrentTurnOwner(String.valueOf(logic.getCurrentOwner().getType()));
+			textOutput.printMap(gameMap);
 			while (true) {
 				//TODO create enemy logic to go here
 				break;
