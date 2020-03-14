@@ -36,15 +36,42 @@ public class Coordinator {
 			Unit selectedUnit = null;
 			while(true) {
 				InstructionType type = tInput.setInstruction();
-				
+				if (type.equals(InstructionType.ENDTURN)) {
+					break;
+				}
 				if (type.equals(InstructionType.SELECT)) {
-					tInput.selectPosition();
-					Position pos = tInput.getInstruction().getPosition();
+					Position pos = tInput.selectPosition();
 					selectedUnit = gameMap.getTileAtPosition(pos).getUnit();
 					System.out.println(selectedUnit.getName() + " selected.");
 				}
 				if (type.equals(InstructionType.DESELECT)) {
 					selectedUnit = null;
+				}
+				if (type.equals(InstructionType.MOVE)) {
+					if (selectedUnit != null) {
+						if (!selectedUnit.getHasMoved()) {
+							boolean canMove = false;
+							List<Tile> moveableTiles = logic.calculateValidTileToMoveTo(selectedUnit);
+							Position endPosition = tInput.selectPosition();
+							for (Tile tile : moveableTiles) {
+								if (tile.equals(gameMap.getTileAtPosition(endPosition))) {
+									canMove = true;
+								}
+							}
+							if (canMove) {
+								selectedUnit.moveTo(gameMap.getTileAtPosition(endPosition));
+							}
+							else {
+								System.out.println("That tile is outside " + selectedUnit.getName() + "'s move range!");
+							}
+						}
+						else {
+							System.out.println(selectedUnit.getName() + " has already moved!");
+						}
+					}
+					else {
+						System.out.println("No unit selected!");
+					}
 				}
 				if (type.equals(InstructionType.ATTACK)) {
 					int ATTACKRANGE = 1;
@@ -54,9 +81,10 @@ public class Coordinator {
 						/*The following block of code is a TEMPORARY way to scan for enemy units.
 						  It will be changed in the future so that the player may choose between
 						  different targets, if possible. */
-						Unit atkRangeDummyUnit = new Unit(selectedUnit);
-						atkRangeDummyUnit.getStats().getMov().setCurrentValue(ATTACKRANGE);
+						int mov = selectedUnit.getStats().getMov().getCurrentValue();
+						selectedUnit.getStats().getMov().setCurrentValue(ATTACKRANGE);
 						List<Tile> attackableTiles = logic.calculateValidTileToMoveTo(selectedUnit);
+						selectedUnit.getStats().getMov().setCurrentValue(mov);
 						for (Tile tile : attackableTiles) {
 							if (tile.hasUnit()) {
 								if (!tile.getUnit().getOwner().equals(logic.getCurrentOwner())) {
@@ -66,16 +94,26 @@ public class Coordinator {
 						}
 						
 						if (enemyUnit != null) {
+							selectedUnit.setHasMoved(true);
 							BattleForecast forecast = new BattleForecast(selectedUnit, enemyUnit);
 							textOutput.printBattleForecast(forecast);
 							
 							BattleInstance instance = new BattleInstance(forecast);
+							BattleInstance instance2 = new BattleInstance(instance);
 							
-							enemyUnit.takeDamage(instance.getAttDamageDone());
+							if (!selectedUnit.isDead()) {
+								enemyUnit.takeDamage(instance.getAttDamageDone());
+							}
 							if (!enemyUnit.isDead()) {
 								selectedUnit.takeDamage(instance.getDefDamageDone());
 							}
-							textOutput.printBattleInstance(instance);
+							if (forecast.willHitTwice(selectedUnit,enemyUnit) && !selectedUnit.isDead()) {
+								enemyUnit.takeDamage(instance2.getAttDamageDone());
+							}
+							if (forecast.willHitTwice(enemyUnit,selectedUnit) && !enemyUnit.isDead()) {
+								selectedUnit.takeDamage(instance2.getDefDamageDone());
+							}
+							textOutput.printBattleInstance(instance, instance2);
 						}
 						else {
 							System.out.println("No enemy units nearby!");

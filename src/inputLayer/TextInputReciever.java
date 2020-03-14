@@ -30,6 +30,9 @@ public class TextInputReciever implements InputReciever{
 		else if(command.equals("WAIT")) {
 			return InstructionType.WAIT;
 		}
+		else if(command.equals("ENDTURN")) {
+			return InstructionType.ENDTURN;
+		}
 		else {
 			System.out.println("Invalid statement.");
 		}
@@ -71,7 +74,6 @@ public class TextInputReciever implements InputReciever{
        	int newUserPositionX1 = Integer.parseInt(userPosition1);
        	int newUserPositionY1 = Integer.parseInt(userPosition2);
        	Position pos = new Position(newUserPositionX1,newUserPositionY1);
-       	this.lastInstruction = new Instructions(InstructionType.SELECT,pos);
        	return pos;
 
 

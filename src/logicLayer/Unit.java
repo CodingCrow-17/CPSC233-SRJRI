@@ -34,12 +34,6 @@ public class Unit
 		return name;
 	}
 	
-	
-	public void moveTo(Position pos) {
-		
-	}
-
-
 	public int getCurrentHp() {
 		return currentHp;
 	}
@@ -56,6 +50,9 @@ public class Unit
 	public boolean getHasMoved() {
 		return hasMoved;
 	}
+	public void setHasMoved(boolean aHasMoved) {
+		this.hasMoved = aHasMoved;
+	}
 	
 	public void resetMove() {
 		hasMoved = false;
@@ -69,13 +66,15 @@ public class Unit
 	
 	public void moveTo(Tile finalTile)
 	{
+		tile.setUnit(null);
 		this.tile = finalTile;
+		finalTile.setUnit(this);
 		hasMoved = true;
 	}
 	
 	public boolean isDead()
 	{
-		return (currentHp == 0);
+		return (this.getStats().getHp().getCurrentValue() == 0);
 	}
 
 	public void takeDamage(int damageAmount)

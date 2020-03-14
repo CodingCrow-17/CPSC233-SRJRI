@@ -24,6 +24,13 @@ public class BattleInstance {
 		this.attTurn = false;
 		this.defDamageDone = calculateDamageDone(bf.getDefForecastDamage(),bf.getDefForecastPercent(),bf.getDefCritPercent());
 	}
+	public BattleInstance(BattleInstance aBattleInstance) {
+		this.bf = new BattleForecast(aBattleInstance.getBattleForecast());
+		this.attTurn = true;
+		this.attDamageDone = calculateDamageDone(this.bf.getAttForecastDamage(),this.bf.getAttForecastPercent(),this.bf.getAttCritPercent());
+		this.attTurn = false;
+		this.defDamageDone = calculateDamageDone(this.bf.getDefForecastDamage(),this.bf.getDefForecastPercent(),this.bf.getDefCritPercent());
+	}
 	
 	public BattleForecast getBattleForecast() {
 		return new BattleForecast(bf);
