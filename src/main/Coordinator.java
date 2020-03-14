@@ -1,5 +1,4 @@
 package main;
-import java.util.List;
 import logicLayer.BattleForecast;
 import logicLayer.BattleInstance;
 import logicLayer.GameLogic;
@@ -7,21 +6,25 @@ import logicLayer.GameMap;
 import logicLayer.Position;
 import logicLayer.Tile;
 import logicLayer.Unit;
+
+import java.util.List;
+
 import inputLayer.InputReciever;
 import inputLayer.InstructionType;
 import inputLayer.Instructions;
 import inputLayer.TextInputReciever;
+import output.Output;
 import output.TextOutputPrinter;
 
 public class Coordinator {
 	
 	private GameMap gameMap;
 	private InputReciever input;
-	private TextInputReciever tInput = new TextInputReciever();
 	private TextOutputPrinter textOutput = new TextOutputPrinter();
+	private TextInputReciever tInput = new TextInputReciever();
 	private GameLogic logic;
 	
-	public Coordinator(GameMap gameMap, InputReciever inputReceiver) {
+	 	public Coordinator(GameMap gameMap, InputReciever inputReceiver, Output output) {
 		this.gameMap = gameMap;
 		this.input = inputReceiver;
 		this.logic = new GameLogic(gameMap);
@@ -124,12 +127,11 @@ public class Coordinator {
 						System.out.println("No unit selected!");
 					}
 				}
-				
+				textOutput.printMap(gameMap);
 				
 				if (checkIfPlayerTurnIsOver() == true){
 					break;
 				}
-				textOutput.printMap(gameMap);
 			}
 			logic.switchOwner();
 			//enemy turn
@@ -144,9 +146,14 @@ public class Coordinator {
 		input.close();
 	}
 	
+	public void performMoveToCommand(int[] positionArray){
+		Position initialPosition = new Position(positionArray[0], positionArray[1]);
+		Position finalPosition = new Position(positionArray[2], positionArray[3]);
+		logic.moveTo(initialPosition, finalPosition);
+	}
 
 	
-	boolean checkIfPlayerTurnIsOver() {
+	public boolean checkIfPlayerTurnIsOver() {
 		return logic.getCurrentOwner().checkIfAllUnitsMoved();
 	}
 }

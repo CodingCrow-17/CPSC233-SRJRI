@@ -8,14 +8,54 @@ public class GameLogic{
 	private GameMap gameMap;
 	private Owner currentOwner;
 	private int currentIndex = -1;
+	private Unit selectedUnit = null;
 	
 	public GameLogic(GameMap gameMap) {
 		this.gameMap = gameMap;
 		switchOwner();
 	}
 	
+	public boolean hasSelectedUnit() {
+		return selectedUnit != null;
+	}
+	
+	public Unit getSelectedUnit() {
+		return selectedUnit;
+	}
+	
 	public Owner getCurrentOwner() {
 		return currentOwner;
+	}
+	
+	public void selectUnitAtPosition(Position position) {
+		Unit temp = gameMap.getTileAtPosition(position).getUnit();
+		if (temp != null) {
+			if(temp.getOwner().equals(currentOwner) && temp.getHasMoved() == false) {
+				this.selectedUnit = temp;
+			}
+		}
+		else {
+			selectedUnit = null;
+		}
+	}
+	
+	public void deselectUnit() {
+		selectedUnit = null;
+	}
+	
+	public boolean moveSelectedUnitTo(Position position) { // TODO: replace with error code
+		Tile destinationTile = gameMap.getTileAtPosition(position);
+		if (selectedUnit.getHasMoved() == false) {
+			List<Tile> validTilesToMoveTo = calculateValidTileToMoveTo(selectedUnit);
+			if (validTilesToMoveTo.contains(destinationTile)) {
+				Tile startTile = selectedUnit.getTile();
+				destinationTile.setUnit(selectedUnit);
+				startTile.setUnit(null);
+				selectedUnit.moveTo(destinationTile);
+				return true;
+			}
+		}	
+		return false;
 	}
 	
 	public void moveTo(Position startPosition, Position endPosition) {
@@ -32,6 +72,7 @@ public class GameLogic{
 								finalTile.setUnit(unit);
 								startTile.setUnit(null);
 								unit.moveTo(finalTile);
+								System.out.println("Succesfully moved unit!");
 							}
 							else {
 								System.out.println("Out of move range!");
@@ -71,6 +112,16 @@ public class GameLogic{
 		return tile.hasUnit();
 	}
 	
+	public List<Position> findValidTileToMoveToPositions(){
+		List<Tile> tiles = calculateValidTileToMoveTo(selectedUnit);
+		List<Position> positions = new ArrayList<Position>();
+		for (Tile tile : tiles) {
+			positions.add(tile.getPos());
+		}
+		return positions;
+		
+	}
+	
 	public List<Tile> calculateValidTileToMoveTo(Unit unit) {
 		List<Tile> tileRange = new ArrayList<Tile>();
 		Direction direction = Direction.NONE;
@@ -78,7 +129,6 @@ public class GameLogic{
 		int movStamina = unit.getStats().getMov().getCurrentValue()+1;
 		tileRange.add(startTile);
 		calculateMovRange(tileRange, startTile, movStamina, direction);
-		System.out.println();
 		return tileRange;
 	}
 	

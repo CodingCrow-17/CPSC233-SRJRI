@@ -107,7 +107,7 @@ public class TextInputReciever implements InputReciever{
         System.out.println("followed by the number of spaces you would like to move in the Y direction");
 	}
 	@Override
-	public Instructions getInstruction() {
+	public Instructions getNextInstruction() {
 		// TODO Auto-generated method stub
 		return this.lastInstruction;
 	}

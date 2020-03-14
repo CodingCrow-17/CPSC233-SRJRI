@@ -2,20 +2,21 @@ package main;
 
 import java.util.ArrayList;
 import java.util.List;
-import inputLayer.*;
 
-import logicLayer.*;
+import logicLayer.GameMap;
+import logicLayer.Owner;
+import logicLayer.OwnerType;
+import logicLayer.Stat;
+import logicLayer.StatType;
+import logicLayer.Stats;
+import logicLayer.Tile;
+import logicLayer.TileType;
+import logicLayer.Unit;
+import output.UnitDisplayable;
 
-public class Main {
-	public static void main(String[] args) {
-		GameMap gameMap = initializeGameMap();
-		InputReciever input = new TextInputReciever();
-		Coordinator coordinator = new Coordinator(gameMap,input);
-		coordinator.startGameLoop();
-	}
+public class StartUpClass {
 	
-	private static GameMap initializeGameMap() {
-		
+	public static GameMap initializeGameMap() {	
 		//sets up the players for this map
 		Owner player = new Owner(OwnerType.PLAYER);
 		Owner enemy = new Owner(OwnerType.ENEMY);
@@ -42,8 +43,10 @@ public class Main {
 		
 		Stats unitAStats = new Stats(unitAHp, unitAAtt,unitASpd,unitADex,unitADef,unitAMov); //hp, att, spd, dex,def, mov
 		
+		UnitDisplayable unitTextDisplayable = null;
+		
 		Tile unitATile = gameMap.getTileAtCoordinates(0, 0);
-		Unit unitA = new Unit("Geoff", unitAStats, player, unitATile);
+		Unit unitA = new Unit("Geoff", unitAStats, player, unitATile,unitTextDisplayable);
 		unitATile.setUnit(unitA);
 		
 		Stat unitBHp = new Stat(StatType.HP, 25, .45, 100);
@@ -55,7 +58,7 @@ public class Main {
 		
 		Stats unitBStats = new Stats(unitBHp, unitBAtt,unitBSpd,unitBDex,unitBDef,unitBMov); //hp, att, spd, dex,def, mov
 		Tile unitBTile = gameMap.getTileAtCoordinates(0, 1);
-		Unit unitB = new Unit("Henry", unitBStats, player, unitBTile);
+		Unit unitB = new Unit("Henry", unitBStats, player, unitBTile,unitTextDisplayable);
 		unitBTile.setUnit(unitB);
 		
 		Stat unitCHp = new Stat(StatType.HP, 16, 0, 100);
@@ -67,7 +70,7 @@ public class Main {
 		
 		Stats unitCStats = new Stats(unitCHp, unitCAtt,unitCSpd,unitCDex,unitCDef,unitCMov); //hp, att, spd, dex,def, mov
 		Tile unitCTile = gameMap.getTileAtCoordinates(4, 2);
-		Unit unitC = new Unit("Lewis", unitCStats, enemy, unitCTile);
+		Unit unitC = new Unit("Rogue", unitCStats, enemy, unitCTile,unitTextDisplayable);
 		unitCTile.setUnit(unitC);
 		
 		player.addUnit(unitA);

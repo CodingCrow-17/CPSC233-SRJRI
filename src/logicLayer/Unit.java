@@ -1,7 +1,8 @@
 package logicLayer;
 
+import output.UnitDisplayable;
 
-public class Unit
+public class Unit 
 {
 	private String name;
 	private Stats stats;
@@ -9,14 +10,16 @@ public class Unit
 	private boolean hasMoved;
 	private Owner owner;
 	private Tile tile;
+	private UnitDisplayable displayable;
 	
-	public Unit(String name, Stats stats, Owner owner, Tile tile) {
+	public Unit(String name, Stats stats, Owner owner, Tile tile, UnitDisplayable displayable) {
 		this.name = name;
 		this.stats = new Stats(stats);
 		this.owner = owner;
 		this.tile = tile;
 		this.hasMoved = false;
 		this.currentHp = stats.getHp().getCurrentValue();
+		this.displayable = displayable;
 	}
 	
 	public Unit(Unit unit) {
