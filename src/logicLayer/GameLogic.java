@@ -30,7 +30,7 @@ public class GameLogic{
 	public void selectUnitAtPosition(Position position) {
 		Unit temp = gameMap.getTileAtPosition(position).getUnit();
 		if (temp != null) {
-			if(temp.getOwner().equals(currentOwner)) {
+			if(temp.getOwner().equals(currentOwner) && temp.getHasMoved() == false) {
 				this.selectedUnit = temp;
 			}
 		}
@@ -44,7 +44,6 @@ public class GameLogic{
 	}
 	
 	public boolean moveSelectedUnitTo(Position position) { // TODO: replace with error code
-		System.out.print("hi");
 		Tile destinationTile = gameMap.getTileAtPosition(position);
 		if (selectedUnit.getHasMoved() == false) {
 			List<Tile> validTilesToMoveTo = calculateValidTileToMoveTo(selectedUnit);

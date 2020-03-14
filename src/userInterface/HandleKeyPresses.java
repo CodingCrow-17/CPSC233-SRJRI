@@ -29,7 +29,6 @@ public class HandleKeyPresses implements EventHandler<KeyEvent> {
 	
 	@Override
 	public void handle(KeyEvent event) {
-		System.out.println(event.getCharacter());
 		char choice = event.getCharacter().charAt(0);
 		if (grid.isEnabled() == true) {
 			switch (choice){

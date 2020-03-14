@@ -44,7 +44,6 @@ public class GraphicalInterface extends Application{
 	
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		System.out.println("start");
 		GameMap map = StartUpClass.initializeGameMap();
 		this.gameMap = map;
 		this.gameLogic = new GameLogic(map);
@@ -92,7 +91,6 @@ public class GraphicalInterface extends Application{
 			unitMarker.moveTo(position);
 			grid.resetHightlight();
 			gameLogic.deselectUnit();
-			System.out.println("now update the grid!");
 		}
 		return didMove;
 	}

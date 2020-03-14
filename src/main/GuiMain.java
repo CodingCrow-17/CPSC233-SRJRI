@@ -3,9 +3,8 @@ package main;
 import logicLayer.GameMap;
 import userInterface.GraphicalInterface;
 
-public class Main {
+public class GuiMain {
 	public static void main(String[] args) {
-		System.out.println("begin main");
 		
 		GameMap gameMap = StartUpClass.initializeGameMap();
 		

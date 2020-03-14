@@ -31,8 +31,8 @@ public class UnitMarker extends Ellipse{
 	public void moveTo(Position position) {
 		int xCoordinate = position.getXPosition();
 		int yCoordinate = position.getYPosition();
-		this.setTranslateX(xCoordinate*(this.getRadiusX()+1)*4);
-		this.setCenterY(yCoordinate*this.getRadiusY()*4 + this.getRadiusY()*2);
+		this.setCenterX(xCoordinate*(this.getRadiusX()+1)*4 + this.getRadiusX()*2);
+		this.setCenterY(yCoordinate*(this.getRadiusY()+1)*4 + this.getRadiusY()*2);
 	}
 	
 }
