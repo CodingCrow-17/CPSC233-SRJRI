@@ -15,7 +15,7 @@ public class Coordinator {
 	private Output output;
 	private GameLogic logic;
 	
-	public Coordinator(GameMap gameMap, InputReciever inputReceiver, Output output) {
+	 	public Coordinator(GameMap gameMap, InputReciever inputReceiver, Output output) {
 		this.gameMap = gameMap;
 		this.input = inputReceiver;
 		this.logic = new GameLogic(gameMap);
@@ -28,19 +28,18 @@ public class Coordinator {
 			//player turn
 			output.printCurrentTurnOwner(String.valueOf(logic.getCurrentOwner().getType()));
 			output.printMap(gameMap);
-			System.out.println("printed map!");
+			System.out.println(" hi I'm:: " + this);
 			while(true) {
-				Instructions instructions = input.getNextInstruction();
-				InstructionType type = instructions.getType();
-				Position position = instructions.getPosition();
+				Instructions instruction = input.getNextInstruction();
+				InstructionType type = instruction.getType();
+				Position position = instruction.getPosition();
 				if (type.equals(InstructionType.SELECT)) {
 					logic.selectUnitAtPosition(position);
 					System.out.println("selected unit!");
 				}
 				if (type.equals(InstructionType.DESELECT)) {
 					logic.deselectUnit();
-				}
-				
+				}				
 				if (checkIfPlayerTurnIsOver() == true){
 					break;
 				}
@@ -58,15 +57,14 @@ public class Coordinator {
 		input.close();
 	}
 	
-	private void performMoveToCommand(int[] positionArray){
-		
+	public void performMoveToCommand(int[] positionArray){
 		Position initialPosition = new Position(positionArray[0], positionArray[1]);
 		Position finalPosition = new Position(positionArray[2], positionArray[3]);
 		logic.moveTo(initialPosition, finalPosition);
 	}
 
 	
-	boolean checkIfPlayerTurnIsOver() {
+	public boolean checkIfPlayerTurnIsOver() {
 		return logic.getCurrentOwner().checkIfAllUnitsMoved();
 	}
 }

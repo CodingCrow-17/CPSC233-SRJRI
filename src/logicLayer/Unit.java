@@ -2,7 +2,7 @@ package logicLayer;
 
 import output.UnitDisplayable;
 
-public class Unit
+public class Unit 
 {
 	private String name;
 	private Stats stats;

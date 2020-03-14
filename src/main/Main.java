@@ -19,13 +19,13 @@ public class Main {
 		InputReciever input = new TextInputReciever();
 		TextOutputPrinter output =  new TextOutputPrinter();
 		
+		GraphicalInterface gui = new GraphicalInterface();
+		
 		try {
-			GraphicalInterface gui = new GraphicalInterface();
-			gui.begin();
+			gui.begin(gameMap);
 		} catch (Exception e) {
 			System.out.println("A strange error occured while attempting to boot up the GUI!");
 			e.printStackTrace();
 		}
 	}
-
 }

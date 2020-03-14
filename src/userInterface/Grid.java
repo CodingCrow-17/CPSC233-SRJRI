@@ -41,7 +41,6 @@ public class Grid extends Group{
 		}
 		selectionMarker = new SelectionMarker(0,0,squareSideLength, squareSideLength, tiles[0].length, tiles.length);
 		this.getChildren().add(selectionMarker);
-		System.out.println(this.getChildren().indexOf(selectionMarker));
 		enable();
 	}
 	

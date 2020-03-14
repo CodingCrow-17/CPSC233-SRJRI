@@ -15,16 +15,19 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
+import logicLayer.GameLogic;
 import logicLayer.GameMap;
 import logicLayer.OwnerType;
+import logicLayer.Position;
 import logicLayer.Tile;
 import main.Coordinator;
 import main.StartUpClass;
 import output.Output;
 
-public class GraphicalInterface extends Application implements InputReciever, Output{
+public class GraphicalInterface extends Application{
 	
-	
+	private GameMap gameMap;
+	private GameLogic gameLogic;
 	private VBox root;
 	private HBox gameBoardDisplay;
 	private Grid grid;
@@ -32,9 +35,10 @@ public class GraphicalInterface extends Application implements InputReciever, Ou
 	private Scene scene;
 	private HandleKeyPresses handleKeyPresses;
 	
-	private Instructions currentInstructions = null;
-
-	public void begin() {
+	
+	public void begin(GameMap gameMap) {
+		this.gameMap = gameMap;
+		this.gameLogic = new GameLogic(gameMap);
 		this.launch();
 	}
 	
@@ -42,9 +46,8 @@ public class GraphicalInterface extends Application implements InputReciever, Ou
 	public void start(Stage primaryStage) throws Exception {
 		System.out.println("start");
 		GameMap map = StartUpClass.initializeGameMap();
-		
-		
-		Coordinator coordinator = new Coordinator(map, this, this);
+		this.gameMap = map;
+		this.gameLogic = new GameLogic(map);
 		
 		root = new VBox();
 		root.setPrefHeight(400);
@@ -60,49 +63,23 @@ public class GraphicalInterface extends Application implements InputReciever, Ou
 		commandSelection = new CommandSelection(50,80);
 		gameBoardDisplay.getChildren().addAll(grid, commandSelection);
 		
+		
 		root.getChildren().add(label);
 		root.getChildren().add(gameBoardDisplay);
 		scene = new Scene(root);
-		handleKeyPresses = new HandleKeyPresses(grid,commandSelection,coordinator, currentInstructions);
+		handleKeyPresses = new HandleKeyPresses(grid,commandSelection, this);
 		scene.setOnKeyTyped(handleKeyPresses);
 		primaryStage.setScene(scene);
 		
 		primaryStage.show();
-		TextInputReciever input = new TextInputReciever();
+	}
+	
+	public void performSelectToCommand(Position position) {
+		gameLogic.selectUnitAtPosition(position);
+	}
+	
+	public void performMoveCommand() {
 		
 	}
-
-	@Override
-	public void printMap(GameMap gameMap) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void printCurrentTurnOwner(String currentOwner) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public Instructions getNextInstruction() {
-		while (currentInstructions == null) {
-			
-		}
-		Instructions temp = new Instructions(currentInstructions);
-		currentInstructions = null;
-		return temp;
-	}
-
-	@Override
-	public void printStartingMessage() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void close() {
-		// TODO Auto-generated method stub
-		
-	}
+	
 }

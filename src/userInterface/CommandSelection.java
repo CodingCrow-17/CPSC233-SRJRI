@@ -16,10 +16,11 @@ public class CommandSelection extends Group{
 	private int rectangleHeight;
 	private int rectangleWidth;
 	
-	private Group attackSelection = null;
-	private Group moveSelection = null;
-	private Group waitSelection = null;
-	private Group cancelSelection = null;
+	private CommandOption attackSelection = null;
+	private CommandOption moveSelection = null;
+	private CommandOption waitSelection = null;
+	private CommandOption cancelSelection = null;
+	private CommandOption[] options;
 	private SelectionMarker selectionMarker = null;
 	
 	private boolean enabled;
@@ -28,39 +29,38 @@ public class CommandSelection extends Group{
 		super();
 		
 		rectangleHeight = height/4;
-		rectangleWidth = width-1;
+		rectangleWidth = width;
 		
-		this.setUpGroup(0, 0, "move", moveSelection);
-		this.setUpGroup(0, rectangleHeight, "attack", attackSelection);
-		this.setUpGroup(0, 2*rectangleHeight, "wait", waitSelection);
-		this.setUpGroup(0, 3*rectangleHeight, "cancel", cancelSelection);
+		moveSelection = CommandOption.generateCommandOption("move", rectangleWidth, rectangleHeight, 0);
+		attackSelection = CommandOption.generateCommandOption("attack", rectangleWidth, rectangleHeight, 1);
+		waitSelection = CommandOption.generateCommandOption("wait", rectangleWidth, rectangleHeight, 2);
+		cancelSelection = CommandOption.generateCommandOption("cancel", rectangleWidth, rectangleHeight, 3);
+		CommandOption[] options = {moveSelection, attackSelection, waitSelection, cancelSelection};
+		this.options = options;
+//		this.setUpGroup(0, 0, "move", moveSelection);
+//		this.setUpGroup(0, rectangleHeight, "attack", attackSelection);
+//		this.setUpGroup(0, 2*rectangleHeight, "wait", waitSelection);
+//		this.setUpGroup(0, 3*rectangleHeight, "cancel", cancelSelection);
 		
 		selectionMarker = new SelectionMarker(0,0, rectangleWidth, rectangleHeight,0,4);
 		
-		this.getChildren().add(selectionMarker);
+		this.getChildren().addAll(moveSelection, attackSelection, waitSelection, cancelSelection, selectionMarker);
 		this.disable();
 		
 	}
-	
-	private void setUpGroup(int xCoor, int yCoor, String string, Group group) {
-		StackPane pane = new StackPane();
-		Text text = new Text(string);
-		text.setX(0);
-		text.setY(yCoor);
-		text.setTextAlignment(TextAlignment.CENTER);
-		Rectangle rectangle = createRectangleAt(xCoor, yCoor);
-		pane.getChildren().addAll(rectangle, text);
-		group = new Group(pane);
-		group.setTranslateY(yCoor);
-		this.getChildren().add(group);
-		System.out.println(this.getChildren().size());
+
+	public boolean isMoveSelected() {
+		return findSelectedCommand().equals(moveSelection);
 	}
 	
-	private Rectangle createRectangleAt(int xCoor, int yCoor) {
-		Rectangle rectangle = new Rectangle(0, yCoor, rectangleWidth, rectangleHeight);
-		rectangle.setFill(Color.WHITE);
-		rectangle.setStroke(Color.BLACK);
-		return rectangle;
+	private CommandOption findSelectedCommand() {
+		CommandOption selection = null;
+		for (int i = 0; i < options.length; i++) {
+			if (options[i].getRowPostion() == selectionMarker.getCurrentPosition().getYPosition()) {
+				selection = options[i];
+			}
+		}
+		return selection;
 	}
 	
 	public SelectionMarker getSelectionMarker() {

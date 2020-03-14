@@ -56,7 +56,7 @@ public class SelectionMarker extends Group{
 			System.out.println("can't move");
 		}
 		else {
-			this.setTranslateY(this.getTranslateY() + width);
+			this.setTranslateY(this.getTranslateY() + height);
 			currentPosition.movePositionDown();
 		}
 	}
