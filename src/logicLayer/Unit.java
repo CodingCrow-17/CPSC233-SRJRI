@@ -20,6 +20,7 @@ public class Unit
 		this.hasMoved = false;
 		this.currentHp = stats.getHp().getCurrentValue();
 		this.displayable = displayable;
+		System.out.println(this.toString());
 	}
 	
 	public Unit(Unit unit) {
@@ -29,8 +30,6 @@ public class Unit
 		this.owner = unit.getOwner();  //should share reference
 		this.tile = unit.tile; //should share reference?
 	}
-	
-
 
 	public String getName()
 	{
@@ -106,5 +105,18 @@ public class Unit
 		}
 	}
 	
+	public String toString() {
+		String returnedString = "";
+		StringBuilder sb = new StringBuilder("");
+		sb.append(this.name);
+		sb.append("\n");
+		sb.append(this.owner.toString());
+		sb.append("\n");
+		sb.append(this.currentHpToString());
+		sb.append("\n");
+		sb.append(this.stats.nonHpStatsToString());
+		returnedString = sb.toString();
+		return returnedString;
+	}
 }
 

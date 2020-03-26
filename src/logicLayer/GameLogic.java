@@ -3,6 +3,9 @@ package logicLayer;
 import java.util.ArrayList;
 import java.util.List;
 
+import customExceptions.InvalidMoveException;
+import customExceptions.InvalidSelectException;
+
 public class GameLogic{
 
 	private GameMap gameMap;
@@ -27,7 +30,7 @@ public class GameLogic{
 		return currentOwner;
 	}
 	
-	public void selectUnitAtPosition(Position position) {
+	public void selectUnitAtPosition(Position position) throws InvalidSelectException{
 		Unit temp = gameMap.getTileAtPosition(position).getUnit();
 		if (temp != null) {
 			if(temp.getOwner().equals(currentOwner) && temp.getHasMoved() == false) {
@@ -36,6 +39,7 @@ public class GameLogic{
 		}
 		else {
 			selectedUnit = null;
+			throw new InvalidSelectException("There's no unit to select over there!");
 		}
 	}
 	
@@ -43,7 +47,7 @@ public class GameLogic{
 		selectedUnit = null;
 	}
 	
-	public boolean moveSelectedUnitTo(Position position) { // TODO: replace with error code
+	public void moveSelectedUnitTo(Position position) throws InvalidMoveException {
 		Tile destinationTile = gameMap.getTileAtPosition(position);
 		if (selectedUnit.getHasMoved() == false) {
 			List<Tile> validTilesToMoveTo = calculateValidTileToMoveTo(selectedUnit);
@@ -52,10 +56,14 @@ public class GameLogic{
 				destinationTile.setUnit(selectedUnit);
 				startTile.setUnit(null);
 				selectedUnit.moveTo(destinationTile);
-				return true;
+			}
+			else {
+				throw new InvalidMoveException("Can't move to a tile that far!");
 			}
 		}	
-		return false;
+		else {
+			throw new InvalidMoveException("You've already moved this turn!");
+		}
 	}
 	
 	public void moveTo(Position startPosition, Position endPosition) {

@@ -1,9 +1,11 @@
 package userInterface;
 
 import inputLayer.InstructionType;
-import inputLayer.Instructions;
+import customExceptions.InvalidInputException;
+import inputLayer.Instruction;
 import javafx.event.EventHandler;
 import javafx.scene.input.KeyEvent;
+import logicLayer.Position;
 import main.Coordinator;
 
 public class HandleKeyPresses implements EventHandler<KeyEvent> {
@@ -16,14 +18,12 @@ public class HandleKeyPresses implements EventHandler<KeyEvent> {
 	
 	
 	private Grid grid;
-	private CommandSelection commandSelection;
 	private boolean hasStarted = false;
-	private GraphicalInterface application;
+	private GuiLogicCoordinator coordinator;
 	
-	public HandleKeyPresses(Grid grid, CommandSelection commandSelection, GraphicalInterface application){
+	public HandleKeyPresses(Grid grid, GuiLogicCoordinator coordinator){
 		this.grid = grid;
-		this.commandSelection = commandSelection;
-		this.application = application;
+		this.coordinator = coordinator;
 	}
 	
 	
@@ -49,18 +49,30 @@ public class HandleKeyPresses implements EventHandler<KeyEvent> {
 					break;
 			}
 		}
-		else if (commandSelection.isEnabled() == true){
+		else if (grid.getUnitCommandSelection().isEnabled() == true){
 			switch (choice){
 				case(MOVE_UP_LETTER):
-					commandSelection.getSelectionMarker().moveSelectionUp();
+					grid.getUnitCommandSelection().getSelectionMarker().moveSelectionUp();
 					break;
 				case(MOVE_DOWN_LETTER):
-					commandSelection.getSelectionMarker().moveSelectionDown();
+					grid.getUnitCommandSelection().getSelectionMarker().moveSelectionDown();
 					break;
 				case(SELECT_LETTER):
-					commandSelection.getSelectionMarker().getCurrentPosition();
 					readInstructionFromCommandSelection();
 					break;
+			}
+		}
+		else if(grid.getMetaMenu().isEnabled() == true) {
+			switch (choice){
+			case(MOVE_UP_LETTER):
+				grid.getMetaMenu().getSelectionMarker().moveSelectionUp();
+				break;
+			case(MOVE_DOWN_LETTER):
+				grid.getMetaMenu().getSelectionMarker().moveSelectionDown();
+				break;
+			case(SELECT_LETTER):
+				readInstructionFromMetaMenu();
+				break;
 			}
 		}
 	}
@@ -69,44 +81,76 @@ public class HandleKeyPresses implements EventHandler<KeyEvent> {
 		if (grid.hasHighlightedMoveTiles()) {
 			createMoveInstruction();
 		}
-		else {
+		else if (grid.findSelectedUnitMarker() != null){
 			createSelectInstruction();
+		}
+		else {
+			focusOnMetaCommandMenu();
 		}
 	}
 	
 	private void createSelectInstruction() {
-		boolean wasSuccessful = application.performSelectToCommand(grid.getSelectionMarker().getCurrentPosition());
-		if (wasSuccessful == true) {
+		
+		try {
+			Position position = grid.getSelectionMarker().getCurrentPosition();
+			Instruction instruction = new Instruction(InstructionType.SELECT, position);
+			coordinator.interpretRegularInstruction(instruction);
+			grid.moveUnitSelectionMarker();
 			focusOnCommandSelection();	
-		}
+		} catch (InvalidInputException e) {}
 	}
 	
 	private void createMoveInstruction() {
-		boolean wasSuccessful = application.performMoveToTileCommand(grid.getSelectionMarker().getCurrentPosition());
-		if (wasSuccessful == true) {
-		}
+		try {
+			Position position = grid.getSelectionMarker().getCurrentPosition();
+			Instruction instruction = new Instruction(InstructionType.MOVE, position);
+			coordinator.interpretRegularInstruction(instruction);
+			grid.moveSelectedUnitMarker();
+			grid.getUnitSelectionMarker().disableMarker();
+			focusOnGrid();
+		} catch (InvalidInputException e) {}
 	}
 	
 	private void readInstructionFromCommandSelection() {
-		if (commandSelection.isMoveSelected()) {
+		if (grid.getUnitCommandSelection().isMoveSelected()) {
 			createDisplayMoveOptionsInstruciton();
 		}
 	}
 	
 	private void createDisplayMoveOptionsInstruciton() {
-		boolean wasSuccessful = application.retrieveValidTilesToMoveTo();
-		if (wasSuccessful) {
-			focusOnGrid();	
+		Instruction instruction = new Instruction(InstructionType.FIND_MOVE_TILES, null);
+		coordinator.interpretGridDisplayInstruction(instruction,grid);
+		focusOnGrid();
+	}
+	
+	private void readInstructionFromMetaMenu() {
+		if (grid.getMetaMenu().isEndTurnSelected()) {
+			createEndTurnInstruction();
 		}
 	}
-
+	
+	private void createEndTurnInstruction() {
+		Instruction instruction = new Instruction(InstructionType.END_TURN, null);
+		try {
+			coordinator.interpretRegularInstruction(instruction);
+		} catch (InvalidInputException e) {}
+		
+		focusOnGrid();
+	}
+	
 	private void focusOnGrid() {
 		grid.enable();
-		commandSelection.disable();
+		grid.hideCommandSelectionMenu();
+		grid.hideMetaCommandMenu();
 	}
 	
 	private void focusOnCommandSelection() {
 		grid.disable();
-		commandSelection.enable();
+		grid.displayCommandSelectionMenu();
+	}
+	
+	private void focusOnMetaCommandMenu() {
+		grid.disable();
+		grid.displayMetaCommandMenu();
 	}
 }

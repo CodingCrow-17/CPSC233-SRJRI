@@ -11,7 +11,7 @@ import java.util.List;
 
 import inputLayer.InputReciever;
 import inputLayer.InstructionType;
-import inputLayer.Instructions;
+import inputLayer.Instruction;
 import inputLayer.TextInputReciever;
 import output.Output;
 import output.TextOutputPrinter;
@@ -39,7 +39,7 @@ public class Coordinator {
 			Unit selectedUnit = null;
 			while(true) {
 				InstructionType type = tInput.setInstruction();
-				if (type.equals(InstructionType.ENDTURN)) {
+				if (type.equals(InstructionType.END_TURN)) {
 					break;
 				}
 				if (type.equals(InstructionType.SELECT)) {

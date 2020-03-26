@@ -52,4 +52,9 @@ public class Stats
 	{
 		return mov;
 	}
+	
+	public String nonHpStatsToString() {
+		return att.toString() + "\n" + def.toString() + "\n" + spd.toString() + "\n" + dex.toString() + "\n" + mov.toString() ;
+		
+	}
 }

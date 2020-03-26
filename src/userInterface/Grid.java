@@ -16,10 +16,14 @@ import logicLayer.Unit;
 public class Grid extends Group{
 	
 	private GridTile[][] gridTiles;
-	private SelectionMarker selectionMarker;
+	private SelectionMarker primarySelectionMarker;
+	private SelectionMarker unitSelectionMarker;
 	private List<UnitMarker> unitMarkers = new ArrayList<UnitMarker>();
 	private int squareSideLength;
 	private boolean enabled;
+	
+	private UnitCommandSelection unitCommandSelection;
+	private MetaCommandSelection metaCommandSelection;
 	
 	private boolean hasHighlightedMoveTiles = false;
 	
@@ -43,8 +47,17 @@ public class Grid extends Group{
 			}
 		}
 		this.getChildren().addAll(unitMarkers);
-		selectionMarker = new SelectionMarker(0,0,squareSideLength, squareSideLength, tiles[0].length, tiles.length);
-		this.getChildren().add(selectionMarker);
+		primarySelectionMarker = new SelectionMarker(0,0,squareSideLength, squareSideLength, tiles[0].length, tiles.length, Color.LIGHTBLUE);
+		this.getChildren().add(primarySelectionMarker);
+		unitSelectionMarker = new SelectionMarker(0,0,squareSideLength, squareSideLength, tiles[0].length, tiles.length, Color.LAVENDERBLUSH);
+		unitSelectionMarker.disableMarker();
+		this.getChildren().add(unitSelectionMarker);
+		unitCommandSelection = new UnitCommandSelection(50, 80);
+		metaCommandSelection = new MetaCommandSelection(50,40);
+		unitCommandSelection.setVisible(false);
+		metaCommandSelection.setVisible(false);
+		this.getChildren().add(this.unitCommandSelection);
+		this.getChildren().add(this.metaCommandSelection);
 		enable();
 	}
 	
@@ -78,10 +91,22 @@ public class Grid extends Group{
 		return gridTiles[x][y];
 	}
 	
-	public UnitMarker getUnitMarkerAtPostion(Position position) {
+	public boolean isEnabled() {
+		return enabled;
+	}
+	public void enable() {
+		primarySelectionMarker.enableMarker();
+		enabled = true;
+	}
+	public void disable() {
+		primarySelectionMarker.disableMarker();
+		enabled = false;
+	}
+	
+	public UnitMarker findSelectedUnitMarker() {
 		UnitMarker unitMarker = null;
 		for (UnitMarker marker : unitMarkers) {
-			if (marker.getUnit().getTile().getPos().equals(position)) {
+			if (marker.getUnit().getTile().getPos().equals(primarySelectionMarker.getCurrentPosition().getInversePosition())) {
 				unitMarker = marker;
 				break;
 			}
@@ -89,20 +114,58 @@ public class Grid extends Group{
 		return unitMarker;
 	}
 	
-	public boolean isEnabled() {
-		return enabled;
+	public void moveSelectedUnitMarker() {
+		UnitMarker unitMarker = this.findSelectedUnitMarker();
+		unitMarker.moveTo(this.primarySelectionMarker.getCurrentPosition());
+		this.resetHightlight();
 	}
-	public void enable() {
-		selectionMarker.enableMarker();
-		enabled = true;
-	}
-	public void disable() {
-		selectionMarker.disableMarker();
-		enabled = false;
+	
+	public void moveUnitSelectionMarker() {
+		this.unitSelectionMarker.setCurrentPosition(this.primarySelectionMarker.getCurrentPosition());
+		this.unitSelectionMarker.enableMarker();
 	}
 	
 	public SelectionMarker getSelectionMarker() {
-		return selectionMarker;
+		return primarySelectionMarker;
+	}
+
+	public SelectionMarker getUnitSelectionMarker() {
+		return this.unitSelectionMarker;
 	}
 	
+	public UnitCommandSelection getUnitCommandSelection() {
+		return this.unitCommandSelection;
+	}
+	
+	public MetaCommandSelection getMetaMenu() {
+		return this.metaCommandSelection;
+	}
+	
+	public void displayCommandSelectionMenu() {
+		display(this.unitCommandSelection);
+	}
+	
+	public void hideCommandSelectionMenu() {
+		hide(this.unitCommandSelection);
+	}
+	
+	public void displayMetaCommandMenu() {
+		display(this.metaCommandSelection);
+	}
+	
+	public void hideMetaCommandMenu() {
+		hide(this.metaCommandSelection);
+	}
+	
+	private void display(CommandSelection selection) {
+		selection.setTranslateX(this.primarySelectionMarker.getTranslateX());
+		selection.setTranslateY(this.primarySelectionMarker.getTranslateY());
+		selection.setVisible(true);
+		selection.enable();
+	}
+	
+	private void hide(CommandSelection selection) {
+		selection.setVisible(false);
+		selection.disable();
+	}
 }

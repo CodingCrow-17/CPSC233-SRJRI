@@ -2,17 +2,17 @@ package inputLayer;
 
 import logicLayer.Position;
 
-public class Instructions {
+public class Instruction {
 
 	private InstructionType type;
 	private Position position;
 	
-	public Instructions(InstructionType type, Position position) {
+	public Instruction(InstructionType type, Position position) {
 		this.position = position;
 		this.type = type;
 	}
 	
-	public Instructions(Instructions copyOf) {
+	public Instruction(Instruction copyOf) {
 		this.position = copyOf.getPosition();
 		this.type = copyOf.getType();
 	}
