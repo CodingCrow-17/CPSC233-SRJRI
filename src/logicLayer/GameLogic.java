@@ -3,6 +3,7 @@ package logicLayer;
 import java.util.ArrayList;
 import java.util.List;
 
+import customExceptions.InvalidAttackException;
 import customExceptions.InvalidMoveException;
 import customExceptions.InvalidSelectException;
 
@@ -32,24 +33,33 @@ public class GameLogic{
 	}
 	
 	public void selectUnitAtPosition(Position position) throws InvalidSelectException{
-		Unit temp = gameMap.getTileAtPosition(position).getUnit();
-		if (temp != null) {
-			if(temp.getOwner().equals(currentOwner) && temp.getHasMoved() == false) {
-				System.out.println(temp.getName() + " " +temp.toString());
-				this.selectedUnit = temp;
-				tempUnit = new Unit(selectedUnit);
-				System.out.println(selectedUnit.getName() + " " +selectedUnit.toString());
-				System.out.println(tempUnit.getName() + " " +tempUnit.toString());
-			}
+		Unit temp = getUnitAtPosition(position);
+		if(temp.getOwner().equals(currentOwner) && temp.getHasMoved() == false) {
+			this.selectedUnit = temp;
+			tempUnit = new Unit(selectedUnit);
 		}
 		else {
 			selectedUnit = null;
-			throw new InvalidSelectException("There's no unit to select over there!");
+			throw new InvalidSelectException("You can't select that unit!");		
+		}
+	}
+	
+	public Unit getUnitAtPosition(Position position) throws InvalidSelectException{
+		Unit temp = gameMap.getTileAtPosition(position).getUnit();
+		if (temp != null) {
+			return temp;
+		}
+		else {
+			throw new InvalidSelectException("There's no unit there!");
 		}
 	}
 	
 	public void deselectUnit() {
-		selectedUnit = null;
+		if (tempUnit.getTile().equals(selectedUnit.getTile()) == false){
+			tempUnit.getTile().setUnit(null);
+		}
+		this.tempUnit = null;
+		this.selectedUnit = null;
 	}
 	
 	public void moveSelectedUnitTo(Position position) throws InvalidMoveException {
@@ -57,7 +67,6 @@ public class GameLogic{
 		if (selectedUnit.getHasMoved() == false) {
 			List<Tile> validTilesToMoveTo = calculateValidTileToMoveTo(selectedUnit);
 			if (validTilesToMoveTo.contains(destinationTile)) {
-				destinationTile.setUnit(tempUnit);
 				tempUnit.moveTo(destinationTile);
 			}
 			else {
@@ -118,8 +127,27 @@ public class GameLogic{
 		//TODO
 	}
 	
+	public void performCombat(Position enemyPosition) throws InvalidAttackException {
+		boolean isValidAttack = false;
+		for (Position pos : calculateValidTileToAttack()) {
+			if (pos.getXPosition() == enemyPosition.getInversePosition().getXPosition() &&
+					pos.getYPosition() == enemyPosition.getInversePosition().getYPosition()) {
+				isValidAttack = true;
+				break;
+			}
+		}
+		if (isValidAttack) {
+			BattleForecast forecast = new BattleForecast(tempUnit, gameMap.getTileAtPosition(enemyPosition).getUnit());
+			BattleInstance instance = new BattleInstance(forecast);
+		}
+		else {
+			throw new InvalidAttackException("There's no enemy there to hit!");
+		}
+	}
+	
 	public void haveSelectedUnitEndTurn() {
 		selectedUnit.copyOtherUnit(this.tempUnit);
+		this.deselectUnit();
 	}
 	
 	
@@ -133,22 +161,47 @@ public class GameLogic{
 		
 	}
 	
-	public List<Position> calculatedValidTileToAttack(){
+	public List<Position> calculateValidTileToAttack(){
 		List<Tile> tiles = new ArrayList<Tile>();
+		List<Tile> tilesToRemove = new ArrayList<Tile>();
 		int attackRange = tempUnit.getAttackRange()+1;
 		Tile startTile = tempUnit.getTile();
 		calculateRange(tiles, startTile, attackRange, Direction.NONE);
+		for(Tile tile : tiles) {
+			if (tile.hasUnit()) {
+				if (tile.getUnit().getOwner().getType().equals(selectedUnit.getOwner().getType())){
+					tilesToRemove.add(tile);
+				}
+			}
+			else {
+				tilesToRemove.add(tile);
+			}
+		}
+		for(Tile tile : tilesToRemove) {
+			tiles.remove(tile);
+		}
 		return tileListToPositionList(tiles);
 	}
 	
 	public List<Tile> calculateValidTileToMoveTo(Unit unit) {
-		List<Tile> tileRange = new ArrayList<Tile>();
+		List<Tile> tiles = new ArrayList<Tile>();
+		List<Tile> tilesToRemove = new ArrayList<Tile>();
 		Direction direction = Direction.NONE;
 		Tile startTile = unit.getTile();	
 		int movStamina = unit.getStats().getMov().getCurrentValue()+1;
-		tileRange.add(startTile);
-		calculateRange(tileRange, startTile, movStamina, direction);
-		return tileRange;
+		tiles.add(startTile);
+		calculateRange(tiles, startTile, movStamina, direction);
+		for(Tile tile : tiles) {
+			if (tile.hasUnit()) {
+				if (tile.getUnit().equals(this.tempUnit) == false){
+					tilesToRemove.add(tile);
+				}
+			}
+		}
+		for(Tile tile : tilesToRemove) {
+			tiles.remove(tile);
+		}
+		return tiles;
 	}
 	
 	private void calculateRange(List<Tile> tileRange, Tile startTile, int movStamina, Direction direction) {

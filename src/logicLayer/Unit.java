@@ -26,6 +26,7 @@ public class Unit
 	
 	public Unit(Unit unit) {
 		this.name = unit.getName();
+		this.currentHp = unit.getCurrentHp();
 		this.stats = new Stats(unit.getStats());
 		this.hasMoved = false;
 		this.owner = unit.getOwner();  //should share reference
@@ -34,11 +35,11 @@ public class Unit
 	
 	public void copyOtherUnit(Unit unit) {
 		this.name = unit.getName();
-		this.stats = new Stats(unit.getStats());
+		this.stats = unit.getStats();
 		this.currentHp = unit.getCurrentHp();
+		this.owner = unit.getOwner();
 		this.hasMoved = unit.getHasMoved();
-		this.owner = unit.getOwner();  //should share reference
-		this.tile = unit.tile; //should share reference?
+		this.moveTo(unit.getTile());
 	}
 
 	public String getName()
@@ -80,9 +81,11 @@ public class Unit
 	
 	public void moveTo(Tile finalTile)
 	{
-		tile.setUnit(null);
+		if (this.tile.getUnit().equals(this)) {
+			this.tile.setUnit(null);
+		}
 		this.tile = finalTile;
-		finalTile.setUnit(this);
+		this.tile.setUnit(this);
 		hasMoved = true;
 	}
 	

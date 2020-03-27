@@ -87,6 +87,7 @@ public class Grid extends Group{
 			}
 		}
 		hasHighlightedMoveTiles = false;
+		hasHighlightedAttackTiles = false;
 	}
 	
 	public boolean hasHighlightedMoveTiles() {
@@ -135,6 +136,13 @@ public class Grid extends Group{
 	public void moveSelectedUnitMarker() {
 		UnitMarker unitMarker = this.findSelectedUnitMarker(unitSelectionMarker);
 		unitMarker.moveTo(this.primarySelectionMarker.getCurrentPosition());
+		this.resetHightlight();
+	}
+	
+	public void resetMovementOfSelectedUnitMarker() {
+		UnitMarker unitMarker = this.findSelectedUnitMarker(unitSelectionMarker);
+		unitMarker.moveTo(this.unitSelectionMarker.getCurrentPosition());
+		primarySelectionMarker.setCurrentPosition(unitSelectionMarker.getCurrentPosition());
 		this.resetHightlight();
 	}
 	

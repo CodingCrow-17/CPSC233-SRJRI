@@ -17,7 +17,7 @@ public class GraphicalInterface extends Application{
 	private Grid grid;
 	private Scene scene;
 	private HandleKeyPresses handleKeyPresses;
-	private Label informationDisplay;
+	private InformationDisplay informationDisplay;
 	
 	public void begin() {
 		this.launch();
@@ -39,7 +39,7 @@ public class GraphicalInterface extends Application{
 		grid = new Grid(gameMap.getTiles(), 200, 200);
 		gameBoardDisplay.getChildren().addAll(grid);
 		
-		informationDisplay = new Label("Begin");
+		informationDisplay = new InformationDisplay("Begin");
 		root.getChildren().add(gameBoardDisplay);
 		root.getChildren().add(informationDisplay);
 		scene = new Scene(root);

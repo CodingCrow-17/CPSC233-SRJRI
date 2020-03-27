@@ -45,9 +45,9 @@ public class StartUpClass {
 		
 		UnitDisplayable unitTextDisplayable = null;
 		
-//		Tile unitATile = gameMap.getTileAtCoordinates(0, 0);
-//		Unit unitA = new Unit("Geoff", unitAStats, player, unitATile,unitTextDisplayable);
-//		unitATile.setUnit(unitA);
+		Tile unitATile = gameMap.getTileAtCoordinates(0, 0);
+		Unit unitA = new Unit("Geoff", unitAStats, player, unitATile,unitTextDisplayable);
+		unitATile.setUnit(unitA);
 		
 		Stat unitBHp = new Stat(StatType.HP, 25, .45, 100);
 		Stat unitBAtt = new Stat(StatType.ATTACK, 7, .30, 100);
@@ -73,7 +73,7 @@ public class StartUpClass {
 		Unit unitC = new Unit("Rogue", unitCStats, enemy, unitCTile,unitTextDisplayable);
 		unitCTile.setUnit(unitC);
 		
-//		player.addUnit(unitA);
+		player.addUnit(unitA);
 		player.addUnit(unitB);
 		enemy.addUnit(unitC);
 		

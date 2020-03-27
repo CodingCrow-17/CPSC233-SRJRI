@@ -19,10 +19,10 @@ public class HandleKeyPresses implements EventHandler<KeyEvent> {
 	private static final char CANCEL_LETTER = 'b';
 	
 	private Grid grid;
-	private Label informationDisplay;
+	private InformationDisplay informationDisplay;
 	private GuiLogicCoordinator coordinator;
 	
-	public HandleKeyPresses(Grid grid, Label informationDisplay,GuiLogicCoordinator coordinator){
+	public HandleKeyPresses(Grid grid, InformationDisplay informationDisplay,GuiLogicCoordinator coordinator){
 		this.grid = grid;
 		this.informationDisplay = informationDisplay;
 		this.coordinator = coordinator;
@@ -49,8 +49,7 @@ public class HandleKeyPresses implements EventHandler<KeyEvent> {
 					readInstructionFromGrid();
 					break;
 				case(CANCEL_LETTER):
-					grid.resetHightlight();
-					grid.getUnitSelectionMarker().disableMarker();
+					cancelGridInstruction();
 					break;
 			}
 		}
@@ -86,6 +85,10 @@ public class HandleKeyPresses implements EventHandler<KeyEvent> {
 		if (grid.hasHighlightedMoveTiles()) {
 			createMoveInstruction();
 		}
+		else if (grid.hasHighlightedAttackTiles()) {
+			createDisplayAttackForecastInstruction();
+//			createAttackInstruction();
+		}
 		else if (grid.findSelectedUnitMarker() != null){
 			createSelectInstruction();
 		}
@@ -94,16 +97,53 @@ public class HandleKeyPresses implements EventHandler<KeyEvent> {
 		}
 	}
 	
-	private void createSelectInstruction() {
-		
+	private void cancelGridInstruction() {
+		if (grid.hasHighlightedMoveTiles()) {
+			grid.resetMovementOfSelectedUnitMarker();
+			this.focusOnCommandSelection();
+		}
+		else if (grid.hasHighlightedAttackTiles()) {
+		}
+		else if (grid.findSelectedUnitMarker() != null){
+		}
+		else {
+		}
+		grid.resetHightlight();
+		grid.getUnitSelectionMarker().disableMarker();
+	}
+
+	private void createDisplayAttackForecastInstruction() {
 		try {
-			grid.moveUnitSelectionMarker();
+			Position position = grid.getSelectionMarker().getCurrentPosition();
+			Instruction instruction = new Instruction(InstructionType.DISPLAY_ATTACK_FORECAST, position);
+			coordinator.interpretLabelDisplayInstruction(instruction, informationDisplay);
+			grid.resetHightlight();
+			grid.getUnitSelectionMarker().disableMarker();
+		} catch (InvalidInputException e) {
+			System.out.print(e.getMessage());
+		}	
+	}
+
+	private void createSelectInstruction() {
+		try {
 			Position position = grid.getSelectionMarker().getCurrentPosition();
 			Instruction instruction = new Instruction(InstructionType.SELECT, position);
 			coordinator.interpretRegularInstruction(instruction);
 			grid.moveUnitSelectionMarker();
 			focusOnCommandSelection();	
-		} catch (InvalidInputException e) {}
+		} catch (InvalidInputException e) {
+			System.out.print(e.getMessage());
+		}
+		createUnitInfoDisplayInstruction();
+	}
+	
+	private void createUnitInfoDisplayInstruction() {
+		Position position = grid.getSelectionMarker().getCurrentPosition();
+		Instruction instruction = new Instruction(InstructionType.DISPLAY_UNIT_INFO, position);
+		try {
+			coordinator.interpretLabelDisplayInstruction(instruction,informationDisplay);
+		} catch (InvalidInputException e) {
+		}
 	}
 	
 	private void createMoveInstruction() {
@@ -114,9 +154,23 @@ public class HandleKeyPresses implements EventHandler<KeyEvent> {
 			grid.moveSelectedUnitMarker();
 
 			focusOnCommandSelection();
-//			grid.getUnitSelectionMarker().disableMarker();
-//			focusOnGrid();
-		} catch (InvalidInputException e) {}
+		} catch (InvalidInputException e) {
+			System.out.print(e.getMessage());
+		}
+	}
+	
+	
+	private void createAttackInstruction() {
+		try {
+			Position position = grid.getSelectionMarker().getCurrentPosition();
+			Instruction instruction = new Instruction(InstructionType.ATTACK, position);
+			coordinator.interpretRegularInstruction(instruction);
+			
+			grid.resetHightlight();
+			grid.getUnitSelectionMarker().disableMarker();
+		} catch (InvalidInputException e) {
+			System.out.print(e.getMessage());
+		}	
 	}
 	
 	private void readInstructionFromCommandSelection() {
@@ -125,6 +179,7 @@ public class HandleKeyPresses implements EventHandler<KeyEvent> {
 		}
 		else if (grid.getUnitCommandSelection().isCancelSelected()) {
 			grid.getUnitSelectionMarker().disableMarker();
+			createCancelInstruction();
 			focusOnGrid();
 		}
 		else if (grid.getUnitCommandSelection().isAttackSelected()) {
@@ -144,6 +199,18 @@ public class HandleKeyPresses implements EventHandler<KeyEvent> {
 	private void createDisplayAttackOptionsInstruction() {
 		Instruction instruction = new Instruction(InstructionType.FIND_ATTACK_TILES, null);
 		coordinator.interpretGridDisplayInstruction(instruction,grid);
+		if (grid.hasHighlightedAttackTiles()) {
+			focusOnGrid();
+		}
+	}
+	
+	private void createCancelInstruction() {
+		Instruction instruction = new Instruction(InstructionType.CANCEL, null);
+		try {
+			coordinator.interpretRegularInstruction(instruction);
+			grid.resetMovementOfSelectedUnitMarker();
+			grid.getUnitSelectionMarker().disableMarker();
+		} catch (InvalidInputException e) {}
 		focusOnGrid();
 	}
 	
