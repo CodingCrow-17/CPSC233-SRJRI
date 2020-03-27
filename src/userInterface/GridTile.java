@@ -8,13 +8,15 @@ public class GridTile extends Rectangle{
 	
 	private Color regularColour;
 	private Color validMoveColour;
+	private Color validAttackColour;
 	private Tile tile;
 	
-	public GridTile(int xCoordinate, int yCoordinate, int width, int height, Color regularColour, Color validMoveColour, Tile tile) {
+	public GridTile(int xCoordinate, int yCoordinate, int width, int height, Color regularColour, Color validMoveColour, Color validAttackColour,Tile tile) {
 		super(xCoordinate, yCoordinate, width, height);
 		this.regularColour = regularColour;
 		this.validMoveColour = validMoveColour;
-		this.setFill(regularColour);
+		this.validAttackColour = validAttackColour;
+		this.setFill(this.regularColour);
 		this.setStroke(Color.BLACK);
 		this.setStrokeWidth(1);
 		this.tile = tile;
@@ -26,7 +28,10 @@ public class GridTile extends Rectangle{
 	
 	public void changeToValidMoveColour() {
 		this.setFill(validMoveColour);
-		
+	}
+	
+	public void changeToValidAttackColour() {
+		this.setFill(validAttackColour);
 	}
 	
 	public void revertColour() {

@@ -29,6 +29,9 @@ public class GuiLogicCoordinator {
 			case MOVE :
 				logic.moveSelectedUnitTo(position);
 				break;
+			case WAIT :
+				logic.haveSelectedUnitEndTurn();
+				break;
 			case END_TURN :
 				logic.switchOwner();
 				performEnemyTurn();
@@ -43,6 +46,10 @@ public class GuiLogicCoordinator {
 		switch (type) {
 			case FIND_MOVE_TILES :
 				highlightMoveTiles(grid);
+				break;
+			case FIND_ATTACK_TILES :
+				highlightAttackTiles(grid);
+				break;
 			default :
 				break;
 		}
@@ -55,6 +62,12 @@ public class GuiLogicCoordinator {
 	private void highlightMoveTiles(Grid grid) {
 		List<Position> positions = logic.findValidTileToMoveToPositions();
 		grid.highlightMoveTiles(positions);
+	}
+	
+	private void highlightAttackTiles(Grid grid) {
+		List<Position> positions = logic.calculatedValidTileToAttack();
+		System.out.println(positions);
+		grid.highlightAttackTiles(positions);
 	}
 	
 	private void performEnemyTurn() {

@@ -15,7 +15,8 @@ public class SelectionMarker extends Group{
 	private int width;
 	private int rowsToSelectFrom;
 	private int columnsToSelectFrom;
-	private Position currentPosition;;
+	private Position currentPosition;
+	private boolean isEnabled;
 	
 	public SelectionMarker(int xCor, int yCor, int width, int height, int rowsToSelectFrom, int columnsToSelectFrom, Color selectionColour) {
 		super();
@@ -37,17 +38,23 @@ public class SelectionMarker extends Group{
 	}
 	
 	public void setCurrentPosition(Position position) {
-		this.currentPosition = position;
+		this.currentPosition = new Position(position);
 		this.setTranslateX(currentPosition.getXPosition()*width);
 		this.setTranslateY(currentPosition.getYPosition()*height);
 	}
 	
 	public void enableMarker() {
 		selectionMarkerRepresentation.setStroke(this.selectionColour);
+		isEnabled = true;
 	}
 	
 	public void disableMarker() {
 		selectionMarkerRepresentation.setStroke(DE_SELECTED_COLOUR);
+		isEnabled = false;
+	}
+	
+	public boolean isEnabled() {
+		return isEnabled;
 	}
 	
 	public void moveSelectionUp() {

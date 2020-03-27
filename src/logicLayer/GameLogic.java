@@ -12,6 +12,7 @@ public class GameLogic{
 	private Owner currentOwner;
 	private int currentIndex = -1;
 	private Unit selectedUnit = null;
+	private Unit tempUnit = null;
 	
 	public GameLogic(GameMap gameMap) {
 		this.gameMap = gameMap;
@@ -34,7 +35,11 @@ public class GameLogic{
 		Unit temp = gameMap.getTileAtPosition(position).getUnit();
 		if (temp != null) {
 			if(temp.getOwner().equals(currentOwner) && temp.getHasMoved() == false) {
+				System.out.println(temp.getName() + " " +temp.toString());
 				this.selectedUnit = temp;
+				tempUnit = new Unit(selectedUnit);
+				System.out.println(selectedUnit.getName() + " " +selectedUnit.toString());
+				System.out.println(tempUnit.getName() + " " +tempUnit.toString());
 			}
 		}
 		else {
@@ -52,10 +57,8 @@ public class GameLogic{
 		if (selectedUnit.getHasMoved() == false) {
 			List<Tile> validTilesToMoveTo = calculateValidTileToMoveTo(selectedUnit);
 			if (validTilesToMoveTo.contains(destinationTile)) {
-				Tile startTile = selectedUnit.getTile();
-				destinationTile.setUnit(selectedUnit);
-				startTile.setUnit(null);
-				selectedUnit.moveTo(destinationTile);
+				destinationTile.setUnit(tempUnit);
+				tempUnit.moveTo(destinationTile);
 			}
 			else {
 				throw new InvalidMoveException("Can't move to a tile that far!");
@@ -115,6 +118,10 @@ public class GameLogic{
 		//TODO
 	}
 	
+	public void haveSelectedUnitEndTurn() {
+		selectedUnit.copyOtherUnit(this.tempUnit);
+	}
+	
 	
 	private boolean checkIfUnitIsOnTile(Tile tile) {
 		return tile.hasUnit();
@@ -122,12 +129,16 @@ public class GameLogic{
 	
 	public List<Position> findValidTileToMoveToPositions(){
 		List<Tile> tiles = calculateValidTileToMoveTo(selectedUnit);
-		List<Position> positions = new ArrayList<Position>();
-		for (Tile tile : tiles) {
-			positions.add(tile.getPos());
-		}
-		return positions;
+		return tileListToPositionList(tiles);
 		
+	}
+	
+	public List<Position> calculatedValidTileToAttack(){
+		List<Tile> tiles = new ArrayList<Tile>();
+		int attackRange = tempUnit.getAttackRange()+1;
+		Tile startTile = tempUnit.getTile();
+		calculateRange(tiles, startTile, attackRange, Direction.NONE);
+		return tileListToPositionList(tiles);
 	}
 	
 	public List<Tile> calculateValidTileToMoveTo(Unit unit) {
@@ -136,30 +147,30 @@ public class GameLogic{
 		Tile startTile = unit.getTile();	
 		int movStamina = unit.getStats().getMov().getCurrentValue()+1;
 		tileRange.add(startTile);
-		calculateMovRange(tileRange, startTile, movStamina, direction);
+		calculateRange(tileRange, startTile, movStamina, direction);
 		return tileRange;
 	}
 	
-	private void calculateMovRange(List<Tile> tileRange, Tile startTile, int movStamina, Direction direction) {
+	private void calculateRange(List<Tile> tileRange, Tile startTile, int movStamina, Direction direction) {
 		if (movStamina == 0) { // base case
 			return;
 		}
 		else {
 			movStamina--;
 			if (direction.equals(Direction.NONE)) {
-				calculateMovRange(tileRange, startTile, movStamina, Direction.UP);
-				calculateMovRange(tileRange, startTile, movStamina, Direction.RIGHT);
-				calculateMovRange(tileRange, startTile, movStamina, Direction.DOWN);
-				calculateMovRange(tileRange, startTile, movStamina, Direction.LEFT);
+				calculateRange(tileRange, startTile, movStamina, Direction.UP);
+				calculateRange(tileRange, startTile, movStamina, Direction.RIGHT);
+				calculateRange(tileRange, startTile, movStamina, Direction.DOWN);
+				calculateRange(tileRange, startTile, movStamina, Direction.LEFT);
 			}
 			if (direction.equals(Direction.RIGHT)) {
 				Tile newTile= gameMap.getTileAtCoordinates(startTile.getPos().getYPosition()+1,
 						startTile.getPos().getXPosition());
 				if (newTile != null) {
 					tileRange.add(newTile);
-					calculateMovRange(tileRange, newTile, movStamina, Direction.UP);
-					calculateMovRange(tileRange, newTile, movStamina, Direction.RIGHT);
-					calculateMovRange(tileRange, newTile, movStamina, Direction.DOWN);	
+					calculateRange(tileRange, newTile, movStamina, Direction.UP);
+					calculateRange(tileRange, newTile, movStamina, Direction.RIGHT);
+					calculateRange(tileRange, newTile, movStamina, Direction.DOWN);	
 				}
 			}
 			if (direction.equals(Direction.UP)) {
@@ -167,9 +178,9 @@ public class GameLogic{
 						startTile.getPos().getXPosition()-1);
 				if (newTile != null) {
 					tileRange.add(newTile);
-					calculateMovRange(tileRange, newTile, movStamina, Direction.RIGHT);
-					calculateMovRange(tileRange, newTile, movStamina, Direction.LEFT);
-					calculateMovRange(tileRange, newTile, movStamina, Direction.UP);	
+					calculateRange(tileRange, newTile, movStamina, Direction.RIGHT);
+					calculateRange(tileRange, newTile, movStamina, Direction.LEFT);
+					calculateRange(tileRange, newTile, movStamina, Direction.UP);	
 				}
 			}
 			if (direction.equals(Direction.LEFT)) {
@@ -177,9 +188,9 @@ public class GameLogic{
 						startTile.getPos().getXPosition());
 				if (newTile != null) {
 					tileRange.add(newTile);
-					calculateMovRange(tileRange, newTile, movStamina, Direction.UP);
-					calculateMovRange(tileRange, newTile, movStamina, Direction.LEFT);
-					calculateMovRange(tileRange, newTile, movStamina, Direction.DOWN);
+					calculateRange(tileRange, newTile, movStamina, Direction.UP);
+					calculateRange(tileRange, newTile, movStamina, Direction.LEFT);
+					calculateRange(tileRange, newTile, movStamina, Direction.DOWN);
 				}
 			}
 			if (direction.equals(Direction.DOWN)) {
@@ -187,12 +198,20 @@ public class GameLogic{
 						startTile.getPos().getXPosition()+1);
 				if (newTile != null) {
 					tileRange.add(newTile);
-					calculateMovRange(tileRange, newTile, movStamina, Direction.RIGHT);
-					calculateMovRange(tileRange, newTile, movStamina, Direction.DOWN);
-					calculateMovRange(tileRange, newTile, movStamina, Direction.LEFT);	
+					calculateRange(tileRange, newTile, movStamina, Direction.RIGHT);
+					calculateRange(tileRange, newTile, movStamina, Direction.DOWN);
+					calculateRange(tileRange, newTile, movStamina, Direction.LEFT);	
 				}
 			}
 		}
+	}
+	
+	private List<Position> tileListToPositionList(List<Tile> tiles) {
+		List<Position> positions = new ArrayList<Position>();
+		for (Tile tile : tiles) {
+			positions.add(tile.getPos());
+		}
+		return positions;
 	}
 	
 	public void switchOwner() {

@@ -6,6 +6,7 @@ import javafx.scene.paint.Color;
 public abstract class CommandSelection extends Group{
 
 	protected SelectionMarker selectionMarker = null;
+	protected CommandOption cancelSelection;
 	protected CommandOption[] options;
 	protected boolean enabled;
 	
@@ -29,6 +30,10 @@ public abstract class CommandSelection extends Group{
 		return selection;
 	}
 	
+	protected boolean isCancelSelected() {
+		return this.findSelectedCommand().equals(cancelSelection);
+	}
+	
 	public SelectionMarker getSelectionMarker() {
 		return this.selectionMarker;
 	}
@@ -44,5 +49,4 @@ public abstract class CommandSelection extends Group{
 		selectionMarker.disableMarker();
 		enabled = false;
 	}
-	
 }

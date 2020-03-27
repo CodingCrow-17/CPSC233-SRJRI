@@ -33,8 +33,8 @@ public class GraphicalInterface extends Application{
 		root.setPrefWidth(400);
 		
 		gameBoardDisplay = new HBox();
-		gameBoardDisplay.setPrefHeight(220);
-		gameBoardDisplay.setPrefWidth(380);
+		gameBoardDisplay.setPrefHeight(200);
+		gameBoardDisplay.setPrefWidth(200);
 		
 		grid = new Grid(gameMap.getTiles(), 200, 200);
 		gameBoardDisplay.getChildren().addAll(grid);
@@ -43,7 +43,7 @@ public class GraphicalInterface extends Application{
 		root.getChildren().add(gameBoardDisplay);
 		root.getChildren().add(informationDisplay);
 		scene = new Scene(root);
-		handleKeyPresses = new HandleKeyPresses(this.grid, this.coordinator);
+		handleKeyPresses = new HandleKeyPresses(this.grid, this.informationDisplay,this.coordinator);
 		scene.setOnKeyTyped(handleKeyPresses);
 		primaryStage.setScene(scene);
 		primaryStage.setTitle("SJRJI game project");

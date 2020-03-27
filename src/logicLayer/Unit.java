@@ -4,6 +4,8 @@ import output.UnitDisplayable;
 
 public class Unit 
 {
+	private static final int ATTACK_RANGE = 1; //all units will have 1 attack range for now.
+	
 	private String name;
 	private Stats stats;
 	private int currentHp;
@@ -20,13 +22,21 @@ public class Unit
 		this.hasMoved = false;
 		this.currentHp = stats.getHp().getCurrentValue();
 		this.displayable = displayable;
-		System.out.println(this.toString());
 	}
 	
 	public Unit(Unit unit) {
 		this.name = unit.getName();
 		this.stats = new Stats(unit.getStats());
 		this.hasMoved = false;
+		this.owner = unit.getOwner();  //should share reference
+		this.tile = unit.tile; //should share reference?
+	}
+	
+	public void copyOtherUnit(Unit unit) {
+		this.name = unit.getName();
+		this.stats = new Stats(unit.getStats());
+		this.currentHp = unit.getCurrentHp();
+		this.hasMoved = unit.getHasMoved();
 		this.owner = unit.getOwner();  //should share reference
 		this.tile = unit.tile; //should share reference?
 	}
@@ -40,7 +50,10 @@ public class Unit
 		return currentHp;
 	}
 	
-
+	public int getAttackRange() {
+		return ATTACK_RANGE;
+	}
+	
 	public Stats getStats() {
 		return stats;
 	}
@@ -59,7 +72,6 @@ public class Unit
 	public void resetMove() {
 		hasMoved = false;
 	}
-	
 	
 	public String currentHpToString() {
 		String stringVal = stats.getHp().getStatType() + ": " + currentHp + "/" + stats.getHp().getCurrentValue();
@@ -116,7 +128,7 @@ public class Unit
 		sb.append("\n");
 		sb.append(this.stats.nonHpStatsToString());
 		returnedString = sb.toString();
-		return returnedString;
+		return returnedString; 
 	}
 }
 

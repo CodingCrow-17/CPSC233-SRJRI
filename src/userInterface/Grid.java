@@ -26,6 +26,7 @@ public class Grid extends Group{
 	private MetaCommandSelection metaCommandSelection;
 	
 	private boolean hasHighlightedMoveTiles = false;
+	private boolean hasHighlightedAttackTiles = false;
 	
 	public Grid(Tile[][] tiles, int height, int width) {
 		super();
@@ -34,7 +35,7 @@ public class Grid extends Group{
 		for(int i = 0; i < tiles.length; i++) {
 			for (int j = 0; j < tiles[i].length; j++) {
 				GridTile gridTile = new GridTile(j*squareSideLength, i*squareSideLength, squareSideLength, squareSideLength, 
-						Color.WHITESMOKE, Color.SKYBLUE, tiles[i][j]);
+						Color.WHITESMOKE, Color.SKYBLUE, Color.MISTYROSE,tiles[i][j]);
 				this.getChildren().add(gridTile);
 				gridTiles[i][j] = gridTile;
 				if (tiles[i][j].hasUnit()) {
@@ -70,6 +71,15 @@ public class Grid extends Group{
 		}
 	}
 	
+	public void highlightAttackTiles(List<Position> positions){
+		if (positions.isEmpty() == false) {
+			hasHighlightedAttackTiles = true;
+		}
+		for (Position position : positions) {
+			this.getGridTileAtPosition(position).changeToValidAttackColour();
+		}
+	}
+	
 	public void resetHightlight() {
 		for(int i = 0; i < gridTiles.length; i++) {
 			for (int j = 0; j < gridTiles[i].length; j++) {
@@ -81,6 +91,10 @@ public class Grid extends Group{
 	
 	public boolean hasHighlightedMoveTiles() {
 		return hasHighlightedMoveTiles;
+	}
+
+	public boolean hasHighlightedAttackTiles() {
+		return hasHighlightedAttackTiles;
 	}
 	
 	public GridTile getGridTileAtPosition(Position position) {
@@ -104,9 +118,13 @@ public class Grid extends Group{
 	}
 	
 	public UnitMarker findSelectedUnitMarker() {
+		return findSelectedUnitMarker(primarySelectionMarker);
+	}
+	
+	private UnitMarker findSelectedUnitMarker(SelectionMarker selectionMarker) {
 		UnitMarker unitMarker = null;
 		for (UnitMarker marker : unitMarkers) {
-			if (marker.getUnit().getTile().getPos().equals(primarySelectionMarker.getCurrentPosition().getInversePosition())) {
+			if (marker.getUnit().getTile().getPos().equals(selectionMarker.getCurrentPosition().getInversePosition())) {
 				unitMarker = marker;
 				break;
 			}
@@ -115,7 +133,7 @@ public class Grid extends Group{
 	}
 	
 	public void moveSelectedUnitMarker() {
-		UnitMarker unitMarker = this.findSelectedUnitMarker();
+		UnitMarker unitMarker = this.findSelectedUnitMarker(unitSelectionMarker);
 		unitMarker.moveTo(this.primarySelectionMarker.getCurrentPosition());
 		this.resetHightlight();
 	}

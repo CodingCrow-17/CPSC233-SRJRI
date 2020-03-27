@@ -5,7 +5,6 @@ public class MetaCommandSelection extends CommandSelection {
 	private static final int OPTION_COUNT = 2;
 	
 	private CommandOption endTurnSelection = null;
-	private CommandOption cancelSelection = null;
 	
 	public MetaCommandSelection(int width, int height) {
 		super(width, height, OPTION_COUNT);

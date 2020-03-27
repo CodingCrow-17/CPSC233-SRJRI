@@ -18,7 +18,6 @@ public class UnitCommandSelection extends CommandSelection{
 	private CommandOption attackSelection = null;
 	private CommandOption moveSelection = null;
 	private CommandOption waitSelection = null;
-	private CommandOption cancelSelection = null;
 	
 	
 	public UnitCommandSelection(int width, int height) {
@@ -40,6 +39,14 @@ public class UnitCommandSelection extends CommandSelection{
 
 	public boolean isMoveSelected() {
 		return findSelectedCommand().equals(moveSelection);
+	}
+	
+	public boolean isAttackSelected() {
+		return findSelectedCommand().equals(attackSelection);
+	}
+	
+	public boolean isWaitSelected() {
+		return findSelectedCommand().equals(waitSelection);
 	}
 	
 }

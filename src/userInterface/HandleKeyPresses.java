@@ -4,6 +4,7 @@ import inputLayer.InstructionType;
 import customExceptions.InvalidInputException;
 import inputLayer.Instruction;
 import javafx.event.EventHandler;
+import javafx.scene.control.Label;
 import javafx.scene.input.KeyEvent;
 import logicLayer.Position;
 import main.Coordinator;
@@ -15,17 +16,17 @@ public class HandleKeyPresses implements EventHandler<KeyEvent> {
 	private static final char MOVE_RIGHT_LETTER = 'd';
 	private static final char MOVE_LEFT_LETTER = 'a';
 	private static final char SELECT_LETTER = 'k';
-	
+	private static final char CANCEL_LETTER = 'b';
 	
 	private Grid grid;
-	private boolean hasStarted = false;
+	private Label informationDisplay;
 	private GuiLogicCoordinator coordinator;
 	
-	public HandleKeyPresses(Grid grid, GuiLogicCoordinator coordinator){
+	public HandleKeyPresses(Grid grid, Label informationDisplay,GuiLogicCoordinator coordinator){
 		this.grid = grid;
+		this.informationDisplay = informationDisplay;
 		this.coordinator = coordinator;
 	}
-	
 	
 	@Override
 	public void handle(KeyEvent event) {
@@ -47,6 +48,10 @@ public class HandleKeyPresses implements EventHandler<KeyEvent> {
 				case(SELECT_LETTER):
 					readInstructionFromGrid();
 					break;
+				case(CANCEL_LETTER):
+					grid.resetHightlight();
+					grid.getUnitSelectionMarker().disableMarker();
+					break;
 			}
 		}
 		else if (grid.getUnitCommandSelection().isEnabled() == true){
@@ -64,15 +69,15 @@ public class HandleKeyPresses implements EventHandler<KeyEvent> {
 		}
 		else if(grid.getMetaMenu().isEnabled() == true) {
 			switch (choice){
-			case(MOVE_UP_LETTER):
-				grid.getMetaMenu().getSelectionMarker().moveSelectionUp();
-				break;
-			case(MOVE_DOWN_LETTER):
-				grid.getMetaMenu().getSelectionMarker().moveSelectionDown();
-				break;
-			case(SELECT_LETTER):
-				readInstructionFromMetaMenu();
-				break;
+				case(MOVE_UP_LETTER):
+					grid.getMetaMenu().getSelectionMarker().moveSelectionUp();
+					break;
+				case(MOVE_DOWN_LETTER):
+					grid.getMetaMenu().getSelectionMarker().moveSelectionDown();
+					break;
+				case(SELECT_LETTER):
+					readInstructionFromMetaMenu();
+					break;
 			}
 		}
 	}
@@ -92,6 +97,7 @@ public class HandleKeyPresses implements EventHandler<KeyEvent> {
 	private void createSelectInstruction() {
 		
 		try {
+			grid.moveUnitSelectionMarker();
 			Position position = grid.getSelectionMarker().getCurrentPosition();
 			Instruction instruction = new Instruction(InstructionType.SELECT, position);
 			coordinator.interpretRegularInstruction(instruction);
@@ -106,14 +112,26 @@ public class HandleKeyPresses implements EventHandler<KeyEvent> {
 			Instruction instruction = new Instruction(InstructionType.MOVE, position);
 			coordinator.interpretRegularInstruction(instruction);
 			grid.moveSelectedUnitMarker();
-			grid.getUnitSelectionMarker().disableMarker();
-			focusOnGrid();
+
+			focusOnCommandSelection();
+//			grid.getUnitSelectionMarker().disableMarker();
+//			focusOnGrid();
 		} catch (InvalidInputException e) {}
 	}
 	
 	private void readInstructionFromCommandSelection() {
 		if (grid.getUnitCommandSelection().isMoveSelected()) {
 			createDisplayMoveOptionsInstruciton();
+		}
+		else if (grid.getUnitCommandSelection().isCancelSelected()) {
+			grid.getUnitSelectionMarker().disableMarker();
+			focusOnGrid();
+		}
+		else if (grid.getUnitCommandSelection().isAttackSelected()) {
+			createDisplayAttackOptionsInstruction();
+		}
+		else if (grid.getUnitCommandSelection().isWaitSelected()) {
+			createWaitInstruction();
 		}
 	}
 	
@@ -123,9 +141,27 @@ public class HandleKeyPresses implements EventHandler<KeyEvent> {
 		focusOnGrid();
 	}
 	
+	private void createDisplayAttackOptionsInstruction() {
+		Instruction instruction = new Instruction(InstructionType.FIND_ATTACK_TILES, null);
+		coordinator.interpretGridDisplayInstruction(instruction,grid);
+		focusOnGrid();
+	}
+	
+	private void createWaitInstruction() {
+		Instruction instruction = new Instruction(InstructionType.WAIT, null);
+		try {
+			coordinator.interpretRegularInstruction(instruction);
+			grid.getUnitSelectionMarker().disableMarker();
+		} catch (InvalidInputException e) {}
+		focusOnGrid();
+	}
+	
 	private void readInstructionFromMetaMenu() {
 		if (grid.getMetaMenu().isEndTurnSelected()) {
 			createEndTurnInstruction();
+		}
+		else if (grid.getMetaMenu().isCancelSelected()) {
+			focusOnGrid();
 		}
 	}
 	
