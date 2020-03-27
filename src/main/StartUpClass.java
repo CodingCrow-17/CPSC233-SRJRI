@@ -39,7 +39,7 @@ public class StartUpClass {
 		Stat unitASpd = new Stat(StatType.SPEED, 10, .35, 100);
 		Stat unitADex = new Stat(StatType.DEXTERITY, 10, .35, 100);
 		Stat unitADef = new Stat(StatType.DEFENSE, 5, .35, 100);
-		Stat unitAMov= new Stat(StatType.MOVEMENT, 2, 0, 100);
+		Stat unitAMov= new Stat(StatType.MOVEMENT, 4, 0, 100);
 		
 		Stats unitAStats = new Stats(unitAHp, unitAAtt,unitASpd,unitADex,unitADef,unitAMov); //hp, att, spd, dex,def, mov
 		
@@ -54,7 +54,7 @@ public class StartUpClass {
 		Stat unitBSpd = new Stat(StatType.SPEED, 10, .35, 100);
 		Stat unitBDex = new Stat(StatType.DEXTERITY, 10, .35, 100);
 		Stat unitBDef = new Stat(StatType.DEFENSE, 8, .35, 100);
-		Stat unitBMov= new Stat(StatType.MOVEMENT, 2, 0, 100);
+		Stat unitBMov= new Stat(StatType.MOVEMENT, 4, 0, 100);
 		
 		Stats unitBStats = new Stats(unitBHp, unitBAtt,unitBSpd,unitBDex,unitBDef,unitBMov); //hp, att, spd, dex,def, mov
 		Tile unitBTile = gameMap.getTileAtCoordinates(0, 1);

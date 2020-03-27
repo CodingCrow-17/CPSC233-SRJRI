@@ -127,6 +127,25 @@ public class GameLogic{
 		//TODO
 	}
 	
+	public BattleForecast forcastBattle(Position enemyPosition) throws InvalidAttackException {
+		boolean isValidAttack = false;
+		for (Position pos : calculateValidTileToAttack()) {
+			if (pos.getXPosition() == enemyPosition.getInversePosition().getXPosition() &&
+					pos.getYPosition() == enemyPosition.getInversePosition().getYPosition()) {
+				isValidAttack = true;
+				break;
+			}
+		}
+		if (isValidAttack) {
+			BattleForecast forecast = new BattleForecast(tempUnit, gameMap.getTileAtPosition(enemyPosition).getUnit());
+			return forecast;
+		}
+		else {
+			throw new InvalidAttackException("There's no enemy there to hit!");
+		}
+		
+	}
+	
 	public void performCombat(Position enemyPosition) throws InvalidAttackException {
 		boolean isValidAttack = false;
 		for (Position pos : calculateValidTileToAttack()) {

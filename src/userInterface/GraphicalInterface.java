@@ -39,7 +39,7 @@ public class GraphicalInterface extends Application{
 		grid = new Grid(gameMap.getTiles(), 200, 200);
 		gameBoardDisplay.getChildren().addAll(grid);
 		
-		informationDisplay = new InformationDisplay("Begin");
+		informationDisplay = new InformationDisplay();
 		root.getChildren().add(gameBoardDisplay);
 		root.getChildren().add(informationDisplay);
 		scene = new Scene(root);

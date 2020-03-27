@@ -8,8 +8,7 @@ public class BattleForecast {
 	private int attForecastPercent;
 	private int defForecastPercent;
 	private int attCritPercent;
-	private int defCritPercent;
-	
+	private int defCritPercent;	
 	
 	public BattleForecast(Unit aUserUnit, Unit aEnemyUnit) {
 		setUserUnit(aUserUnit);

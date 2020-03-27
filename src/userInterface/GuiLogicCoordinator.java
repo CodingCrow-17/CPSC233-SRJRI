@@ -55,7 +55,7 @@ public class GuiLogicCoordinator {
 				informationDisplay.displayUnitInfo(logic.getUnitAtPosition(position));
 				break;
 			case DISPLAY_ATTACK_FORECAST :
-				attackOtherPosition(position);
+				informationDisplay.displayBattleForecastInfo(logic.forcastBattle(position));
 				break;
 			default :
 				break;
