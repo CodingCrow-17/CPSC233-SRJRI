@@ -64,27 +64,17 @@ public class BattleForecast {
 	}
 	
 	private int calculateDamage(Unit attUnit, Unit defUnit) {
-		int oneHit = attUnit.getStats().getAtt().getCurrentValue() - defUnit.getStats().getDef().getCurrentValue();
-		return oneHit;
+		return BattleForecaster.forecastDamage(attUnit, defUnit);
 	}
 	
 	private int calculateHitPercent(Unit attUnit, Unit defUnit) {
-		double GLOBALHITMULTIPLIER = 1.2;
-		int hitRate = (int) (100 * (attUnit.getStats().getDex().getCurrentValue()) / 
-							(GLOBALHITMULTIPLIER * defUnit.getStats().getSpd().getCurrentValue()));
-		if (hitRate > 100) {
-			hitRate = 100;
-		}
-		return hitRate;
+		return BattleForecaster.forecastAttackPercent(attUnit, defUnit);
 	}
 		
 	private int calculateCritPercent(Unit attUnit, Unit defUnit) {
-		return 0;
+		return BattleForecaster.forecastCritPercent(attUnit, defUnit);
 	}
 	public boolean willHitTwice(Unit attUnit, Unit defUnit) {
-		if (attUnit.getStats().getSpd().getCurrentValue() >= 5 + defUnit.getStats().getSpd().getCurrentValue()) {
-			return true;
-		}
-		return false;
+		return BattleForecaster.forecastDoubleHit(attUnit, defUnit);
 	}
 }

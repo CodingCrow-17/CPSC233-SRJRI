@@ -79,6 +79,19 @@ public class HandleKeyPresses implements EventHandler<KeyEvent> {
 					break;
 			}
 		}
+		else if(grid.getConfirmMenu().isEnabled() == true) {
+			switch (choice){
+			case(MOVE_UP_LETTER):
+				grid.getConfirmMenu().getSelectionMarker().moveSelectionUp();
+				break;
+			case(MOVE_DOWN_LETTER):
+				grid.getConfirmMenu().getSelectionMarker().moveSelectionDown();
+				break;
+			case(SELECT_LETTER):
+				readInstructionFromConfirmMenu();
+				break;
+		}
+		}
 	}
 	
 	private void readInstructionFromGrid() {
@@ -117,8 +130,7 @@ public class HandleKeyPresses implements EventHandler<KeyEvent> {
 			Position position = grid.getSelectionMarker().getCurrentPosition();
 			Instruction instruction = new Instruction(InstructionType.DISPLAY_ATTACK_FORECAST, position);
 			coordinator.interpretLabelDisplayInstruction(instruction, informationDisplay);
-			grid.resetHightlight();
-			grid.getUnitSelectionMarker().disableMarker();
+			this.focusOnConfirmMenu();
 		} catch (InvalidInputException e) {
 			System.out.print(e.getMessage());
 		}	
@@ -157,20 +169,6 @@ public class HandleKeyPresses implements EventHandler<KeyEvent> {
 		} catch (InvalidInputException e) {
 			System.out.print(e.getMessage());
 		}
-	}
-	
-	
-	private void createAttackInstruction() {
-		try {
-			Position position = grid.getSelectionMarker().getCurrentPosition();
-			Instruction instruction = new Instruction(InstructionType.ATTACK, position);
-			coordinator.interpretRegularInstruction(instruction);
-			
-			grid.resetHightlight();
-			grid.getUnitSelectionMarker().disableMarker();
-		} catch (InvalidInputException e) {
-			System.out.print(e.getMessage());
-		}	
 	}
 	
 	private void readInstructionFromCommandSelection() {
@@ -241,19 +239,56 @@ public class HandleKeyPresses implements EventHandler<KeyEvent> {
 		focusOnGrid();
 	}
 	
+	private void readInstructionFromConfirmMenu() {
+		if (grid.getConfirmMenu().isConfirmSelected()) {
+			if (grid.hasHighlightedAttackTiles()) {
+				createAttackInstruction();
+			}
+		}
+		else {
+			this.focusOnCommandSelection();
+		}
+	}
+	
+	private void createAttackInstruction() {
+		try {
+			Position position = grid.getSelectionMarker().getCurrentPosition();
+			Instruction instruction = new Instruction(InstructionType.ATTACK, position);
+			coordinator.interpretLabelDisplayInstruction(instruction, informationDisplay);
+			grid.resetHightlight();
+			grid.getUnitSelectionMarker().disableMarker();
+			grid.removeDeadUnitMarkers();
+			this.focusOnGrid();
+		} catch (InvalidInputException e) {
+			System.out.print(e.getMessage());
+		}	
+	}
+	
 	private void focusOnGrid() {
 		grid.enable();
 		grid.hideCommandSelectionMenu();
 		grid.hideMetaCommandMenu();
+		grid.hideConfirmMenu();
 	}
 	
 	private void focusOnCommandSelection() {
 		grid.disable();
+		grid.hideConfirmMenu();
+		grid.hideMetaCommandMenu();
 		grid.displayCommandSelectionMenu();
 	}
 	
 	private void focusOnMetaCommandMenu() {
 		grid.disable();
+		grid.hideConfirmMenu();
+		grid.hideCommandSelectionMenu();
 		grid.displayMetaCommandMenu();
+	}
+	
+	private void focusOnConfirmMenu() {
+		grid.disable();
+		grid.hideCommandSelectionMenu();
+		grid.hideMetaCommandMenu();
+		grid.displayConfirmMenu();;
 	}
 }

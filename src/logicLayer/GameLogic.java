@@ -58,6 +58,10 @@ public class GameLogic{
 		if (tempUnit.getTile().equals(selectedUnit.getTile()) == false){
 			tempUnit.getTile().setUnit(null);
 		}
+		if (selectedUnit.isDead()) {
+			selectedUnit.getTile().setUnit(null);
+			tempUnit.getTile().setUnit(null);
+		}
 		this.tempUnit = null;
 		this.selectedUnit = null;
 	}
@@ -123,8 +127,8 @@ public class GameLogic{
 		//TODO
 	}
 
-	public void removeUnit() {
-		//TODO
+	private void removeUnit(Unit unit) {
+		unit.getTile().setUnit(null);
 	}
 	
 	public BattleForecast forcastBattle(Position enemyPosition) throws InvalidAttackException {
@@ -146,7 +150,7 @@ public class GameLogic{
 		
 	}
 	
-	public void performCombat(Position enemyPosition) throws InvalidAttackException {
+	public BattleInstance performCombat(Position enemyPosition) throws InvalidAttackException {
 		boolean isValidAttack = false;
 		for (Position pos : calculateValidTileToAttack()) {
 			if (pos.getXPosition() == enemyPosition.getInversePosition().getXPosition() &&
@@ -156,8 +160,14 @@ public class GameLogic{
 			}
 		}
 		if (isValidAttack) {
-			BattleForecast forecast = new BattleForecast(tempUnit, gameMap.getTileAtPosition(enemyPosition).getUnit());
-			BattleInstance instance = new BattleInstance(forecast);
+			Unit enemy = gameMap.getTileAtPosition(enemyPosition).getUnit();
+			BattleInstance instance = new BattleInstance(tempUnit, enemy);
+			instance.runBattle();
+			
+			if (enemy.isDead()) {
+				removeUnit(enemy);
+			}
+			return instance;
 		}
 		else {
 			throw new InvalidAttackException("There's no enemy there to hit!");

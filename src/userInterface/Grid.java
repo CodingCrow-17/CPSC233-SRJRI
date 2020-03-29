@@ -24,6 +24,7 @@ public class Grid extends Group{
 	
 	private UnitCommandSelection unitCommandSelection;
 	private MetaCommandSelection metaCommandSelection;
+	private ConfirmMenu confirmMenu;
 	
 	private boolean hasHighlightedMoveTiles = false;
 	private boolean hasHighlightedAttackTiles = false;
@@ -55,11 +56,25 @@ public class Grid extends Group{
 		this.getChildren().add(unitSelectionMarker);
 		unitCommandSelection = new UnitCommandSelection(50, 80);
 		metaCommandSelection = new MetaCommandSelection(50,40);
+		confirmMenu = new ConfirmMenu(70,40);
 		unitCommandSelection.setVisible(false);
 		metaCommandSelection.setVisible(false);
+		confirmMenu.setVisible(false);
 		this.getChildren().add(this.unitCommandSelection);
 		this.getChildren().add(this.metaCommandSelection);
+		this.getChildren().add(this.confirmMenu);
 		enable();
+	}
+	
+	public void removeDeadUnitMarkers() {
+		List<UnitMarker> removeList = new ArrayList<UnitMarker>();
+		for (UnitMarker marker : unitMarkers) {
+			if (marker.getUnit().isDead()) {
+				removeList.add(marker);
+			}
+		}
+		unitMarkers.removeAll(removeList);
+		this.getChildren().removeAll(removeList);
 	}
 	
 	public void highlightMoveTiles(List<Position> positions){
@@ -167,6 +182,10 @@ public class Grid extends Group{
 		return this.metaCommandSelection;
 	}
 	
+	public ConfirmMenu getConfirmMenu() {
+		return this.confirmMenu;
+	}
+	
 	public void displayCommandSelectionMenu() {
 		display(this.unitCommandSelection);
 	}
@@ -181,6 +200,14 @@ public class Grid extends Group{
 	
 	public void hideMetaCommandMenu() {
 		hide(this.metaCommandSelection);
+	}
+	
+	public void displayConfirmMenu() {
+		display(this.confirmMenu);
+	}
+	
+	public void hideConfirmMenu() {
+		hide(this.confirmMenu);
 	}
 	
 	private void display(CommandSelection selection) {

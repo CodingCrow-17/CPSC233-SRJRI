@@ -4,6 +4,7 @@ import javafx.scene.Group;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import logicLayer.BattleForecast;
+import logicLayer.BattleInstance;
 import logicLayer.Unit;
 
 public class InformationDisplay extends HBox {
@@ -25,6 +26,7 @@ public class InformationDisplay extends HBox {
 
 	public void displayUnitInfo(Unit unit) {
 		primaryLabel.setText(unit.toString());
+		secondaryLabel.setText("");
 	}
 	
 	public void displayBattleForecastInfo(BattleForecast forecast) {
@@ -67,29 +69,12 @@ public class InformationDisplay extends HBox {
 		secondaryBuilder.append(forecast.getDefCritPercent());
 		secondaryBuilder.append('%');
 		
-		
-		System.out.println(forecast.getUserUnit().getName() + ":");
-		if (forecast.willHitTwice(forecast.getUserUnit(), forecast.getEnemyUnit())) {
-			System.out.println("Atk: " + forecast.getAttForecastDamage() + " x2");
-		}
-		else {
-			System.out.println("Atk: " + forecast.getAttForecastDamage());
-		}
-		System.out.println("Hit: " + forecast.getAttForecastPercent());
-		System.out.println("Crit: " + forecast.getAttCritPercent());
-		System.out.println("");
-		
-		System.out.println(forecast.getEnemyUnit().getName() + ":");
-		if (forecast.willHitTwice(forecast.getEnemyUnit(), forecast.getUserUnit())) {
-			System.out.println("Atk: " + forecast.getDefForecastDamage() + " x2");
-		}
-		else {
-			System.out.println("Atk: " + forecast.getDefForecastDamage());
-		}
-		System.out.println("Hit: " + forecast.getDefForecastPercent());
-		System.out.println("Crit: " + forecast.getDefCritPercent());
-		
 		this.primaryLabel.setText(primaryBuilder.toString());
 		this.secondaryLabel.setText(secondaryBuilder.toString());
+	}
+
+	public void displayBattleResult(BattleInstance instance) {
+		secondaryLabel.setText("");
+		primaryLabel.setText(instance.toString());
 	}
 }

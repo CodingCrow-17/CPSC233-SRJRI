@@ -33,9 +33,6 @@ public class GuiLogicCoordinator {
 			case CANCEL :
 				logic.deselectUnit();
 				break;
-			case ATTACK :
-				attackOtherPosition(position);
-				break;
 			case WAIT :
 				logic.haveSelectedUnitEndTurn();
 				break;
@@ -56,6 +53,9 @@ public class GuiLogicCoordinator {
 				break;
 			case DISPLAY_ATTACK_FORECAST :
 				informationDisplay.displayBattleForecastInfo(logic.forcastBattle(position));
+				break;
+			case ATTACK :
+				attackOtherPosition(position, informationDisplay);
 				break;
 			default :
 				break;
@@ -80,8 +80,8 @@ public class GuiLogicCoordinator {
 		return logic.hasSelectedUnit();
 	}
 	
-	private void attackOtherPosition(Position position) throws InvalidAttackException {
-		logic.performCombat(position);
+	private void attackOtherPosition(Position position, InformationDisplay informationDisplay) throws InvalidAttackException {
+		informationDisplay.displayBattleResult(logic.performCombat(position));
 		logic.haveSelectedUnitEndTurn();
 	}
 	

@@ -8,14 +8,16 @@ public class Unit
 	
 	private String name;
 	private Stats stats;
+	private String critLine = "";
 	private int currentHp;
 	private boolean hasMoved;
 	private Owner owner;
 	private Tile tile;
 	private UnitDisplayable displayable;
 	
-	public Unit(String name, Stats stats, Owner owner, Tile tile, UnitDisplayable displayable) {
+	public Unit(String name, String critLine,Stats stats, Owner owner, Tile tile, UnitDisplayable displayable) {
 		this.name = name;
+		this.critLine = critLine;
 		this.stats = new Stats(stats);
 		this.owner = owner;
 		this.tile = tile;
@@ -26,6 +28,7 @@ public class Unit
 	
 	public Unit(Unit unit) {
 		this.name = unit.getName();
+		this.critLine = unit.getCritLine();
 		this.currentHp = unit.getCurrentHp();
 		this.stats = new Stats(unit.getStats());
 		this.hasMoved = false;
@@ -35,11 +38,16 @@ public class Unit
 	
 	public void copyOtherUnit(Unit unit) {
 		this.name = unit.getName();
+		this.critLine = unit.getCritLine();
 		this.stats = unit.getStats();
 		this.currentHp = unit.getCurrentHp();
 		this.owner = unit.getOwner();
 		this.hasMoved = unit.getHasMoved();
 		this.moveTo(unit.getTile());
+	}
+
+	public String getCritLine() {
+		return this.critLine;
 	}
 
 	public String getName()
@@ -91,7 +99,7 @@ public class Unit
 	
 	public boolean isDead()
 	{
-		return (this.getStats().getHp().getCurrentValue() == 0);
+		return (this.currentHp == 0);
 	}
 
 	public void takeDamage(int damageAmount)
