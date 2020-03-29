@@ -83,7 +83,5 @@ public class SelectionMarker extends Group{
 			this.setTranslateX(this.getTranslateX() - width);
 			currentPosition.movePositionLeft();
 		}
-	}
-
-	
+	}	
 }
