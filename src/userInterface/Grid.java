@@ -16,12 +16,18 @@ import logicLayer.Unit;
 public class Grid extends Group{
 	
 	private GridTile[][] gridTiles;
-	private SelectionMarker selectionMarker;
+	private SelectionMarker primarySelectionMarker;
+	private SelectionMarker unitSelectionMarker;
 	private List<UnitMarker> unitMarkers = new ArrayList<UnitMarker>();
 	private int squareSideLength;
 	private boolean enabled;
 	
+	private UnitCommandSelection unitCommandSelection;
+	private MetaCommandSelection metaCommandSelection;
+	private ConfirmMenu confirmMenu;
+	
 	private boolean hasHighlightedMoveTiles = false;
+	private boolean hasHighlightedAttackTiles = false;
 	
 	public Grid(Tile[][] tiles, int height, int width) {
 		super();
@@ -30,7 +36,7 @@ public class Grid extends Group{
 		for(int i = 0; i < tiles.length; i++) {
 			for (int j = 0; j < tiles[i].length; j++) {
 				GridTile gridTile = new GridTile(j*squareSideLength, i*squareSideLength, squareSideLength, squareSideLength, 
-						Color.WHITESMOKE, Color.SKYBLUE, tiles[i][j]);
+						Color.WHITESMOKE, Color.SKYBLUE, Color.MISTYROSE,tiles[i][j]);
 				this.getChildren().add(gridTile);
 				gridTiles[i][j] = gridTile;
 				if (tiles[i][j].hasUnit()) {
@@ -43,9 +49,32 @@ public class Grid extends Group{
 			}
 		}
 		this.getChildren().addAll(unitMarkers);
-		selectionMarker = new SelectionMarker(0,0,squareSideLength, squareSideLength, tiles[0].length, tiles.length);
-		this.getChildren().add(selectionMarker);
+		primarySelectionMarker = new SelectionMarker(0,0,squareSideLength, squareSideLength, tiles[0].length, tiles.length, Color.LIGHTBLUE);
+		this.getChildren().add(primarySelectionMarker);
+		unitSelectionMarker = new SelectionMarker(0,0,squareSideLength, squareSideLength, tiles[0].length, tiles.length, Color.LAVENDERBLUSH);
+		unitSelectionMarker.disableMarker();
+		this.getChildren().add(unitSelectionMarker);
+		unitCommandSelection = new UnitCommandSelection(50, 80);
+		metaCommandSelection = new MetaCommandSelection(50,40);
+		confirmMenu = new ConfirmMenu(70,40);
+		unitCommandSelection.setVisible(false);
+		metaCommandSelection.setVisible(false);
+		confirmMenu.setVisible(false);
+		this.getChildren().add(this.unitCommandSelection);
+		this.getChildren().add(this.metaCommandSelection);
+		this.getChildren().add(this.confirmMenu);
 		enable();
+	}
+	
+	public void removeDeadUnitMarkers() {
+		List<UnitMarker> removeList = new ArrayList<UnitMarker>();
+		for (UnitMarker marker : unitMarkers) {
+			if (marker.getUnit().isDead()) {
+				removeList.add(marker);
+			}
+		}
+		unitMarkers.removeAll(removeList);
+		this.getChildren().removeAll(removeList);
 	}
 	
 	public void highlightMoveTiles(List<Position> positions){
@@ -57,6 +86,15 @@ public class Grid extends Group{
 		}
 	}
 	
+	public void highlightAttackTiles(List<Position> positions){
+		if (positions.isEmpty() == false) {
+			hasHighlightedAttackTiles = true;
+		}
+		for (Position position : positions) {
+			this.getGridTileAtPosition(position).changeToValidAttackColour();
+		}
+	}
+	
 	public void resetHightlight() {
 		for(int i = 0; i < gridTiles.length; i++) {
 			for (int j = 0; j < gridTiles[i].length; j++) {
@@ -64,10 +102,15 @@ public class Grid extends Group{
 			}
 		}
 		hasHighlightedMoveTiles = false;
+		hasHighlightedAttackTiles = false;
 	}
 	
 	public boolean hasHighlightedMoveTiles() {
 		return hasHighlightedMoveTiles;
+	}
+
+	public boolean hasHighlightedAttackTiles() {
+		return hasHighlightedAttackTiles;
 	}
 	
 	public GridTile getGridTileAtPosition(Position position) {
@@ -78,10 +121,26 @@ public class Grid extends Group{
 		return gridTiles[x][y];
 	}
 	
-	public UnitMarker getUnitMarkerAtPostion(Position position) {
+	public boolean isEnabled() {
+		return enabled;
+	}
+	public void enable() {
+		primarySelectionMarker.enableMarker();
+		enabled = true;
+	}
+	public void disable() {
+		primarySelectionMarker.disableMarker();
+		enabled = false;
+	}
+	
+	public UnitMarker findSelectedUnitMarker() {
+		return findSelectedUnitMarker(primarySelectionMarker);
+	}
+	
+	private UnitMarker findSelectedUnitMarker(SelectionMarker selectionMarker) {
 		UnitMarker unitMarker = null;
 		for (UnitMarker marker : unitMarkers) {
-			if (marker.getUnit().getTile().getPos().equals(position)) {
+			if (marker.getUnit().getTile().getPos().equals(selectionMarker.getCurrentPosition().getInversePosition())) {
 				unitMarker = marker;
 				break;
 			}
@@ -89,20 +148,77 @@ public class Grid extends Group{
 		return unitMarker;
 	}
 	
-	public boolean isEnabled() {
-		return enabled;
+	public void moveSelectedUnitMarker() {
+		UnitMarker unitMarker = this.findSelectedUnitMarker(unitSelectionMarker);
+		unitMarker.moveTo(this.primarySelectionMarker.getCurrentPosition());
+		this.resetHightlight();
 	}
-	public void enable() {
-		selectionMarker.enableMarker();
-		enabled = true;
+	
+	public void resetMovementOfSelectedUnitMarker() {
+		UnitMarker unitMarker = this.findSelectedUnitMarker(unitSelectionMarker);
+		unitMarker.moveTo(this.unitSelectionMarker.getCurrentPosition());
+		primarySelectionMarker.setCurrentPosition(unitSelectionMarker.getCurrentPosition());
+		this.resetHightlight();
 	}
-	public void disable() {
-		selectionMarker.disableMarker();
-		enabled = false;
+	
+	public void moveUnitSelectionMarker() {
+		this.unitSelectionMarker.setCurrentPosition(this.primarySelectionMarker.getCurrentPosition());
+		this.unitSelectionMarker.enableMarker();
 	}
 	
 	public SelectionMarker getSelectionMarker() {
-		return selectionMarker;
+		return primarySelectionMarker;
+	}
+
+	public SelectionMarker getUnitSelectionMarker() {
+		return this.unitSelectionMarker;
 	}
 	
+	public UnitCommandSelection getUnitCommandSelection() {
+		return this.unitCommandSelection;
+	}
+	
+	public MetaCommandSelection getMetaMenu() {
+		return this.metaCommandSelection;
+	}
+	
+	public ConfirmMenu getConfirmMenu() {
+		return this.confirmMenu;
+	}
+	
+	public void displayCommandSelectionMenu() {
+		display(this.unitCommandSelection);
+	}
+	
+	public void hideCommandSelectionMenu() {
+		hide(this.unitCommandSelection);
+	}
+	
+	public void displayMetaCommandMenu() {
+		display(this.metaCommandSelection);
+	}
+	
+	public void hideMetaCommandMenu() {
+		hide(this.metaCommandSelection);
+	}
+	
+	public void displayConfirmMenu() {
+		display(this.confirmMenu);
+	}
+	
+	public void hideConfirmMenu() {
+		hide(this.confirmMenu);
+	}
+	
+	private void display(CommandSelection selection) {
+		selection.setTranslateX(this.primarySelectionMarker.getTranslateX());
+		selection.setTranslateY(this.primarySelectionMarker.getTranslateY());
+		selection.setVisible(true);
+		selection.enable();
+	}
+	
+	private void hide(CommandSelection selection) {
+		selection.setVisible(false);
+		selection.disable();
+	}
 }

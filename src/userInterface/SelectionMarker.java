@@ -7,16 +7,20 @@ import logicLayer.Position;
 
 public class SelectionMarker extends Group{
 
+	private static final Color DE_SELECTED_COLOUR = Color.TRANSPARENT;
 	private Rectangle selectionMarkerRepresentation;
 	
+	private Color selectionColour;
 	private int height;
 	private int width;
 	private int rowsToSelectFrom;
 	private int columnsToSelectFrom;
-	private Position currentPosition;;
+	private Position currentPosition;
+	private boolean isEnabled;
 	
-	public SelectionMarker(int xCor, int yCor, int width, int height, int rowsToSelectFrom, int columnsToSelectFrom) {
+	public SelectionMarker(int xCor, int yCor, int width, int height, int rowsToSelectFrom, int columnsToSelectFrom, Color selectionColour) {
 		super();
+		this.selectionColour = selectionColour;
 		currentPosition = new Position(xCor, yCor);
 		this.height = height;
 		this.width = width;
@@ -25,7 +29,7 @@ public class SelectionMarker extends Group{
 		selectionMarkerRepresentation = new Rectangle(0,0, width, height);
 		selectionMarkerRepresentation.setFill(Color.TRANSPARENT);
 		selectionMarkerRepresentation.setStrokeWidth(1);
-		selectionMarkerRepresentation.setStroke(Color.GREENYELLOW);
+		selectionMarkerRepresentation.setStroke(this.selectionColour);
 		this.getChildren().add(selectionMarkerRepresentation);
 	}
 
@@ -33,12 +37,24 @@ public class SelectionMarker extends Group{
 		return currentPosition;
 	}
 	
+	public void setCurrentPosition(Position position) {
+		this.currentPosition = new Position(position);
+		this.setTranslateX(currentPosition.getXPosition()*width);
+		this.setTranslateY(currentPosition.getYPosition()*height);
+	}
+	
 	public void enableMarker() {
-		selectionMarkerRepresentation.setStroke(Color.GREENYELLOW);
+		selectionMarkerRepresentation.setStroke(this.selectionColour);
+		isEnabled = true;
 	}
 	
 	public void disableMarker() {
-		selectionMarkerRepresentation.setStroke(Color.TRANSPARENT);
+		selectionMarkerRepresentation.setStroke(DE_SELECTED_COLOUR);
+		isEnabled = false;
+	}
+	
+	public boolean isEnabled() {
+		return isEnabled;
 	}
 	
 	public void moveSelectionUp() {
@@ -67,7 +83,5 @@ public class SelectionMarker extends Group{
 			this.setTranslateX(this.getTranslateX() - width);
 			currentPosition.movePositionLeft();
 		}
-	}
-
-	
+	}	
 }

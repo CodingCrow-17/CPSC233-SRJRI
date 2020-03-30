@@ -51,6 +51,14 @@ public class Position
 		this.yPosition = ypos;
 	}
 	
+	public Position getInversePosition() {
+		return new Position(this.yPosition, this.xPosition);
+	}
+	
+	public boolean equals(Position otherPosition) {
+		return this.xPosition == otherPosition.getXPosition() && this.yPosition == otherPosition.getYPosition();
+	}
+	
 	public String toString() {
 		String stringVal = "(" + yPosition + "," + xPosition + ")";
 		return stringVal;

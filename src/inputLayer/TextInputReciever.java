@@ -4,7 +4,7 @@ import java.util.Scanner;
 import logicLayer.Position;
 
 public class TextInputReciever implements InputReciever{
-	private Instructions lastInstruction;
+	private Instruction lastInstruction;
 	private InstructionType conmand;
 	private static Scanner in = new Scanner(System.in);
 	
@@ -31,7 +31,7 @@ public class TextInputReciever implements InputReciever{
 			return InstructionType.WAIT;
 		}
 		else if(command.equals("ENDTURN")) {
-			return InstructionType.ENDTURN;
+			return InstructionType.END_TURN;
 		}
 		else {
 			System.out.println("Invalid statement.");
@@ -107,7 +107,7 @@ public class TextInputReciever implements InputReciever{
         System.out.println("followed by the number of spaces you would like to move in the Y direction");
 	}
 	@Override
-	public Instructions getNextInstruction() {
+	public Instruction getNextInstruction() {
 		// TODO Auto-generated method stub
 		return this.lastInstruction;
 	}

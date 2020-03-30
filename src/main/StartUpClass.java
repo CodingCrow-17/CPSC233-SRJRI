@@ -39,14 +39,14 @@ public class StartUpClass {
 		Stat unitASpd = new Stat(StatType.SPEED, 10, .35, 100);
 		Stat unitADex = new Stat(StatType.DEXTERITY, 10, .35, 100);
 		Stat unitADef = new Stat(StatType.DEFENSE, 5, .35, 100);
-		Stat unitAMov= new Stat(StatType.MOVEMENT, 2, 0, 100);
+		Stat unitAMov= new Stat(StatType.MOVEMENT, 4, 0, 100);
 		
 		Stats unitAStats = new Stats(unitAHp, unitAAtt,unitASpd,unitADex,unitADef,unitAMov); //hp, att, spd, dex,def, mov
 		
 		UnitDisplayable unitTextDisplayable = null;
 		
 		Tile unitATile = gameMap.getTileAtCoordinates(0, 0);
-		Unit unitA = new Unit("Geoff", unitAStats, player, unitATile,unitTextDisplayable);
+		Unit unitA = new Unit("Geoff", "I'm afraid your story ends here!",unitAStats, player, unitATile,unitTextDisplayable);
 		unitATile.setUnit(unitA);
 		
 		Stat unitBHp = new Stat(StatType.HP, 25, .45, 100);
@@ -54,11 +54,11 @@ public class StartUpClass {
 		Stat unitBSpd = new Stat(StatType.SPEED, 10, .35, 100);
 		Stat unitBDex = new Stat(StatType.DEXTERITY, 10, .35, 100);
 		Stat unitBDef = new Stat(StatType.DEFENSE, 8, .35, 100);
-		Stat unitBMov= new Stat(StatType.MOVEMENT, 2, 0, 100);
+		Stat unitBMov= new Stat(StatType.MOVEMENT, 4, 0, 100);
 		
 		Stats unitBStats = new Stats(unitBHp, unitBAtt,unitBSpd,unitBDex,unitBDef,unitBMov); //hp, att, spd, dex,def, mov
 		Tile unitBTile = gameMap.getTileAtCoordinates(0, 1);
-		Unit unitB = new Unit("Henry", unitBStats, player, unitBTile,unitTextDisplayable);
+		Unit unitB = new Unit("Henry", "You're wide open!",unitBStats, player, unitBTile,unitTextDisplayable);
 		unitBTile.setUnit(unitB);
 		
 		Stat unitCHp = new Stat(StatType.HP, 16, 0, 100);
@@ -70,7 +70,7 @@ public class StartUpClass {
 		
 		Stats unitCStats = new Stats(unitCHp, unitCAtt,unitCSpd,unitCDex,unitCDef,unitCMov); //hp, att, spd, dex,def, mov
 		Tile unitCTile = gameMap.getTileAtCoordinates(4, 2);
-		Unit unitC = new Unit("Rogue", unitCStats, enemy, unitCTile,unitTextDisplayable);
+		Unit unitC = new Unit("Rogue","DIE!",unitCStats, enemy, unitCTile,unitTextDisplayable);
 		unitCTile.setUnit(unitC);
 		
 		player.addUnit(unitA);
