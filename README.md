@@ -6,6 +6,7 @@ This project is a turn-based strategy game wherein the player controls a charact
 
 ## Help
 Use WASD to navigate the gui and K to select (lowercase).
+To run the gui, open the GuiMain.class in eclipse and run it as a java application
 
 #### Packages, Classes & Methods
 A class diagram can be found at https://www.draw.io/#G1xYwiJ6ugqTPFCZGNNFyQCD7HgwsDcQNb
