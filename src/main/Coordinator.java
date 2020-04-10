@@ -38,12 +38,14 @@ public class Coordinator {
 			textOutput.printMap(gameMap);
 			Unit selectedUnit = null;
 			while(true) {
-				InstructionType type = tInput.setInstruction();
+				
+				Instruction instruction = tInput.getNextInstruction();
+				InstructionType type = instruction.getType();
 				if (type.equals(InstructionType.END_TURN)) {
 					break;
 				}
 				if (type.equals(InstructionType.SELECT)) {
-					Position pos = tInput.selectPosition();
+					Position pos = instruction.getPosition();
 					selectedUnit = gameMap.getTileAtPosition(pos).getUnit();
 					System.out.println(selectedUnit.getName() + " selected.");
 				}
@@ -55,7 +57,7 @@ public class Coordinator {
 						if (!selectedUnit.getHasMoved()) {
 							boolean canMove = false;
 							List<Tile> moveableTiles = logic.calculateValidTileToMoveTo(selectedUnit);
-							Position endPosition = tInput.selectPosition();
+							Position endPosition = instruction.getPosition();
 							for (Tile tile : moveableTiles) {
 								if (tile.equals(gameMap.getTileAtPosition(endPosition))) {
 									canMove = true;

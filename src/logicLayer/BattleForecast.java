@@ -8,7 +8,9 @@ public class BattleForecast {
 	private int attForecastPercent;
 	private int defForecastPercent;
 	private int attCritPercent;
-	private int defCritPercent;	
+	private int defCritPercent;
+	
+	private static double GLOBAL_HIT_MULTIPLIER = 1.15;
 	
 	public BattleForecast(Unit aUserUnit, Unit aEnemyUnit) {
 		setUserUnit(aUserUnit);
@@ -68,7 +70,7 @@ public class BattleForecast {
 	}
 	
 	private int calculateHitPercent(Unit attUnit, Unit defUnit) {
-		return BattleForecaster.forecastAttackPercent(attUnit, defUnit);
+		return BattleForecaster.forecastHitRate(attUnit, defUnit);
 	}
 		
 	private int calculateCritPercent(Unit attUnit, Unit defUnit) {

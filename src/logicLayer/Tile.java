@@ -33,4 +33,8 @@ public class Tile
 	{
 		unit = newUnit;
 	}
+
+	public TileType getTileType() {
+		return type;
+	}
 }

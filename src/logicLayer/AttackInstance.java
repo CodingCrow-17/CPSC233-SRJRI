@@ -76,7 +76,7 @@ public class AttackInstance {
 	public void runAttack() {
 		if (hasRun == false) {
 			Random rand = new Random();
-			if (rand.nextInt(100) +1 <= BattleForecaster.forecastAttackPercent(this.attackingUnit, this.defensiveUnit)) {
+			if (rand.nextInt(100) +1 <= BattleForecaster.forecastHitRate(this.attackingUnit, this.defensiveUnit)) {
 				didHit = true;
 				if (rand.nextInt(100) +1 <= BattleForecaster.forecastCritPercent(this.attackingUnit, this.defensiveUnit)) {
 					damageDone = BattleForecaster.forecastCritDamage(this.attackingUnit, this.defensiveUnit);
