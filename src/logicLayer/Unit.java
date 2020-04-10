@@ -127,7 +127,6 @@ public class Unit
 			return false;
 		}
 	}
-	
 	public String toString() {
 		String returnedString = "";
 		StringBuilder sb = new StringBuilder("");

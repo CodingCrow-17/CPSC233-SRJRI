@@ -68,7 +68,7 @@ public class BattleForecast {
 	}
 	
 	private int calculateHitPercent(Unit attUnit, Unit defUnit) {
-		return BattleForecaster.forecastAttackPercent(attUnit, defUnit);
+		return BattleForecaster.forecastHitRate(attUnit, defUnit);
 	}
 		
 	private int calculateCritPercent(Unit attUnit, Unit defUnit) {

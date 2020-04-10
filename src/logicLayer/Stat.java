@@ -54,7 +54,7 @@ public class Stat
 	}
 	public int getCurrentValue()
 	{
-		return currentValue;
+		return currentValue ;
 	}
 	public double getGrowthRate()
 	{

@@ -98,8 +98,6 @@ public class GuiLogicCoordinator {
 	private void performEnemyTurn() {
 		logic.switchOwner();
 		//enemy logic goes here!
-		//while ai has turns to do
-		//instru
 		logic.switchOwner();
 	}
 }

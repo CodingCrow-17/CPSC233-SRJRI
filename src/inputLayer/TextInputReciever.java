@@ -8,7 +8,12 @@ public class TextInputReciever implements InputReciever{
 	private InstructionType conmand;
 	private static Scanner in = new Scanner(System.in);
 	
-	public InstructionType setInstruction() {
+	
+	public  void TextInputReceiver(int[] Positions, InstructionType conmand){
+		setInstruction(Positions);
+		checkStatement(conmand);
+	}
+	public void checkStatement(InstructionType conmand) {
 		String command;
 		System.out.println("Help: Enter either select, deselect, attack, move, wait. Other inputs would all be considered invalid.");
 		System.out.println("Enter command here:");
@@ -16,36 +21,42 @@ public class TextInputReciever implements InputReciever{
 		command = command.toUpperCase().replaceAll("\\s", "");
 		
 		if(command.equals("SELECT")) {
-			return InstructionType.SELECT;
+			this.conmand = InstructionType.SELECT;
 		}
 		else if(command.equals("DESELECT")) {
-			return InstructionType.DESELECT;
+			this.conmand = InstructionType.DESELECT;
 		}
 		else if(command.equals("ATTACK")){
-			return InstructionType.ATTACK;
+			this.conmand = InstructionType.ATTACK;
 		}
 		else if(command.equals("MOVE")) {
-			return InstructionType.MOVE;
+			this.conmand = InstructionType.MOVE;
 		}
 		else if(command.equals("WAIT")) {
-			return InstructionType.WAIT;
+			this.conmand = InstructionType.WAIT;
 		}
 		else if(command.equals("ENDTURN")) {
-			return InstructionType.END_TURN;
+			this.conmand = InstructionType.END_TURN;
 		}
 		else {
 			System.out.println("Invalid statement.");
+			System.out.println("Enter new command here:");
+			command = in.nextLine();
+			command = command.toUpperCase().replaceAll("\\s", "");
 		}
-		return InstructionType.INVALID;
 		
 	}
 	public InstructionType returnCommand() {
 		return this.conmand;
 	}
-	public Position selectPosition() {
+	public void setInstruction(int[] positions) {
 		in = new Scanner(System.in);        
+        String stringCheck1 = "";
+       	String stringCheck2 = "";
        	String userPosition1 = "";
        	String userPosition2 = "";
+       	String movement1;
+       	String movement2;
        	//Deployment starts
        	System.out.println("Enter Starting X Position:");
        	while (isParsable(userPosition1) == false)
@@ -69,17 +80,13 @@ public class TextInputReciever implements InputReciever{
        			System.out.println("Enter Starting Y Position:");
        		}
        	}
-       	
-       	
        	int newUserPositionX1 = Integer.parseInt(userPosition1);
        	int newUserPositionY1 = Integer.parseInt(userPosition2);
+      
        	Position pos = new Position(newUserPositionX1,newUserPositionY1);
-       	return pos;
 
 
 	}
-	
-	
 	
 	public void close() {
 		if (in != null) {
