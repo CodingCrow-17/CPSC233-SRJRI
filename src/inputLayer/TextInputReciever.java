@@ -4,9 +4,10 @@ import java.util.Scanner;
 import logicLayer.Position;
 
 public class TextInputReciever implements InputReciever{
+
 	private Instruction lastInstruction;
 	private InstructionType conmand;
-	private static Scanner in;
+	private static Scanner in = new Scanner(System.in);
 	
 	
 	public  void TextInputReceiver(int[] Positions, InstructionType conmand){
@@ -79,51 +80,11 @@ public class TextInputReciever implements InputReciever{
        	}
        	int newUserPositionX1 = Integer.parseInt(userPosition1);
        	int newUserPositionY1 = Integer.parseInt(userPosition2);
-       	int newUserPositionX2 = 0;
-       	int newUserPositionY2 = 0;
-    	if(this.conmand == InstructionType.WAIT) {
-    		System.out.println("Waiting");}
-    	else {
-       	System.out.println("Enter X movement:");
-       	while (isParsable(stringCheck1) == false)
-       	{
-       		stringCheck1 = in.nextLine().replaceAll("\\s", "");
-       		if (isParsable(stringCheck1) == false)
-       		{
-       			System.out.println("That's not an integer!");
-       			System.out.println("");
-       			System.out.println("Enter X movement:");
-       		}
-       	}
-       		
-       	movement1 = stringCheck1;
-        int newMovement1 = Integer.parseInt(movement1);
-        newUserPositionX2 = newUserPositionX1 + newMovement1;}
-    	if(this.conmand == InstructionType.WAIT) {
-    		System.out.println("Waiting");}
-    	else {
-        System.out.println("Enter Y movement:");
-        while (isParsable(stringCheck2) == false)
-       	{
-       		stringCheck2 = in.nextLine().replaceAll("\\s", "");
-       		if (isParsable(stringCheck2) == false)
-       		{
-       			System.out.println("That's not an integer!");
-       			System.out.println("");
-       			System.out.println("Enter Y movement");
-       		}
-       	}
-       	movement2 = stringCheck2;
-        int newMovement2 = Integer.parseInt(movement2);
-        newUserPositionY2 = newUserPositionY1 + newMovement2;}
-       	
-       	Position position = new Position(newUserPositionX2, newUserPositionY2);
-       	
-       	lastInstruction = new Instruction(returnCommand(), position);
+      
+       	Position pos = new Position(newUserPositionX1,newUserPositionY1);
+
 
 	}
-	
-	
 	
 	public void close() {
 		if (in != null) {
@@ -151,7 +112,7 @@ public class TextInputReciever implements InputReciever{
         System.out.println("followed by the number of spaces you would like to move in the Y direction");
 	}
 	@Override
-	public Instruction getInstruction() {
+	public Instruction getNextInstruction() {
 		// TODO Auto-generated method stub
 		return this.lastInstruction;
 	}

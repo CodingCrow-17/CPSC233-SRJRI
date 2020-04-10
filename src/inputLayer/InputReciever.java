@@ -3,7 +3,7 @@ package inputLayer;
 
 
 public interface InputReciever {
-	Instruction getInstruction();
+	Instruction getNextInstruction();
 	void printStartingMessage();
 	void close();
 }

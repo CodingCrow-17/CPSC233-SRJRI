@@ -66,33 +66,17 @@ public class BattleForecast {
 	}
 	
 	private int calculateDamage(Unit attUnit, Unit defUnit) {
-		int baseAttack = attUnit.getStats().getAtt().getCurrentValue();
-		double attackBonus = TileType.getAttackBonus(attUnit.getTile().getTileType());
-		int baseDefense = defUnit.getStats().getDef().getCurrentValue();
-		double defenseBonus = TileType.getDefenseBonus(defUnit.getTile().getTileType());//Same as below not calling it right
-		int oneHit = (int) ((baseAttack*attackBonus) - (baseDefense*defenseBonus));
-		return oneHit;
+		return BattleForecaster.forecastDamage(attUnit, defUnit);
 	}
 	
 	private int calculateHitPercent(Unit attUnit, Unit defUnit) {
-		int baseHitRate = (int) (GLOBAL_HIT_MULTIPLIER * attUnit.getStats().getDex().getCurrentValue());
-		double hitRateBonus = TileType.getHitChanceBonus(attUnit.getTile().getTileType());
-		int baseEvadeChance = defUnit.getStats().getSpd().getCurrentValue();
-		double evadeChanceBonus = TileType.getEvadeRateBonus(defUnit.getTile().getTileType());
-		int hitRate = (int) (100*((baseHitRate*hitRateBonus)/(baseEvadeChance*evadeChanceBonus)));
-		if (hitRate > 100) {
-			hitRate = 100;
-		}
-		return hitRate;
+		return BattleForecaster.forecastHitRate(attUnit, defUnit);
 	}
 		
 	private int calculateCritPercent(Unit attUnit, Unit defUnit) {
-		return 0;
+		return BattleForecaster.forecastCritPercent(attUnit, defUnit);
 	}
 	public boolean willHitTwice(Unit attUnit, Unit defUnit) {
-		if ((attUnit.getStats().getSpd().getCurrentValue()) >= 5 + defUnit.getStats().getSpd().getCurrentValue()) {
-			return true;
-		}
-		return false;
+		return BattleForecaster.forecastDoubleHit(attUnit, defUnit);
 	}
 }
