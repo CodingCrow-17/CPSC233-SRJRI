@@ -52,9 +52,9 @@ public class Stat
 	{
 		return type.toString(type);
 	}
-	public int getCurrentValue()
+	public int getCurrentValue(TileType type)
 	{
-		return currentValue;
+		return currentValue ;
 	}
 	public double getGrowthRate()
 	{

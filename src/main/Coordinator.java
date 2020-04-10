@@ -3,7 +3,7 @@ import logicLayer.GameLogic;
 import logicLayer.GameMap;
 import logicLayer.Position;
 import inputLayer.InputReciever;
-import inputLayer.Instructions;
+import inputLayer.Instruction;
 import output.TextOutputPrinter;
 
 public class Coordinator {
@@ -26,7 +26,7 @@ public class Coordinator {
 			textOutput.printCurrentTurnOwner(String.valueOf(logic.getCurrentOwner().getType()));
 			textOutput.printMap(gameMap);
 			while(true) {
-				Instructions instructions = input.getInstruction();
+				Instruction instructions = input.getInstruction();
 				if (checkIfPlayerTurnIsOver() == true){
 					break;
 				}

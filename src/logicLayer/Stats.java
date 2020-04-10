@@ -27,6 +27,9 @@ public class Stats
 		def = new Stat(preExistingStats.getDef());
 		mov = new Stat(preExistingStats.getMov());
 	}
+	public void statsAfter() {
+
+	}
 	
 	public Stat getSpd()
 	{

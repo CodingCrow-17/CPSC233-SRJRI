@@ -9,7 +9,7 @@ public class Unit
 	private boolean hasMoved;
 	private Owner owner;
 	private Tile tile;
-	
+	private double GLOBALHITMULTIPLIER = 1.2;
 	public Unit(String name, Stats stats, Owner owner, Tile tile) {
 		this.name = name;
 		this.stats = new Stats(stats);
@@ -101,8 +101,10 @@ public class Unit
 		}
 		else {
 			return false;
-		}
-	}
+		}}
+
+	
+
 	
 }
 

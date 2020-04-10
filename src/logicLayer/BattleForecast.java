@@ -65,12 +65,14 @@ public class BattleForecast {
 	}
 	
 	private int calculateDamage(Unit attUnit, Unit defUnit) {
-		int oneHit = attUnit.getStats().getAtt().getCurrentValue() - defUnit.getStats().getDef().getCurrentValue();
+		double GLOBALDEFENSEMULTIPLIER = defUnit.getTile().getTileType();//Same as below not calling it right
+		int oneHit = attUnit.getStats().getAtt().getCurrentValue() - defUnit.getStats().getDef().getCurrentValue()*GLOBALDEFENSEMULTIPLIER;
 		return oneHit;
 	}
 	
-	private int calculateHitPercent(Unit attUnit, Unit defUnit) {
-		double GLOBALHITMULTIPLIER = 1.2;
+	private int calculateHitPercent(Unit attUnit, Unit defUnit, TileType type) {
+		double GLOBALHITMULTIPLIER = attUnit.getTile().getTileType();//URGH how do you call this again
+		 																	//I don't think I'm calling corrcetly
 		int hitRate = (int) (100 * (attUnit.getStats().getDex().getCurrentValue()) / 
 							(GLOBALHITMULTIPLIER * defUnit.getStats().getSpd().getCurrentValue()));
 		if (hitRate > 100) {
@@ -82,8 +84,9 @@ public class BattleForecast {
 	private int calculateCritPercent(Unit attUnit, Unit defUnit) {
 		return 0;
 	}
-	public boolean willHitTwice(Unit attUnit, Unit defUnit) {
-		if (attUnit.getStats().getSpd().getCurrentValue() >= 5 + defUnit.getStats().getSpd().getCurrentValue()) {
+	public boolean willHitTwice(Unit attUnit, Unit defUnit, TileType type) {
+		double GLOBALHITMULTIPLIER = attUnit.getTile().getTileType();//same as above not calling it right
+		if (GLOBALHITMULTIPLIER*(attUnit.getStats().getSpd().getCurrentValue()) >= 5 + defUnit.getStats().getSpd().getCurrentValue()) {
 			return true;
 		}
 		return false;
