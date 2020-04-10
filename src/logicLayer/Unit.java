@@ -101,10 +101,7 @@ public class Unit
 		}
 		else {
 			return false;
-		}}
-
-	
-
-	
+		}
+	}
 }
 

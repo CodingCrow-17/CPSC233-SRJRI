@@ -52,7 +52,7 @@ public class Stat
 	{
 		return type.toString(type);
 	}
-	public int getCurrentValue(TileType type)
+	public int getCurrentValue()
 	{
 		return currentValue ;
 	}

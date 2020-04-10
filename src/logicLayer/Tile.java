@@ -42,8 +42,7 @@ public class Tile
 		unit=newUnit;
 	}
 
-	private TileType getTileType() {
-		type = TileType.toString();
+	public TileType getTileType() {
 		return type;
 	}
 }

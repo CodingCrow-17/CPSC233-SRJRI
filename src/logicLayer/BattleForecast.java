@@ -10,6 +10,7 @@ public class BattleForecast {
 	private int attCritPercent;
 	private int defCritPercent;
 	
+	private static double GLOBAL_HIT_MULTIPLIER = 1.15;
 	
 	public BattleForecast(Unit aUserUnit, Unit aEnemyUnit) {
 		setUserUnit(aUserUnit);
@@ -65,16 +66,20 @@ public class BattleForecast {
 	}
 	
 	private int calculateDamage(Unit attUnit, Unit defUnit) {
-		double GLOBALDEFENSEMULTIPLIER = defUnit.getTile().getTileType();//Same as below not calling it right
-		int oneHit = attUnit.getStats().getAtt().getCurrentValue() - defUnit.getStats().getDef().getCurrentValue()*GLOBALDEFENSEMULTIPLIER;
+		int baseAttack = attUnit.getStats().getAtt().getCurrentValue();
+		double attackBonus = TileType.getAttackBonus(attUnit.getTile().getTileType());
+		int baseDefense = defUnit.getStats().getDef().getCurrentValue();
+		double defenseBonus = TileType.getDefenseBonus(defUnit.getTile().getTileType());//Same as below not calling it right
+		int oneHit = (int) ((baseAttack*attackBonus) - (baseDefense*defenseBonus));
 		return oneHit;
 	}
 	
-	private int calculateHitPercent(Unit attUnit, Unit defUnit, TileType type) {
-		double GLOBALHITMULTIPLIER = attUnit.getTile().getTileType();//URGH how do you call this again
-		 																	//I don't think I'm calling corrcetly
-		int hitRate = (int) (100 * (attUnit.getStats().getDex().getCurrentValue()) / 
-							(GLOBALHITMULTIPLIER * defUnit.getStats().getSpd().getCurrentValue()));
+	private int calculateHitPercent(Unit attUnit, Unit defUnit) {
+		int baseHitRate = (int) (GLOBAL_HIT_MULTIPLIER * attUnit.getStats().getDex().getCurrentValue());
+		double hitRateBonus = TileType.getHitChanceBonus(attUnit.getTile().getTileType());
+		int baseEvadeChance = defUnit.getStats().getSpd().getCurrentValue();
+		double evadeChanceBonus = TileType.getEvadeRateBonus(defUnit.getTile().getTileType());
+		int hitRate = (int) (100*((baseHitRate*hitRateBonus)/(baseEvadeChance*evadeChanceBonus)));
 		if (hitRate > 100) {
 			hitRate = 100;
 		}
@@ -84,9 +89,8 @@ public class BattleForecast {
 	private int calculateCritPercent(Unit attUnit, Unit defUnit) {
 		return 0;
 	}
-	public boolean willHitTwice(Unit attUnit, Unit defUnit, TileType type) {
-		double GLOBALHITMULTIPLIER = attUnit.getTile().getTileType();//same as above not calling it right
-		if (GLOBALHITMULTIPLIER*(attUnit.getStats().getSpd().getCurrentValue()) >= 5 + defUnit.getStats().getSpd().getCurrentValue()) {
+	public boolean willHitTwice(Unit attUnit, Unit defUnit) {
+		if ((attUnit.getStats().getSpd().getCurrentValue()) >= 5 + defUnit.getStats().getSpd().getCurrentValue()) {
 			return true;
 		}
 		return false;
