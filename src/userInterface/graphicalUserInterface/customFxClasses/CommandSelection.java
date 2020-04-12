@@ -1,4 +1,4 @@
-package userInterface;
+package userInterface.graphicalUserInterface.customFxClasses;
 
 import javafx.scene.Group;
 import javafx.scene.paint.Color;
@@ -30,7 +30,7 @@ public abstract class CommandSelection extends Group{
 		return selection;
 	}
 	
-	protected boolean isCancelSelected() {
+	public boolean isCancelSelected() {
 		return this.findSelectedCommand().equals(cancelSelection);
 	}
 	

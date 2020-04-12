@@ -8,23 +8,15 @@ public class GameMap
 	private int turnCount;
 	private List<Owner> owners;
 
-	
-
 	public GameMap(Tile[][] tiles) {
 		this.tiles = tiles;
 		turnCount = 0;
 	}
 
-	public GameMap(Tile[][] tiles, List<Owner> players)
-
-	{
+	public GameMap(Tile[][] tiles, List<Owner> players){
 		this.tiles = tiles;
-
-		turnCount=1;
-
 		this.owners = players;
-		turnCount=0;
-
+		turnCount = 0;
 	}
 	
 	public List<Owner> getOwners(){
@@ -40,8 +32,7 @@ public class GameMap
 		return getTileAtPosition(position);
 	}
 	
-	public Tile getTileAtPosition(Position position)
-	{
+	public Tile getTileAtPosition(Position position){
 		int xCoordinate = position.getXPosition();
 		int yCoordinate = position.getYPosition();
 		if (yCoordinate >= 0 && yCoordinate < tiles.length) {
@@ -59,15 +50,11 @@ public class GameMap
 		}
 	}
 	
-	public void incrementTurn()
-	{
+	public void incrementTurn(){
 		turnCount++;
 	}
 	
-	public Tile[][] getTiles()
-	{
+	public Tile[][] getTiles(){
 		return tiles;
 	}
-	
-
 }

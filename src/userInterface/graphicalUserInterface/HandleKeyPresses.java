@@ -1,13 +1,15 @@
-package userInterface;
+package userInterface.graphicalUserInterface;
 
-import inputLayer.InstructionType;
 import customExceptions.InvalidInputException;
-import inputLayer.Instruction;
 import javafx.event.EventHandler;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyEvent;
 import logicLayer.Position;
-import main.Coordinator;
+import userInterface.Instruction;
+import userInterface.InstructionType;
+import userInterface.UserLogicBridge;
+import userInterface.graphicalUserInterface.customFxClasses.Grid;
+import userInterface.graphicalUserInterface.customFxClasses.InformationDisplay;
 
 public class HandleKeyPresses implements EventHandler<KeyEvent> {
 
@@ -20,9 +22,9 @@ public class HandleKeyPresses implements EventHandler<KeyEvent> {
 	
 	private Grid grid;
 	private InformationDisplay informationDisplay;
-	private GuiLogicCoordinator coordinator;
+	private UserLogicBridge coordinator;
 	
-	public HandleKeyPresses(Grid grid, InformationDisplay informationDisplay,GuiLogicCoordinator coordinator){
+	public HandleKeyPresses(Grid grid, InformationDisplay informationDisplay,UserLogicBridge coordinator){
 		this.grid = grid;
 		this.informationDisplay = informationDisplay;
 		this.coordinator = coordinator;
@@ -100,7 +102,6 @@ public class HandleKeyPresses implements EventHandler<KeyEvent> {
 		}
 		else if (grid.hasHighlightedAttackTiles()) {
 			createDisplayAttackForecastInstruction();
-//			createAttackInstruction();
 		}
 		else if (grid.findSelectedUnitMarker() != null){
 			createSelectInstruction();
@@ -161,7 +162,7 @@ public class HandleKeyPresses implements EventHandler<KeyEvent> {
 	private void createMoveInstruction() {
 		try {
 			Position position = grid.getSelectionMarker().getCurrentPosition();
-			Instruction instruction = new Instruction(InstructionType.MOVE, position);
+			Instruction instruction = new Instruction(InstructionType.MOVE_TO, position);
 			coordinator.interpretRegularInstruction(instruction);
 			grid.moveSelectedUnitMarker();
 

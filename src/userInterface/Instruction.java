@@ -1,4 +1,4 @@
-package inputLayer;
+package userInterface;
 
 import logicLayer.Position;
 

@@ -12,7 +12,6 @@ import logicLayer.Stats;
 import logicLayer.Tile;
 import logicLayer.TileType;
 import logicLayer.Unit;
-import output.UnitDisplayable;
 
 public class StartUpClass {
 	
@@ -43,10 +42,8 @@ public class StartUpClass {
 		
 		Stats unitAStats = new Stats(unitAHp, unitAAtt,unitASpd,unitADex,unitADef,unitAMov); //hp, att, spd, dex,def, mov
 		
-		UnitDisplayable unitTextDisplayable = null;
-		
 		Tile unitATile = gameMap.getTileAtCoordinates(0, 0);
-		Unit unitA = new Unit("Geoff", "I'm afraid your story ends here!",unitAStats, player, unitATile,unitTextDisplayable);
+		Unit unitA = new Unit("Geoff", "I'm afraid your story ends here!",unitAStats, player, unitATile);
 		unitATile.setUnit(unitA);
 		
 		Stat unitBHp = new Stat(StatType.HP, 25, .45, 100);
@@ -58,7 +55,7 @@ public class StartUpClass {
 		
 		Stats unitBStats = new Stats(unitBHp, unitBAtt,unitBSpd,unitBDex,unitBDef,unitBMov); //hp, att, spd, dex,def, mov
 		Tile unitBTile = gameMap.getTileAtCoordinates(0, 1);
-		Unit unitB = new Unit("Henry", "You're wide open!",unitBStats, player, unitBTile,unitTextDisplayable);
+		Unit unitB = new Unit("Henry", "You're wide open!",unitBStats, player, unitBTile);
 		unitBTile.setUnit(unitB);
 		
 		Stat unitCHp = new Stat(StatType.HP, 16, 0, 100);
@@ -70,7 +67,7 @@ public class StartUpClass {
 		
 		Stats unitCStats = new Stats(unitCHp, unitCAtt,unitCSpd,unitCDex,unitCDef,unitCMov); //hp, att, spd, dex,def, mov
 		Tile unitCTile = gameMap.getTileAtCoordinates(4, 2);
-		Unit unitC = new Unit("Rogue","DIE!",unitCStats, enemy, unitCTile,unitTextDisplayable);
+		Unit unitC = new Unit("Rogue","DIE!",unitCStats, enemy, unitCTile);
 		unitCTile.setUnit(unitC);
 		
 		player.addUnit(unitA);

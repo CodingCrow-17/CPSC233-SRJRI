@@ -1,4 +1,4 @@
-package userInterface;
+package userInterface.graphicalUserInterface.customFxClasses;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,8 +12,9 @@ import logicLayer.OwnerType;
 import logicLayer.Position;
 import logicLayer.Tile;
 import logicLayer.Unit;
+import userInterface.GridDisplayable;
 
-public class Grid extends Group{
+public class Grid extends Group implements GridDisplayable{
 	
 	private GridTile[][] gridTiles;
 	private SelectionMarker primarySelectionMarker;

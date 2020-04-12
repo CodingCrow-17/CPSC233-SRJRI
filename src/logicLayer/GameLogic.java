@@ -82,51 +82,6 @@ public class GameLogic{
 		}
 	}
 	
-	public void moveTo(Position startPosition, Position endPosition) {
-		Tile startTile = gameMap.getTileAtPosition(startPosition);
-		Tile finalTile = gameMap.getTileAtPosition(endPosition);
-		if (startTile != null && finalTile != null) {
-			if (checkIfUnitIsOnTile(startTile) == true) {
-				if(checkIfUnitIsOnTile(finalTile) == false) {
-					Unit unit = startTile.getUnit();
-					if (unit.getHasMoved() == false) {
-						if (unit.getOwner().equals(currentOwner)){
-							List<Tile> validTilesToMoveTo = calculateValidTileToMoveTo(unit);
-							if (validTilesToMoveTo.contains(finalTile)) {
-								finalTile.setUnit(unit);
-								startTile.setUnit(null);
-								unit.moveTo(finalTile);
-								System.out.println("Succesfully moved unit!");
-							}
-							else {
-								System.out.println("Out of move range!");
-							}
-						}
-						else {
-							System.out.println("You don't own that unit!");
-						}
-					}
-					else {
-						System.out.println("That unit has already moved!");
-					}
-				}
-				else {
-					System.out.println("You can't move to a tile that already has a unit!");
-				}
-			}
-			else {
-				System.out.println("You don't have a unit there!");
-			}	
-		}
-		else {
-			System.out.println("Your position is out of bounds!");
-		}
-	}
-
-	public void performCombat(Position unitPosition, Position enemyPosition) {
-		//TODO
-	}
-
 	private void removeUnit(Unit unit) {
 		unit.getTile().setUnit(null);
 	}
@@ -179,15 +134,9 @@ public class GameLogic{
 		this.deselectUnit();
 	}
 	
-	
-	private boolean checkIfUnitIsOnTile(Tile tile) {
-		return tile.hasUnit();
-	}
-	
 	public List<Position> findValidTileToMoveToPositions(){
 		List<Tile> tiles = calculateValidTileToMoveTo(selectedUnit);
 		return tileListToPositionList(tiles);
-		
 	}
 	
 	public List<Position> calculateValidTileToAttack(){
@@ -212,7 +161,7 @@ public class GameLogic{
 		return tileListToPositionList(tiles);
 	}
 	
-	public List<Tile> calculateValidTileToMoveTo(Unit unit) {
+	private List<Tile> calculateValidTileToMoveTo(Unit unit) {
 		List<Tile> tiles = new ArrayList<Tile>();
 		List<Tile> tilesToRemove = new ArrayList<Tile>();
 		Direction direction = Direction.NONE;
