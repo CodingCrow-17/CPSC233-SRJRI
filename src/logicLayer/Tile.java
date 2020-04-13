@@ -13,16 +13,8 @@ public class Tile
 		this.type = type;
 	}
 	
-	public Tile(Unit unit, Position position, TileType type) {
-		this.unit = new Unit(unit);
-		this.position = position;
-		this.type = type;
-	}
-	
-	public Tile(Unit unit, int xCor, int yCor) {
-		Position position = new Position(xCor, yCor);
-		this.unit = new Unit(unit);
-		this.position = position;
+	public TileType getType() {
+		return type;
 	}
 	
 	public boolean hasUnit()
@@ -39,6 +31,6 @@ public class Tile
 	}
 	public void setUnit(Unit newUnit)
 	{
-		unit=newUnit;
+		unit = newUnit;
 	}
 }

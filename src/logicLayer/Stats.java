@@ -27,6 +27,9 @@ public class Stats
 		def = new Stat(preExistingStats.getDef());
 		mov = new Stat(preExistingStats.getMov());
 	}
+	public void statsAfter() {
+
+	}
 	
 	public Stat getSpd()
 	{
@@ -51,5 +54,10 @@ public class Stats
 	public Stat getMov()
 	{
 		return mov;
+	}
+	
+	public String nonHpStatsToString() {
+		return att.toString() + "\n" + def.toString() + "\n" + spd.toString() + "\n" + dex.toString() + "\n" + mov.toString() ;
+		
 	}
 }

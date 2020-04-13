@@ -1,54 +1,50 @@
 package logicLayer;
-import logicLayer.BattleForecast;
-import java.util.Random;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class BattleInstance {
-	private BattleForecast bf;
-	private int attDamageDone;
-	private int defDamageDone;
+
+	private List<AttackInstance> attackInstances = new ArrayList<AttackInstance>();
+	private Unit attackingUnit;
+	private Unit defendingUnit;
 	
-	//Use these when outputting, so we can display messages like "miss", "no damage", and "critical!"
-	private boolean hasHit = false;
-	private boolean hasDoneDamage = false;
-	private boolean critActivated = false;
-	
-	public BattleInstance(BattleForecast aBattleForecast) {
-		this.bf = new BattleForecast(aBattleForecast);
-		this.attDamageDone = calculateDamageDone(bf.getAttForecastDamage(),bf.getAttForecastPercent(),bf.getAttCritPercent());
-		this.defDamageDone = calculateDamageDone(bf.getDefForecastDamage(),bf.getDefForecastPercent(),bf.getDefCritPercent());
+	public BattleInstance(Unit attackingUnit, Unit defendingUnit) {
+		this.attackingUnit = attackingUnit;
+		this.defendingUnit = defendingUnit;
+
 	}
 	
-	public int getAttDamageDone() {
-		return this.attDamageDone;
-	}
-	public int getDefDamageDone() {
-		return this.defDamageDone;
-	}
-	public boolean getHasHit() {
-		return this.hasHit;
-	}
-	public boolean getHasDoneDamage() {
-		return this.hasDoneDamage;
-	}
-	public boolean getCritActivated() {
-		return this.critActivated;
-	}
-	
-	private int calculateDamageDone(int atk, int hit, int crit) {
-		Random rand = new Random();
-		if (rand.nextInt(100) + 1 <= hit) {
-			this.hasHit = true;
-			
-			if (atk > 0) {
-				this.hasDoneDamage = true;
+	public void runBattle() {
+		AttackInstance initialAttack = new AttackInstance(attackingUnit, defendingUnit, AttackOrderType.INITIAl);
+		initialAttack.runAttack();
+		attackInstances.add(initialAttack);
+		if (defendingUnit.isDead() == false) {
+			AttackInstance counterAttack = new AttackInstance(defendingUnit, attackingUnit, AttackOrderType.COUNTER);
+			counterAttack.runAttack();
+			attackInstances.add(counterAttack);
+			if (attackingUnit.isDead() == false && BattleForecaster.forecastDoubleHit(attackingUnit, defendingUnit)) {
+				AttackInstance followUpAttack = new AttackInstance(attackingUnit, defendingUnit, AttackOrderType.FOLLOW_UP);
+				followUpAttack.runAttack();
+				attackInstances.add(followUpAttack);
 			}
-			
-			if (rand.nextInt(100) + 1 <= crit) {
-				this.critActivated = true;
-				return atk * 3;
+			else if (attackingUnit.isDead() == false && BattleForecaster.forecastDoubleHit(defendingUnit, attackingUnit)) {
+				AttackInstance followUpAttack = new AttackInstance(defendingUnit, attackingUnit, AttackOrderType.FOLLOW_UP);
+				followUpAttack.runAttack();
+				attackInstances.add(followUpAttack);
 			}
-			return atk;
 		}
-		return 0;
+	}
+	
+	public List<AttackInstance> getAttackInstances(){
+		return this.attackInstances;
+	}
+	
+	public String toString() {
+		StringBuilder sb = new StringBuilder("");
+		for (AttackInstance attackInstance : attackInstances) {
+			sb.append(attackInstance.getInstanceRecord());
+		}
+		return sb.toString();
 	}
 }

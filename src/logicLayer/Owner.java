@@ -29,8 +29,12 @@ public class Owner {
 		units.add(unit); // We want this unit reference the original unit
 	}
 	
+	public void removeUnit(Unit unit) {
+		units.remove(unit);
+	}
+	
 	public String toString() {
-		String StringVal = "own :" + type;
+		String StringVal = "own: " + type;
 		return StringVal;
 	}
 	
