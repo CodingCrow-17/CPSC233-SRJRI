@@ -1,8 +1,8 @@
 package main;
 
+import userInterface.graphicalUserInterface.GraphicalInterface;
+import userInterface.graphicalUserInterface.GuiLogicCoordinator;
 import logicLayer.GameMap;
-import userInterface.GraphicalInterface;
-import userInterface.GuiLogicCoordinator;
 
 public class GuiMain {
 	public static void main(String[] args) {

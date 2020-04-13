@@ -1,4 +1,4 @@
-package userInterface;
+package userInterface.graphicalUserInterface.customFxClasses;
 
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Ellipse;

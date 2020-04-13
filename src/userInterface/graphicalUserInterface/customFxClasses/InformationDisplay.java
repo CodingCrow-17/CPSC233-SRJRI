@@ -1,4 +1,4 @@
-package userInterface;
+package userInterface.graphicalUserInterface.customFxClasses;
 
 import javafx.scene.Group;
 import javafx.scene.control.Label;
@@ -6,8 +6,9 @@ import javafx.scene.layout.HBox;
 import logicLayer.BattleForecast;
 import logicLayer.BattleInstance;
 import logicLayer.Unit;
+import userInterface.InformationDisplayable;
 
-public class InformationDisplay extends HBox {
+public class InformationDisplay extends HBox implements InformationDisplayable {
 
 	private static final String WHITESPACE = "\t";
 
@@ -37,6 +38,8 @@ public class InformationDisplay extends HBox {
 		primaryBuilder.append(NEW_LINE);
 		primaryBuilder.append(forecast.getUserUnit().getName());
 		primaryBuilder.append(NEW_LINE);
+		primaryBuilder.append(forecast.getUserUnit().currentHpToString());
+		primaryBuilder.append(NEW_LINE);
 		String userUnitAttackForecast = "Damage: " + String.valueOf(forecast.getAttForecastDamage());
 		if (forecast.willHitTwice(forecast.getUserUnit(), forecast.getEnemyUnit())) {
 			userUnitAttackForecast = userUnitAttackForecast + " *2";
@@ -54,6 +57,8 @@ public class InformationDisplay extends HBox {
 		StringBuilder secondaryBuilder = new StringBuilder("");
 		secondaryBuilder.append(NEW_LINE);
 		secondaryBuilder.append(forecast.getEnemyUnit().getName());
+		secondaryBuilder.append(NEW_LINE);
+		secondaryBuilder.append(forecast.getEnemyUnit().currentHpToString());
 		secondaryBuilder.append(NEW_LINE);
 		String enemyUnitAttackForecast = "Damage: " + String.valueOf(forecast.getDefForecastDamage());
 		if (forecast.willHitTwice(forecast.getEnemyUnit(), forecast.getUserUnit())) {

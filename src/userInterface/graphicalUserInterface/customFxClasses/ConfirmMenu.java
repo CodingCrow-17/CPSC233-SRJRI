@@ -1,4 +1,4 @@
-package userInterface;
+package userInterface.graphicalUserInterface.customFxClasses;
 
 public class ConfirmMenu extends CommandSelection {
 

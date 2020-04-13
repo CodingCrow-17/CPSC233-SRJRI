@@ -1,5 +1,8 @@
-package userInterface;
+package userInterface.graphicalUserInterface;
 
+import userInterface.UserLogicBridge;
+import userInterface.graphicalUserInterface.customFxClasses.Grid;
+import userInterface.graphicalUserInterface.customFxClasses.InformationDisplay;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -11,7 +14,7 @@ import main.StartUpClass;
 
 public class GraphicalInterface extends Application{
 
-	private GuiLogicCoordinator coordinator;
+	private UserLogicBridge coordinator;
 	private VBox root;
 	private HBox gameBoardDisplay;
 	private Grid grid;
@@ -26,7 +29,7 @@ public class GraphicalInterface extends Application{
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		GameMap gameMap = StartUpClass.initializeGameMap();
-		this.coordinator = new GuiLogicCoordinator(gameMap);
+		this.coordinator = new UserLogicBridge(gameMap);
 		
 		root = new VBox();
 		root.setPrefHeight(400);

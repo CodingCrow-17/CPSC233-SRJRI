@@ -1,4 +1,4 @@
-package userInterface;
+package userInterface.graphicalUserInterface.customFxClasses;
 
 import javafx.scene.Group;
 import javafx.scene.paint.Color;

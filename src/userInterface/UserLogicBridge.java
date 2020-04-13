@@ -2,21 +2,17 @@ package userInterface;
 
 import java.util.List;
 
-import customExceptions.*;
-import inputLayer.Instruction;
-import inputLayer.InstructionType;
-import javafx.scene.control.Label;
+import customExceptions.InvalidAttackException;
+import customExceptions.InvalidInputException;
 import logicLayer.GameLogic;
 import logicLayer.GameMap;
 import logicLayer.Position;
 
-public class GuiLogicCoordinator {
+public class UserLogicBridge {
+
+	private GameLogic logic;
 	
-	GameMap gameMap;
-	GameLogic logic;
-	
-	public GuiLogicCoordinator(GameMap gameMap) {
-		this.gameMap = gameMap;
+	public UserLogicBridge(GameMap gameMap) {
 		logic = new GameLogic(gameMap);
 	}
 	
@@ -27,7 +23,7 @@ public class GuiLogicCoordinator {
 			case SELECT :
 				logic.selectUnitAtPosition(position);
 				break;
-			case MOVE :
+			case MOVE_TO :
 				logic.moveSelectedUnitTo(position);
 				break;
 			case CANCEL :
@@ -44,7 +40,7 @@ public class GuiLogicCoordinator {
 		}
 	}
 	
-	public void interpretLabelDisplayInstruction(Instruction instruction, InformationDisplay informationDisplay) throws InvalidInputException {
+	public void interpretLabelDisplayInstruction(Instruction instruction, InformationDisplayable informationDisplay) throws InvalidInputException {
 		InstructionType type = instruction.getType();
 		Position position = instruction.getPosition();
 		switch (type) {
@@ -62,7 +58,7 @@ public class GuiLogicCoordinator {
 		}
 	}
 	
-	public void interpretGridDisplayInstruction(Instruction instruction, Grid grid) {
+	public void interpretGridDisplayInstruction(Instruction instruction, GridDisplayable grid) {
 		InstructionType type = instruction.getType();
 		switch (type) {
 			case FIND_MOVE_TILES :
@@ -80,17 +76,17 @@ public class GuiLogicCoordinator {
 		return logic.hasSelectedUnit();
 	}
 	
-	private void attackOtherPosition(Position position, InformationDisplay informationDisplay) throws InvalidAttackException {
+	private void attackOtherPosition(Position position, InformationDisplayable informationDisplay) throws InvalidAttackException {
 		informationDisplay.displayBattleResult(logic.performCombat(position));
 		logic.haveSelectedUnitEndTurn();
 	}
 	
-	private void highlightMoveTiles(Grid grid) {
+	private void highlightMoveTiles(GridDisplayable grid) {
 		List<Position> positions = logic.findValidTileToMoveToPositions();
 		grid.highlightMoveTiles(positions);
 	}
 	
-	private void highlightAttackTiles(Grid grid) {
+	private void highlightAttackTiles(GridDisplayable grid) {
 		List<Position> positions = logic.calculateValidTileToAttack();
 		grid.highlightAttackTiles(positions);
 	}

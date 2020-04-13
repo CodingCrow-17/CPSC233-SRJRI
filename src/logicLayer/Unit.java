@@ -1,7 +1,5 @@
 package logicLayer;
 
-import output.UnitDisplayable;
-
 public class Unit 
 {
 	private static final int ATTACK_RANGE = 1; //all units will have 1 attack range for now.
@@ -13,9 +11,8 @@ public class Unit
 	private boolean hasMoved;
 	private Owner owner;
 	private Tile tile;
-	private UnitDisplayable displayable;
 	
-	public Unit(String name, String critLine,Stats stats, Owner owner, Tile tile, UnitDisplayable displayable) {
+	public Unit(String name, String critLine,Stats stats, Owner owner, Tile tile) {
 		this.name = name;
 		this.critLine = critLine;
 		this.stats = new Stats(stats);
@@ -23,7 +20,6 @@ public class Unit
 		this.tile = tile;
 		this.hasMoved = false;
 		this.currentHp = stats.getHp().getCurrentValue();
-		this.displayable = displayable;
 	}
 	
 	public Unit(Unit unit) {
