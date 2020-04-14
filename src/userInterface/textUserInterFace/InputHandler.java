@@ -246,9 +246,7 @@ public class InputHandler {
 	
 	private void createEndTurnInstruction() {
 		Instruction instruction = new Instruction(InstructionType.END_TURN, null);
-		try {
-			coordinator.interpretRegularInstruction(instruction);
-		} catch (InvalidInputException e) {}
+		coordinator.interpretGridDisplayInstruction(instruction, grid);
 		this.enableGridInstructions();
 		grid.printMap();
 	}

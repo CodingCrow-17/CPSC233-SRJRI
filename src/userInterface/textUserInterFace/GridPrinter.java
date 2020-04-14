@@ -204,4 +204,11 @@ public class GridPrinter implements GridDisplayable{
 		}
 		System.out.println(content);
 	}
+
+	@Override
+	public void refreshUnitPosition() {
+		for(GridUnit gridUnit: gridUnits) {
+			gridUnit.resetPosition();
+		}
+	}
 }

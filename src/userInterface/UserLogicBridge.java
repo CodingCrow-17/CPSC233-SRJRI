@@ -4,6 +4,9 @@ import java.util.List;
 
 import customExceptions.InvalidAttackException;
 import customExceptions.InvalidInputException;
+import customExceptions.InvalidMoveException;
+import customExceptions.InvalidSelectException;
+import logicLayer.EnemyAI;
 import logicLayer.GameLogic;
 import logicLayer.GameMap;
 import logicLayer.Position;
@@ -31,9 +34,6 @@ public class UserLogicBridge {
 				break;
 			case WAIT :
 				logic.haveSelectedUnitEndTurn();
-				break;
-			case END_TURN :
-				performEnemyTurn();
 				break;
 			default :
 				break;
@@ -67,6 +67,9 @@ public class UserLogicBridge {
 			case FIND_ATTACK_TILES :
 				highlightAttackTiles(grid);
 				break;
+			case END_TURN :
+				performEnemyTurn(grid);
+				break;
 			default :
 				break;
 		}
@@ -91,9 +94,17 @@ public class UserLogicBridge {
 		grid.highlightAttackTiles(positions);
 	}
 	
-	private void performEnemyTurn() {
+	private void performEnemyTurn(GridDisplayable grid) {
 		logic.switchOwner();
-		//enemy logic goes here!
+		try {
+			EnemyAI.runEnemyTurn(this.logic);
+		} catch (InvalidSelectException e) {
+		} catch (InvalidMoveException e) {
+		} catch (InvalidAttackException e) {
+			System.out.println("error 3");
+			e.printStackTrace();
+		}
+		grid.refreshUnitPosition();
 		logic.switchOwner();
 	}
 }
