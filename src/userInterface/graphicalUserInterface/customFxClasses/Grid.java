@@ -222,4 +222,12 @@ public class Grid extends Group implements GridDisplayable{
 		selection.setVisible(false);
 		selection.disable();
 	}
+
+	@Override
+	public void refreshUnitPosition() {
+		removeDeadUnitMarkers();
+		for (UnitMarker unitMarker: unitMarkers) {
+			unitMarker.refreshPosition();
+		}
+	}
 }

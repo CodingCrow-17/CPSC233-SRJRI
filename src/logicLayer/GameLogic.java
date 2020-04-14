@@ -171,14 +171,10 @@ public class GameLogic{
 		calculateRange(tiles, startTile, movStamina, direction);
 		for(Tile tile : tiles) {
 			if (tile.hasUnit()) {
-				if (tile.getUnit().equals(this.tempUnit) == false){
-					tilesToRemove.add(tile);
-				}
+				tilesToRemove.add(tile);
 			}
 		}
-		for(Tile tile : tilesToRemove) {
-			tiles.remove(tile);
-		}
+		tiles.removeAll(tilesToRemove);
 		return tiles;
 	}
 	

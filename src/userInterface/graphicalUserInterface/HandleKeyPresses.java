@@ -133,7 +133,6 @@ public class HandleKeyPresses implements EventHandler<KeyEvent> {
 			coordinator.interpretLabelDisplayInstruction(instruction, informationDisplay);
 			this.focusOnConfirmMenu();
 		} catch (InvalidInputException e) {
-			System.out.print(e.getMessage());
 		}	
 	}
 
@@ -145,7 +144,6 @@ public class HandleKeyPresses implements EventHandler<KeyEvent> {
 			grid.moveUnitSelectionMarker();
 			focusOnCommandSelection();	
 		} catch (InvalidInputException e) {
-			System.out.print(e.getMessage());
 		}
 		createUnitInfoDisplayInstruction();
 	}
@@ -168,7 +166,6 @@ public class HandleKeyPresses implements EventHandler<KeyEvent> {
 
 			focusOnCommandSelection();
 		} catch (InvalidInputException e) {
-			System.out.print(e.getMessage());
 		}
 	}
 	
@@ -233,10 +230,7 @@ public class HandleKeyPresses implements EventHandler<KeyEvent> {
 	
 	private void createEndTurnInstruction() {
 		Instruction instruction = new Instruction(InstructionType.END_TURN, null);
-		try {
-			coordinator.interpretRegularInstruction(instruction);
-		} catch (InvalidInputException e) {}
-		
+		coordinator.interpretGridDisplayInstruction(instruction, grid);
 		focusOnGrid();
 	}
 	
@@ -261,7 +255,6 @@ public class HandleKeyPresses implements EventHandler<KeyEvent> {
 			grid.removeDeadUnitMarkers();
 			this.focusOnGrid();
 		} catch (InvalidInputException e) {
-			System.out.print(e.getMessage());
 		}	
 	}
 	
